@@ -29,23 +29,16 @@
         }
 
         .tab-btn { transition: all 0.2s ease-in-out; }
-        .tab-btn.active { color: #2563eb; border-bottom-color: #2563eb; }
         
-        /* Адаптивен размер на шрифта за KaTeX */
-        .katex { font-size: 1.1em !important; }
-        @media (min-width: 768px) {
-            .katex { font-size: 1.2em !important; }
-        }
-        @media (min-width: 1024px) {
-            .katex { font-size: 1.4em !important; }
-        }
+        /* Адаптивен размер на шрифта за KaTeX (леко намален за компактност) */
+        .katex { font-size: 1.05em !important; }
+        @media (min-width: 768px) { .katex { font-size: 1.15em !important; } }
+        @media (min-width: 1024px) { .katex { font-size: 1.25em !important; } }
 
-        .toggle-btn.active { background-color: #2563eb; color: white; border-color: #2563eb; }
-        
         input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
         input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none; height: 20px; width: 20px; border-radius: 50%;
-            background: #2563eb; cursor: pointer; margin-top: -7px; box-shadow: 0 0 4px rgba(0,0,0,0.4);
+            -webkit-appearance: none; height: 18px; width: 18px; border-radius: 50%;
+            background: #2563eb; cursor: pointer; margin-top: -6px; box-shadow: 0 0 4px rgba(0,0,0,0.4);
         }
         input[type=range]::-webkit-slider-runnable-track {
             width: 100%; height: 6px; cursor: pointer; background: #cbd5e1; border-radius: 3px;
@@ -86,7 +79,6 @@
             .print-answer-line::before { content: "Отговор: "; position: absolute; margin-top: -20px; font-size: 14px; color: gray; }
         }
 
-        /* Адаптивност за платното (Canvas) */
         canvas {
             width: 100% !important;
             height: auto !important;
@@ -99,27 +91,27 @@
     <!-- ВПЕЧАТЛЯВАЩ АНИМИРАН ФОН -->
     <div id="background-wrapper" class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none bg-slate-50">
         <div class="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-purple-300/40 mix-blend-multiply blur-3xl animate-blob"></div>
-        <div class="absolute top-[10%] right-[-10%] w-[45vw] h-[45vw] rounded-full bg-blue-300/40 mix-blend-multiply blur-3xl animate-blob animation-delay-2000"></div>
-        <div class="absolute bottom-[-20%] left-[15%] w-[60vw] h-[60vw] rounded-full bg-cyan-200/40 mix-blend-multiply blur-3xl animate-blob animation-delay-4000"></div>
-        <!-- Матрица от точки -->
+        <div class="absolute top-[10%] right-[-10%] w-[45vw] h-[45vw] rounded-full bg-blue-300/40 mix-blend-multiply blur-3xl animate-blob" style="animation-delay: 2s;"></div>
+        <div class="absolute bottom-[-20%] left-[15%] w-[60vw] h-[60vw] rounded-full bg-cyan-200/40 mix-blend-multiply blur-3xl animate-blob" style="animation-delay: 4s;"></div>
         <div class="absolute inset-0 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:40px_40px] opacity-40"></div>
     </div>
 
     <!-- НАЧАЛЕН ЕКРАН -->
     <div id="intro-screen" class="flex flex-col items-center justify-center min-h-screen w-full p-4 md:p-6">
         <div class="w-full max-w-4xl text-center bg-white/70 backdrop-blur-xl p-6 md:p-10 rounded-3xl shadow-2xl border border-white/60">
-            <div class="flex justify-center w-full mb-6 md:mb-8">
-                <img src="TFOA.png" alt="TFOA" class="w-full h-auto max-h-[30vh] md:max-h-[50vh] object-contain drop-shadow-xl rounded-xl" onerror="this.onerror=null; this.outerHTML='<div class=\'inline-flex items-center justify-center w-24 h-24 md:w-32 md:h-32 rounded-full bg-blue-100 text-blue-600 mb-6 shadow-inner\'><svg class=\'w-12 h-12 md:w-16 md:h-16\' fill=\'none\' stroke=\'currentColor\' viewBox=\'0 0 24 24\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'2\' d=\'M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5\'></path></svg></div>'">
+            <div class="flex justify-center w-full mb-4 md:mb-6">
+                <!-- Оптимизирана височина на логото -->
+                <img src="TFOA.png" alt="TFOA" class="w-full h-auto max-h-[20vh] md:max-h-[30vh] object-contain drop-shadow-xl rounded-xl" onerror="this.onerror=null; this.outerHTML='<div class=\'inline-flex items-center justify-center w-20 h-20 md:w-28 md:h-28 rounded-full bg-blue-100 text-blue-600 mb-4 shadow-inner\'><svg class=\'w-10 h-10 md:w-14 md:h-14\' fill=\'none\' stroke=\'currentColor\' viewBox=\'0 0 24 24\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'2\' d=\'M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5\'></path></svg></div>'">
             </div>
-            <h1 class="text-3xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 mb-6 md:mb-8 tracking-tight leading-tight">Тригонометрични функции на остър ъгъл в правоъгълен триъгълник</h1>
-            <p class="text-gray-600 text-lg md:text-xl mb-8 md:mb-10 leading-relaxed">
+            <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4 md:mb-6 tracking-tight leading-tight">Тригонометрични функции на остър ъгъл в правоъгълен триъгълник</h1>
+            <p class="text-gray-600 text-lg md:text-xl mb-6 md:mb-8 leading-relaxed">
                 Интерактивен урок за синус, косинус, тангенс и котангенс. Изследвайте функциите чрез симулация, научете тъждествата и решавайте задачи.
             </p>
-            <button onclick="startLesson()" class="bg-blue-500 hover:bg-blue-400 text-white font-extrabold text-xl md:text-2xl py-3 md:py-4 px-8 md:px-12 rounded-3xl border-b-[6px] border-blue-700 active:border-b-0 active:mt-[6px] transition-all shadow-lg hover:-translate-y-1 w-full sm:w-auto">
+            <button onclick="startLesson()" class="bg-blue-500 hover:bg-blue-400 text-white font-extrabold text-xl md:text-2xl py-3 px-10 rounded-full border-b-[5px] border-blue-700 active:border-b-0 active:mt-[5px] transition-all shadow-lg hover:-translate-y-1 w-full sm:w-auto">
                 Започни Урока
             </button>
             
-            <div class="mt-8 md:mt-10 pt-4 md:pt-6 border-t border-gray-300/50 flex flex-col space-y-2 text-sm md:text-base text-gray-600">
+            <div class="mt-6 md:mt-8 pt-4 border-t border-gray-300/50 flex flex-col space-y-1 text-sm md:text-base text-gray-600">
                 <p>Идея и педагогически решения: <span class="font-bold text-gray-800">Валя Витковска</span></p>
                 <p>Реализация: <span class="font-bold text-blue-600">Gemini</span></p>
             </div>
@@ -127,128 +119,130 @@
     </div>
 
     <!-- ОСНОВЕН ИНТЕРФЕЙС -->
-    <div id="main-screen" class="hidden w-full max-w-[1500px] p-2 sm:p-4 md:p-6 mx-auto">
+    <div id="main-screen" class="hidden w-full max-w-[1500px] p-2 sm:p-4 mx-auto flex flex-col min-h-screen">
         
         <!-- Навигация -->
-        <div class="main-container rounded-t-2xl md:rounded-t-3xl border-b-0 overflow-hidden mt-2">
-            <div class="p-4 md:p-6 bg-gradient-to-r from-blue-700/90 to-blue-500/90 text-white flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-0 print-hide">
-                <h2 id="app-title" class="text-xl sm:text-2xl md:text-3xl font-bold cursor-pointer select-none drop-shadow-md text-center sm:text-left">Тригонометрия</h2>
-                <div class="flex items-center space-x-4">
-                    <span id="teacher-badge" class="hidden bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide shadow-sm">👨‍🏫 Учителски Режим</span>
-                    <button onclick="location.reload()" class="text-blue-50 hover:text-white underline text-sm md:text-base font-medium transition">Към началото</button>
+        <div class="main-container rounded-t-2xl md:rounded-t-3xl border-b-0 overflow-hidden mt-1 shadow-md">
+            <!-- По-компактен хедър -->
+            <div class="px-4 py-3 md:px-6 md:py-3 bg-gradient-to-r from-blue-700/90 to-blue-500/90 text-white flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-0 print-hide">
+                <h2 id="app-title" class="text-lg sm:text-xl md:text-2xl font-bold cursor-pointer select-none drop-shadow-md text-center sm:text-left">Тригонометрия</h2>
+                <div class="flex items-center space-x-3">
+                    <span id="teacher-badge" class="hidden bg-yellow-400 text-yellow-900 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide shadow-sm">👨‍🏫 Учител</span>
+                    <button onclick="location.reload()" class="text-blue-50 hover:text-white underline text-xs md:text-sm font-medium transition">Към началото</button>
                 </div>
             </div>
             
-            <!-- ЦВЕТНИ И 3D НАВИГАЦИОННИ БУТОНИ -->
-            <nav class="flex overflow-x-auto gap-2 sm:gap-3 md:gap-5 p-2 sm:p-4 md:p-6 bg-white/40 border-b border-white/50 print-hide snap-x">
-                <button id="nav-sim" onclick="showTab('sim')" class="snap-start flex-1 min-w-[120px] md:min-w-fit py-2 sm:py-3 md:py-4 px-3 sm:px-4 md:px-6 text-center font-extrabold text-sm sm:text-lg md:text-xl rounded-xl md:rounded-2xl transition-all whitespace-nowrap bg-blue-500 border-blue-700 text-white mt-[6px] border-b-0 shadow-inner">📐 Симулация</button>
-                <button id="nav-theory" onclick="showTab('theory')" class="snap-start flex-1 min-w-[120px] md:min-w-fit py-2 sm:py-3 md:py-4 px-3 sm:px-4 md:px-6 text-center font-extrabold text-sm sm:text-lg md:text-xl rounded-xl md:rounded-2xl transition-all whitespace-nowrap border-b-[4px] md:border-b-[6px] border-gray-300 bg-white/90 text-gray-600 hover:-translate-y-1 hover:bg-white shadow-sm">📚 Теория</button>
-                <button id="nav-quiz" onclick="showTab('quiz')" class="snap-start flex-1 min-w-[120px] md:min-w-fit py-2 sm:py-3 md:py-4 px-3 sm:px-4 md:px-6 text-center font-extrabold text-sm sm:text-lg md:text-xl rounded-xl md:rounded-2xl transition-all whitespace-nowrap border-b-[4px] md:border-b-[6px] border-gray-300 bg-white/90 text-gray-600 hover:-translate-y-1 hover:bg-white shadow-sm">📝 Тест</button>
-                <button id="nav-exercises" onclick="showTab('exercises')" class="snap-start flex-1 min-w-[120px] md:min-w-fit py-2 sm:py-3 md:py-4 px-3 sm:px-4 md:px-6 text-center font-extrabold text-sm sm:text-lg md:text-xl rounded-xl md:rounded-2xl transition-all whitespace-nowrap border-b-[4px] md:border-b-[6px] border-gray-300 bg-white/90 text-gray-600 hover:-translate-y-1 hover:bg-white shadow-sm">🧮 Задачи</button>
+            <!-- По-компактни бутони за раздели -->
+            <nav class="flex overflow-x-auto gap-2 sm:gap-3 p-2 sm:p-3 bg-white/40 border-b border-white/50 print-hide snap-x">
+                <button id="nav-sim" onclick="showTab('sim')" class="snap-start flex-1 min-w-[110px] md:min-w-fit py-2 px-3 text-center font-extrabold text-sm md:text-base rounded-xl transition-all whitespace-nowrap bg-blue-500 border-blue-700 text-white mt-[4px] border-b-0 shadow-inner">📐 Симулация</button>
+                <button id="nav-theory" onclick="showTab('theory')" class="snap-start flex-1 min-w-[110px] md:min-w-fit py-2 px-3 text-center font-extrabold text-sm md:text-base rounded-xl transition-all whitespace-nowrap border-b-[4px] border-gray-300 bg-white/90 text-gray-600 hover:-translate-y-0.5 hover:bg-white shadow-sm">📚 Теория</button>
+                <button id="nav-quiz" onclick="showTab('quiz')" class="snap-start flex-1 min-w-[110px] md:min-w-fit py-2 px-3 text-center font-extrabold text-sm md:text-base rounded-xl transition-all whitespace-nowrap border-b-[4px] border-gray-300 bg-white/90 text-gray-600 hover:-translate-y-0.5 hover:bg-white shadow-sm">📝 Тест</button>
+                <button id="nav-exercises" onclick="showTab('exercises')" class="snap-start flex-1 min-w-[110px] md:min-w-fit py-2 px-3 text-center font-extrabold text-sm md:text-base rounded-xl transition-all whitespace-nowrap border-b-[4px] border-gray-300 bg-white/90 text-gray-600 hover:-translate-y-0.5 hover:bg-white shadow-sm">🧮 Задачи</button>
             </nav>
         </div>
 
-        <div class="main-container p-4 sm:p-6 md:p-8 rounded-b-2xl md:rounded-b-3xl border-t-0 min-h-[600px]">
+        <div class="main-container p-3 sm:p-4 md:p-5 rounded-b-2xl md:rounded-b-3xl border-t-0 flex-grow shadow-md mb-2">
 
             <!-- РАЗДЕЛ 1: СИМУЛАЦИЯ -->
-            <div id="tab-sim" class="fade-in print-hide">
-                <div class="flex flex-col md:flex-row justify-between items-center mb-6 md:mb-8">
-                    <h3 class="text-2xl md:text-3xl font-bold text-gray-800 drop-shadow-sm text-center md:text-left">Интерактивен правоъгълен триъгълник</h3>
+            <div id="tab-sim" class="fade-in print-hide h-full flex flex-col">
+                <div class="flex flex-col md:flex-row justify-between items-center mb-3 md:mb-4">
+                    <h3 class="text-xl md:text-2xl font-bold text-gray-800 drop-shadow-sm text-center md:text-left">Интерактивен правоъгълен триъгълник</h3>
                 </div>
                 
-                <div class="flex flex-col lg:flex-row gap-6 items-start w-full">
+                <div class="flex flex-col lg:flex-row gap-4 items-stretch w-full flex-grow">
                     <!-- ЛЯВА КОЛОНА: Управление -->
-                    <div class="w-full lg:w-1/4 flex flex-col gap-6 shrink-0">
-                        <div class="bg-white/90 backdrop-blur-md p-4 md:p-5 rounded-2xl border border-white/50 shadow-sm hover:shadow-md transition">
-                            <h4 class="font-bold text-gray-700 mb-4 border-b border-gray-200 pb-2 text-sm uppercase tracking-wider">Управление</h4>
-                            <div class="space-y-5">
+                    <div class="w-full lg:w-1/4 flex flex-col gap-4 shrink-0">
+                        <div class="bg-white/90 backdrop-blur-md p-3 md:p-4 rounded-2xl border border-white/50 shadow-sm hover:shadow-md transition">
+                            <h4 class="font-bold text-gray-700 mb-3 border-b border-gray-200 pb-1.5 text-xs uppercase tracking-wider">Управление</h4>
+                            <div class="space-y-4">
                                 <div>
-                                    <label class="flex justify-between font-bold text-gray-700 mb-2 text-sm sm:text-base">
+                                    <label class="flex justify-between font-bold text-gray-700 mb-1.5 text-sm">
                                         <span>Ъгъл \(\alpha\)</span>
-                                        <span id="alpha-val-display" class="text-blue-700 bg-blue-50 px-2 py-1 rounded shadow-sm border border-blue-100">45°</span>
+                                        <span id="alpha-val-display" class="text-blue-700 bg-blue-50 px-1.5 py-0.5 rounded shadow-sm border border-blue-100">45°</span>
                                     </label>
                                     <input type="range" id="angleSlider" min="10" max="80" value="45" step="1">
                                 </div>
                                 <div>
-                                    <label class="flex justify-between font-bold text-gray-700 mb-2 text-sm sm:text-base">
+                                    <label class="flex justify-between font-bold text-gray-700 mb-1.5 text-sm">
                                         <span>Хипотенуза (\(c\))</span>
-                                        <span id="hyp-val-display" class="text-green-700 bg-green-50 px-2 py-1 rounded shadow-sm border border-green-100">25</span>
+                                        <span id="hyp-val-display" class="text-green-700 bg-green-50 px-1.5 py-0.5 rounded shadow-sm border border-green-100">25</span>
                                     </label>
                                     <input type="range" id="hypSlider" min="5" max="25" value="25" step="1">
                                 </div>
                             </div>
                         </div>
 
-                        <div class="bg-blue-50/90 backdrop-blur-md p-4 md:p-5 rounded-2xl border border-blue-100 shadow-sm hover:shadow-md transition">
-                            <h4 class="font-bold text-blue-900 mb-4 border-b border-blue-200 pb-2 text-sm uppercase tracking-wider">Страни</h4>
-                            <ul class="space-y-3 sm:space-y-4 text-sm sm:text-base">
-                                <li class="flex flex-col items-center bg-white/90 p-2 sm:p-3 rounded-xl shadow-sm border border-green-100">
-                                    <span class="text-green-700 flex items-center font-bold mb-1 sm:mb-2 w-full justify-center text-center">
-                                        <span class="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-green-500 mr-2"></span>Хипотенуза (c)
+                        <div class="bg-blue-50/90 backdrop-blur-md p-3 md:p-4 rounded-2xl border border-blue-100 shadow-sm hover:shadow-md transition flex-grow">
+                            <h4 class="font-bold text-blue-900 mb-3 border-b border-blue-200 pb-1.5 text-xs uppercase tracking-wider">Страни</h4>
+                            <ul class="space-y-2 sm:space-y-3 text-sm">
+                                <li class="flex flex-col items-center bg-white/90 p-2 rounded-xl shadow-sm border border-green-100">
+                                    <span class="text-green-700 flex items-center font-bold w-full justify-center text-center text-xs sm:text-sm">
+                                        <span class="w-2 h-2 rounded-full bg-green-500 mr-1.5"></span>Хипотенуза (c)
                                     </span> 
-                                    <span id="side-c-val" class="font-bold text-gray-800 text-lg sm:text-xl">25</span>
+                                    <span id="side-c-val" class="font-bold text-gray-800 text-base sm:text-lg">25</span>
                                 </li>
-                                <li class="flex flex-col items-center bg-white/90 p-2 sm:p-3 rounded-xl shadow-sm border border-red-100">
-                                    <span class="text-red-600 flex items-center font-bold mb-1 sm:mb-2 w-full justify-center text-center">
-                                        <span class="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-red-500 mr-2"></span><span id="label-side-a">Срещулежащ (a)</span>
+                                <li class="flex flex-col items-center bg-white/90 p-2 rounded-xl shadow-sm border border-red-100">
+                                    <span class="text-red-600 flex items-center font-bold w-full justify-center text-center text-xs sm:text-sm">
+                                        <span class="w-2 h-2 rounded-full bg-red-500 mr-1.5"></span><span id="label-side-a">Срещулежащ (a)</span>
                                     </span> 
-                                    <span id="side-a-val" class="font-bold text-gray-800 text-lg sm:text-xl"></span>
+                                    <span id="side-a-val" class="font-bold text-gray-800 text-base sm:text-lg"></span>
                                 </li>
-                                <li class="flex flex-col items-center bg-white/90 p-2 sm:p-3 rounded-xl shadow-sm border border-blue-100">
-                                    <span class="text-blue-700 flex items-center font-bold mb-1 sm:mb-2 w-full justify-center text-center">
-                                        <span class="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-blue-500 mr-2"></span><span id="label-side-b">Прилежащ (b)</span>
+                                <li class="flex flex-col items-center bg-white/90 p-2 rounded-xl shadow-sm border border-blue-100">
+                                    <span class="text-blue-700 flex items-center font-bold w-full justify-center text-center text-xs sm:text-sm">
+                                        <span class="w-2 h-2 rounded-full bg-blue-500 mr-1.5"></span><span id="label-side-b">Прилежащ (b)</span>
                                     </span> 
-                                    <span id="side-b-val" class="font-bold text-gray-800 text-lg sm:text-xl"></span>
+                                    <span id="side-b-val" class="font-bold text-gray-800 text-base sm:text-lg"></span>
                                 </li>
                             </ul>
                         </div>
                     </div>
 
-                    <!-- ЦЕНТРАЛНА КОЛОНА: Чертеж -->
-                    <div class="w-full lg:w-2/4 flex flex-col items-center min-w-0">
-                        <div class="flex mb-4 space-x-2 sm:space-x-3 p-1 sm:p-1.5 rounded-xl">
-                            <button id="btn-alpha" onclick="setFocusAngle('alpha')" class="px-6 sm:px-8 py-1.5 sm:py-2 font-bold rounded-xl transition-all text-lg sm:text-xl bg-indigo-500 text-white mt-[4px] border-b-0 shadow-inner flex-1">\(\alpha\)</button>
-                            <button id="btn-beta" onclick="setFocusAngle('beta')" class="px-6 sm:px-8 py-1.5 sm:py-2 font-bold rounded-xl transition-all text-lg sm:text-xl bg-white/90 text-indigo-600 border-b-4 border-indigo-200 hover:bg-indigo-50 hover:-translate-y-[2px] active:mt-[4px] active:border-b-0 flex-1">\(\beta\)</button>
+                    <!-- ЦЕНТРАЛНА КОЛОНА: Чертеж (Намалена височина за да не иска скрол) -->
+                    <div class="w-full lg:w-2/4 flex flex-col items-center min-w-0 h-full">
+                        <div class="flex mb-3 space-x-2 p-1 bg-white/50 rounded-xl shadow-sm border border-gray-200 w-full sm:w-auto">
+                            <button id="btn-alpha" onclick="setFocusAngle('alpha')" class="px-6 py-1.5 font-bold rounded-lg transition-all text-sm sm:text-base bg-indigo-500 text-white mt-[3px] border-b-0 shadow-inner flex-1">\(\alpha\)</button>
+                            <button id="btn-beta" onclick="setFocusAngle('beta')" class="px-6 py-1.5 font-bold rounded-lg transition-all text-sm sm:text-base bg-white/90 text-indigo-600 border-b-[3px] border-indigo-200 hover:bg-indigo-50 hover:-translate-y-[1px] active:mt-[3px] active:border-b-0 flex-1">\(\beta\)</button>
                         </div>
-                        <div class="bg-white/90 backdrop-blur-md rounded-2xl border border-white/50 flex flex-col items-center justify-center p-2 sm:p-4 shadow-sm w-full overflow-hidden hover:shadow-md transition aspect-video sm:aspect-auto sm:min-h-[400px]">
-                            <canvas id="simCanvas" width="650" height="450"></canvas>
+                        <div class="bg-white/90 backdrop-blur-md rounded-2xl border border-white/50 flex flex-col items-center justify-center p-2 shadow-sm w-full overflow-hidden hover:shadow-md transition h-[360px] sm:h-auto sm:aspect-[4/3] max-h-[380px]">
+                            <!-- Височината е намалена до 360 -->
+                            <canvas id="simCanvas" width="650" height="360" class="max-h-full"></canvas>
                         </div>
                     </div>
 
                     <!-- ДЯСНА КОЛОНА: Отношения -->
-                    <div class="w-full lg:w-1/4 bg-purple-50/90 backdrop-blur-md p-3 md:p-5 rounded-2xl border border-purple-100 flex flex-col h-full shadow-sm hover:shadow-md transition shrink-0">
-                        <h4 class="font-bold text-purple-900 mb-3 border-b border-purple-200 pb-2 text-sm uppercase tracking-wider text-center">Отношения <span id="ratio-focus-label" class="lowercase">\(\alpha\)</span></h4>
+                    <div class="w-full lg:w-1/4 bg-purple-50/90 backdrop-blur-md p-3 md:p-4 rounded-2xl border border-purple-100 flex flex-col h-full shadow-sm hover:shadow-md transition shrink-0">
+                        <h4 class="font-bold text-purple-900 mb-3 border-b border-purple-200 pb-1.5 text-xs uppercase tracking-wider text-center">Отношения <span id="ratio-focus-label" class="lowercase">\(\alpha\)</span></h4>
                         
                         <!-- БУТОНИ ЗА ИЗБОР НА ФУНКЦИЯ -->
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-4">
-                            <button onclick="setRatioFilter('all')" id="btn-filter-all" class="col-span-1 sm:col-span-2 px-2 py-2 text-xs sm:text-sm font-bold rounded-lg transition-all bg-purple-600 text-white shadow-inner mt-[2px] border-b-0 leading-tight flex justify-center items-center">Всички</button>
-                            <button onclick="setRatioFilter('sin')" id="btn-filter-sin" class="py-1.5 font-bold rounded-lg transition-all bg-white text-purple-600 border-b-2 border-purple-200 hover:bg-purple-50 hover:-translate-y-[1px] active:mt-[2px] active:border-b-0 flex justify-center items-center">
-                                <div class="inline-flex flex-col items-center leading-[1.2]">
-                                    <span class="border-b border-current w-full text-center pb-[2px] text-[11px] sm:text-[12px]">Срещулежащ</span>
-                                    <span class="text-[10px] opacity-90 font-medium w-full text-center pt-[2px]">Хипотенуза</span>
+                        <div class="grid grid-cols-2 gap-2 mb-3">
+                            <button onclick="setRatioFilter('all')" id="btn-filter-all" class="col-span-2 px-2 py-1.5 text-[11px] sm:text-xs font-bold rounded-lg transition-all bg-purple-600 text-white shadow-inner mt-[2px] border-b-0 leading-tight flex justify-center items-center">Всички</button>
+                            <button onclick="setRatioFilter('sin')" id="btn-filter-sin" class="py-1 font-bold rounded-lg transition-all bg-white text-purple-600 border-b-2 border-purple-200 hover:bg-purple-50 hover:-translate-y-[1px] active:mt-[2px] active:border-b-0 flex justify-center items-center">
+                                <div class="inline-flex flex-col items-center leading-tight">
+                                    <span class="border-b border-current w-full text-center pb-[1px] text-[10px] sm:text-[11px]">Срещулежащ</span>
+                                    <span class="text-[9px] sm:text-[10px] opacity-90 font-medium w-full text-center pt-[1px]">Хипотенуза</span>
                                 </div>
                             </button>
-                            <button onclick="setRatioFilter('cos')" id="btn-filter-cos" class="py-1.5 font-bold rounded-lg transition-all bg-white text-purple-600 border-b-2 border-purple-200 hover:bg-purple-50 hover:-translate-y-[1px] active:mt-[2px] active:border-b-0 flex justify-center items-center">
-                                <div class="inline-flex flex-col items-center leading-[1.2]">
-                                    <span class="border-b border-current w-full text-center pb-[2px] text-[11px] sm:text-[12px]">Прилежащ</span>
-                                    <span class="text-[10px] opacity-90 font-medium w-full text-center pt-[2px]">Хипотенуза</span>
+                            <button onclick="setRatioFilter('cos')" id="btn-filter-cos" class="py-1 font-bold rounded-lg transition-all bg-white text-purple-600 border-b-2 border-purple-200 hover:bg-purple-50 hover:-translate-y-[1px] active:mt-[2px] active:border-b-0 flex justify-center items-center">
+                                <div class="inline-flex flex-col items-center leading-tight">
+                                    <span class="border-b border-current w-full text-center pb-[1px] text-[10px] sm:text-[11px]">Прилежащ</span>
+                                    <span class="text-[9px] sm:text-[10px] opacity-90 font-medium w-full text-center pt-[1px]">Хипотенуза</span>
                                 </div>
                             </button>
-                            <button onclick="setRatioFilter('tg')" id="btn-filter-tg" class="py-1.5 font-bold rounded-lg transition-all bg-white text-purple-600 border-b-2 border-purple-200 hover:bg-purple-50 hover:-translate-y-[1px] active:mt-[2px] active:border-b-0 flex justify-center items-center">
-                                <div class="inline-flex flex-col items-center leading-[1.2]">
-                                    <span class="border-b border-current w-full text-center pb-[2px] text-[11px] sm:text-[12px]">Срещулежащ</span>
-                                    <span class="text-[10px] opacity-90 font-medium w-full text-center pt-[2px]">Прилежащ</span>
+                            <button onclick="setRatioFilter('tg')" id="btn-filter-tg" class="py-1 font-bold rounded-lg transition-all bg-white text-purple-600 border-b-2 border-purple-200 hover:bg-purple-50 hover:-translate-y-[1px] active:mt-[2px] active:border-b-0 flex justify-center items-center">
+                                <div class="inline-flex flex-col items-center leading-tight">
+                                    <span class="border-b border-current w-full text-center pb-[1px] text-[10px] sm:text-[11px]">Срещулежащ</span>
+                                    <span class="text-[9px] sm:text-[10px] opacity-90 font-medium w-full text-center pt-[1px]">Прилежащ</span>
                                 </div>
                             </button>
-                            <button onclick="setRatioFilter('cotg')" id="btn-filter-cotg" class="py-1.5 font-bold rounded-lg transition-all bg-white text-purple-600 border-b-2 border-purple-200 hover:bg-purple-50 hover:-translate-y-[1px] active:mt-[2px] active:border-b-0 flex justify-center items-center">
-                                <div class="inline-flex flex-col items-center leading-[1.2]">
-                                    <span class="border-b border-current w-full text-center pb-[2px] text-[11px] sm:text-[12px]">Прилежащ</span>
-                                    <span class="text-[10px] opacity-90 font-medium w-full text-center pt-[2px]">Срещулежащ</span>
+                            <button onclick="setRatioFilter('cotg')" id="btn-filter-cotg" class="py-1 font-bold rounded-lg transition-all bg-white text-purple-600 border-b-2 border-purple-200 hover:bg-purple-50 hover:-translate-y-[1px] active:mt-[2px] active:border-b-0 flex justify-center items-center">
+                                <div class="inline-flex flex-col items-center leading-tight">
+                                    <span class="border-b border-current w-full text-center pb-[1px] text-[10px] sm:text-[11px]">Прилежащ</span>
+                                    <span class="text-[9px] sm:text-[10px] opacity-90 font-medium w-full text-center pt-[1px]">Срещулежащ</span>
                                 </div>
                             </button>
                         </div>
 
-                        <div class="flex-grow flex flex-col gap-3 sm:gap-4 justify-center" id="ratios-container">
+                        <div class="flex-grow flex flex-col gap-2 sm:gap-3 justify-center" id="ratios-container">
                             <!-- Динамично съдържание -->
                         </div>
                     </div>
@@ -256,48 +250,48 @@
             </div>
 
             <!-- РАЗДЕЛ 2: ТЕОРИЯ -->
-            <div id="tab-theory" class="hidden fade-in text-lg sm:text-xl leading-relaxed print-hide">
-                <h3 class="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 drop-shadow-sm">Основни дефиниции</h3>
-                <p class="mb-6 sm:mb-8 text-base sm:text-lg text-gray-700 bg-white/60 p-4 rounded-xl border border-white/50 shadow-sm">
-                    В правоъгълен триъгълник \(\triangle ABC\) (с прав ъгъл при върха \(C\)), функциите се дефинират като отношения на страните. Нека разгледаме острия ъгъл \(\alpha\) (при връх A):
+            <div id="tab-theory" class="hidden fade-in text-base sm:text-lg leading-relaxed print-hide">
+                <h3 class="text-xl sm:text-2xl font-bold mb-4 text-gray-800 drop-shadow-sm">Основни дефиниции</h3>
+                <p class="mb-4 sm:mb-6 text-sm sm:text-base text-gray-700 bg-white/60 p-3 rounded-xl border border-white/50 shadow-sm">
+                    В правоъгълен триъгълник \(\triangle ABC\) (с прав ъгъл при върха \(C\)), функциите се дефинират като отношения на страните. Нека разгледаме острия ъгъл \(\alpha\):
                 </p>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8 sm:mb-10">
-                    <div class="bg-red-50/90 backdrop-blur-sm border border-red-100 rounded-2xl p-4 sm:p-6 shadow-sm text-center hover:shadow-md transition hover:-translate-y-1">
-                        <h4 class="text-red-700 font-bold text-lg sm:text-xl mb-2 sm:mb-3">Синус</h4>
-                        <div class="bg-white/90 py-3 sm:py-4 rounded-xl border border-red-100 font-bold text-xl sm:text-2xl shadow-sm">\(\sin \alpha = \frac{a}{c}\)</div>
-                        <p class="mt-3 sm:mt-4 text-xs sm:text-sm text-gray-600 font-medium">Срещулежащ / Хипотенуза</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 sm:mb-8">
+                    <div class="bg-red-50/90 backdrop-blur-sm border border-red-100 rounded-xl p-4 shadow-sm text-center hover:shadow-md transition">
+                        <h4 class="text-red-700 font-bold text-base sm:text-lg mb-2">Синус</h4>
+                        <div class="bg-white/90 py-2 rounded-lg border border-red-100 font-bold text-lg sm:text-xl shadow-sm">\(\sin \alpha = \frac{a}{c}\)</div>
+                        <p class="mt-2 text-xs text-gray-600 font-medium">Срещулежащ / Хипотенуза</p>
                     </div>
-                    <div class="bg-blue-50/90 backdrop-blur-sm border border-blue-100 rounded-2xl p-4 sm:p-6 shadow-sm text-center hover:shadow-md transition hover:-translate-y-1">
-                        <h4 class="text-blue-700 font-bold text-lg sm:text-xl mb-2 sm:mb-3">Косинус</h4>
-                        <div class="bg-white/90 py-3 sm:py-4 rounded-xl border border-blue-100 font-bold text-xl sm:text-2xl shadow-sm">\(\cos \alpha = \frac{b}{c}\)</div>
-                        <p class="mt-3 sm:mt-4 text-xs sm:text-sm text-gray-600 font-medium">Прилежащ / Хипотенуза</p>
+                    <div class="bg-blue-50/90 backdrop-blur-sm border border-blue-100 rounded-xl p-4 shadow-sm text-center hover:shadow-md transition">
+                        <h4 class="text-blue-700 font-bold text-base sm:text-lg mb-2">Косинус</h4>
+                        <div class="bg-white/90 py-2 rounded-lg border border-blue-100 font-bold text-lg sm:text-xl shadow-sm">\(\cos \alpha = \frac{b}{c}\)</div>
+                        <p class="mt-2 text-xs text-gray-600 font-medium">Прилежащ / Хипотенуза</p>
                     </div>
-                    <div class="bg-purple-50/90 backdrop-blur-sm border border-purple-100 rounded-2xl p-4 sm:p-6 shadow-sm text-center hover:shadow-md transition hover:-translate-y-1">
-                        <h4 class="text-purple-700 font-bold text-lg sm:text-xl mb-2 sm:mb-3">Тангенс (tg)</h4>
-                        <div class="bg-white/90 py-3 sm:py-4 rounded-xl border border-purple-100 font-bold text-xl sm:text-2xl shadow-sm">\(\operatorname{tg} \alpha = \frac{a}{b}\)</div>
-                        <p class="mt-3 sm:mt-4 text-xs sm:text-sm text-gray-600 font-medium">Срещулежащ / Прилежащ</p>
+                    <div class="bg-purple-50/90 backdrop-blur-sm border border-purple-100 rounded-xl p-4 shadow-sm text-center hover:shadow-md transition">
+                        <h4 class="text-purple-700 font-bold text-base sm:text-lg mb-2">Тангенс (tg)</h4>
+                        <div class="bg-white/90 py-2 rounded-lg border border-purple-100 font-bold text-lg sm:text-xl shadow-sm">\(\operatorname{tg} \alpha = \frac{a}{b}\)</div>
+                        <p class="mt-2 text-xs text-gray-600 font-medium">Срещулежащ / Прилежащ</p>
                     </div>
-                    <div class="bg-green-50/90 backdrop-blur-sm border border-green-100 rounded-2xl p-4 sm:p-6 shadow-sm text-center hover:shadow-md transition hover:-translate-y-1">
-                        <h4 class="text-green-700 font-bold text-lg sm:text-xl mb-2 sm:mb-3">Котангенс (cotg)</h4>
-                        <div class="bg-white/90 py-3 sm:py-4 rounded-xl border border-green-100 font-bold text-xl sm:text-2xl shadow-sm">\(\operatorname{cotg} \alpha = \frac{b}{a}\)</div>
-                        <p class="mt-3 sm:mt-4 text-xs sm:text-sm text-gray-600 font-medium">Прилежащ / Срещулежащ</p>
+                    <div class="bg-green-50/90 backdrop-blur-sm border border-green-100 rounded-xl p-4 shadow-sm text-center hover:shadow-md transition">
+                        <h4 class="text-green-700 font-bold text-base sm:text-lg mb-2">Котангенс (cotg)</h4>
+                        <div class="bg-white/90 py-2 rounded-lg border border-green-100 font-bold text-lg sm:text-xl shadow-sm">\(\operatorname{cotg} \alpha = \frac{b}{a}\)</div>
+                        <p class="mt-2 text-xs text-gray-600 font-medium">Прилежащ / Срещулежащ</p>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
-                    <div class="bg-white/80 backdrop-blur-md border border-white/60 p-6 sm:p-8 rounded-3xl shadow-sm hover:shadow-md transition">
-                        <h4 class="font-bold text-xl sm:text-2xl mb-4 sm:mb-6 text-gray-800">Основни тъждества</h4>
-                        <ul class="space-y-4 sm:space-y-6">
-                            <li class="bg-gray-50/90 p-4 sm:p-5 rounded-xl shadow-inner border border-gray-200">\(\sin^2 \alpha + \cos^2 \alpha = 1\) <span class="block sm:inline text-sm sm:text-base text-gray-500 sm:ml-2 mt-1 sm:mt-0">(Основно тъждество)</span></li>
-                            <li class="bg-gray-50/90 p-4 sm:p-5 rounded-xl shadow-inner border border-gray-200 overflow-x-auto">\(\operatorname{tg} \alpha = \frac{\sin \alpha}{\cos \alpha} \quad \text{и} \quad \operatorname{cotg} \alpha = \frac{\cos \alpha}{\sin \alpha}\)</li>
-                            <li class="bg-gray-50/90 p-4 sm:p-5 rounded-xl shadow-inner border border-gray-200">\(\operatorname{tg} \alpha \cdot \operatorname{cotg} \alpha = 1\)</li>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+                    <div class="bg-white/80 backdrop-blur-md border border-white/60 p-5 sm:p-6 rounded-2xl shadow-sm hover:shadow-md transition">
+                        <h4 class="font-bold text-lg sm:text-xl mb-4 text-gray-800">Основни тъждества</h4>
+                        <ul class="space-y-3 sm:space-y-4">
+                            <li class="bg-gray-50/90 p-3 sm:p-4 rounded-xl shadow-inner border border-gray-200">\(\sin^2 \alpha + \cos^2 \alpha = 1\)</li>
+                            <li class="bg-gray-50/90 p-3 sm:p-4 rounded-xl shadow-inner border border-gray-200 overflow-x-auto">\(\operatorname{tg} \alpha = \frac{\sin \alpha}{\cos \alpha} \quad \text{и} \quad \operatorname{cotg} \alpha = \frac{\cos \alpha}{\sin \alpha}\)</li>
+                            <li class="bg-gray-50/90 p-3 sm:p-4 rounded-xl shadow-inner border border-gray-200">\(\operatorname{tg} \alpha \cdot \operatorname{cotg} \alpha = 1\)</li>
                         </ul>
                     </div>
-                    <div class="bg-indigo-50/90 backdrop-blur-md border border-indigo-100 p-6 sm:p-8 rounded-3xl shadow-sm hover:shadow-md transition">
-                        <h4 class="font-bold text-xl sm:text-2xl mb-4 sm:mb-6 text-indigo-900">Връзка между \(\alpha\) и \(\beta\)</h4>
-                        <p class="text-base sm:text-lg mb-4 sm:mb-6">Тъй като \(\alpha + \beta = 90^\circ\), функциите преминават в своите ко-функции:</p>
-                        <ul class="space-y-3 sm:space-y-4 font-mono text-base sm:text-lg bg-white/90 p-4 sm:p-6 rounded-2xl border border-indigo-200 shadow-sm overflow-x-auto">
+                    <div class="bg-indigo-50/90 backdrop-blur-md border border-indigo-100 p-5 sm:p-6 rounded-2xl shadow-sm hover:shadow-md transition">
+                        <h4 class="font-bold text-lg sm:text-xl mb-4 text-indigo-900">Връзка между \(\alpha\) и \(\beta\)</h4>
+                        <p class="text-sm sm:text-base mb-4">Тъй като \(\alpha + \beta = 90^\circ\), функциите преминават в своите ко-функции:</p>
+                        <ul class="space-y-2 sm:space-y-3 font-mono text-sm sm:text-base bg-white/90 p-3 sm:p-4 rounded-xl border border-indigo-200 shadow-sm overflow-x-auto">
                             <li>\(\sin \alpha = \cos(90^\circ - \alpha) = \cos \beta\)</li>
                             <li>\(\cos \alpha = \sin(90^\circ - \alpha) = \sin \beta\)</li>
                             <li>\(\operatorname{tg} \alpha = \operatorname{cotg}(90^\circ - \alpha) = \operatorname{cotg} \beta\)</li>
@@ -309,43 +303,41 @@
 
             <!-- РАЗДЕЛ 3: ТЕСТ -->
             <div id="tab-quiz" class="hidden fade-in print-hide">
-                <div class="flex flex-col sm:flex-row justify-between items-center mb-6 sm:mb-8 gap-4 sm:gap-0">
-                    <h3 class="text-2xl sm:text-3xl font-bold text-gray-800 drop-shadow-sm text-center sm:text-left">Тест (10 въпроса)</h3>
-                    <button onclick="initQuiz()" class="text-sm sm:text-base bg-yellow-400 hover:bg-yellow-300 text-yellow-900 border-b-4 border-yellow-600 active:border-b-0 active:mt-[4px] px-4 sm:px-6 py-2 sm:py-3 rounded-xl font-bold transition-all shadow-sm w-full sm:w-auto">↻ Нов тест</button>
+                <div class="flex flex-col sm:flex-row justify-between items-center mb-4 sm:mb-6 gap-3 sm:gap-0">
+                    <h3 class="text-xl sm:text-2xl font-bold text-gray-800 drop-shadow-sm text-center sm:text-left">Тест (10 въпроса)</h3>
+                    <button onclick="initQuiz()" class="text-xs sm:text-sm bg-yellow-400 hover:bg-yellow-300 text-yellow-900 border-b-[3px] border-yellow-600 active:border-b-0 active:mt-[3px] px-4 py-2 rounded-lg font-bold transition-all shadow-sm w-full sm:w-auto">↻ Нов тест</button>
                 </div>
-                <div id="quiz-container" class="space-y-4 sm:space-y-6 text-base sm:text-lg"></div>
-                <div class="mt-8 sm:mt-10 flex flex-col items-center border-t border-gray-300/50 pt-6 sm:pt-8">
-                    <button id="btn-check-quiz" onclick="checkQuiz()" class="bg-blue-500 hover:bg-blue-400 text-white font-extrabold text-lg sm:text-xl py-3 sm:py-4 px-8 sm:px-12 rounded-2xl border-b-[6px] border-blue-700 active:border-b-0 active:mt-[6px] transition-all shadow-lg w-full md:w-auto">Провери Теста</button>
-                    <div id="quiz-result" class="hidden mt-6 text-xl sm:text-3xl font-bold text-center p-4 sm:p-8 rounded-2xl w-full"></div>
+                <div id="quiz-container" class="space-y-3 sm:space-y-4 text-sm sm:text-base"></div>
+                <div class="mt-6 sm:mt-8 flex flex-col items-center border-t border-gray-300/50 pt-5 sm:pt-6">
+                    <button id="btn-check-quiz" onclick="checkQuiz()" class="bg-blue-500 hover:bg-blue-400 text-white font-extrabold text-base sm:text-lg py-2.5 sm:py-3 px-8 sm:px-10 rounded-xl border-b-[4px] border-blue-700 active:border-b-0 active:mt-[4px] transition-all shadow-lg w-full md:w-auto">Провери Теста</button>
+                    <div id="quiz-result" class="hidden mt-4 text-lg sm:text-xl font-bold text-center p-3 sm:p-5 rounded-xl w-full"></div>
                 </div>
             </div>
 
             <!-- РАЗДЕЛ 4: ЗАДАЧИ -->
             <div id="tab-exercises" class="hidden fade-in">
-                <div class="flex flex-col sm:flex-row justify-between items-center mb-6 sm:mb-8 print-hide gap-4 sm:gap-0">
-                    <h3 class="text-2xl sm:text-3xl font-bold text-gray-800 drop-shadow-sm text-center sm:text-left">Практически задачи</h3>
+                <div class="flex flex-col sm:flex-row justify-between items-center mb-4 sm:mb-6 print-hide gap-3 sm:gap-0">
+                    <h3 class="text-xl sm:text-2xl font-bold text-gray-800 drop-shadow-sm text-center sm:text-left">Практически задачи</h3>
                     
-                    <div class="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-3 w-full sm:w-auto">
-                        <!-- Контроли за учители -->
+                    <div class="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-2 w-full sm:w-auto">
                         <div id="teacher-controls" class="hidden w-full sm:w-auto">
-                            <button onclick="printTasks()" class="bg-purple-500 hover:bg-purple-400 text-white border-b-4 border-purple-700 active:border-b-0 active:mt-[4px] px-4 sm:px-6 py-2 sm:py-3 rounded-xl font-bold transition-all shadow-sm flex items-center justify-center w-full">
-                                <span class="mr-2">🖨️</span> Принтирай
+                            <button onclick="printTasks()" class="bg-purple-500 hover:bg-purple-400 text-white border-b-[3px] border-purple-700 active:border-b-0 active:mt-[3px] px-4 py-2 rounded-lg font-bold transition-all shadow-sm flex items-center justify-center w-full text-sm">
+                                <span class="mr-1">🖨️</span> Принтирай
                             </button>
                         </div>
-                        
-                        <button id="btn-new-tasks" onclick="initExercises()" class="text-sm sm:text-base bg-yellow-400 hover:bg-yellow-300 text-yellow-900 border-b-4 border-yellow-600 active:border-b-0 active:mt-[4px] px-4 sm:px-6 py-2 sm:py-3 rounded-xl font-bold transition-all shadow-sm w-full sm:w-auto">↻ Нови задачи</button>
+                        <button id="btn-new-tasks" onclick="initExercises()" class="text-xs sm:text-sm bg-yellow-400 hover:bg-yellow-300 text-yellow-900 border-b-[3px] border-yellow-600 active:border-b-0 active:mt-[3px] px-4 py-2 rounded-lg font-bold transition-all shadow-sm w-full sm:w-auto">↻ Нови задачи</button>
                     </div>
                 </div>
                 
-                <div class="bg-blue-50/90 backdrop-blur-sm border-l-4 border-blue-500 p-4 sm:p-6 mb-6 sm:mb-10 text-sm sm:text-lg text-gray-700 shadow-sm rounded-r-xl print-hide">
-                    <p><strong>Инструкции:</strong> Задачите включват както специални ъгли, така и точни стойности на функции (напр. обикновени дроби). Въведете отговора си като десетична дроб (закръглено до втория знак, ако е ирационално). Толеранс \(\pm 0.02\). За десетичен разделител използвайте <strong>точка (.)</strong>.</p>
+                <div class="bg-blue-50/90 backdrop-blur-sm border-l-4 border-blue-500 p-3 sm:p-4 mb-5 text-xs sm:text-sm text-gray-700 shadow-sm rounded-r-lg print-hide">
+                    <p><strong>Инструкции:</strong> Използвайте десетична дроб (закръглено до втория знак, ако е ирационално). Толеранс \(\pm 0.02\). Десетичен разделител: <strong>точка (.)</strong>.</p>
                 </div>
 
-                <div id="exercises-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 sm:gap-8 text-base sm:text-lg"></div>
+                <div id="exercises-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-6 text-sm sm:text-base"></div>
 
-                <div class="mt-8 sm:mt-12 flex flex-col items-center border-t border-gray-300/50 pt-6 sm:pt-8 print-hide">
-                    <button id="btn-check-exercises" onclick="checkExercises()" class="bg-emerald-500 hover:bg-emerald-400 text-white font-extrabold text-lg sm:text-xl py-3 sm:py-4 px-8 sm:px-12 rounded-2xl border-b-[6px] border-emerald-700 active:border-b-0 active:mt-[6px] transition-all shadow-lg w-full md:w-auto">Провери Задачите</button>
-                    <div id="exercises-result" class="hidden mt-6 text-xl sm:text-3xl font-bold text-center p-4 sm:p-8 rounded-2xl w-full"></div>
+                <div class="mt-6 sm:mt-8 flex flex-col items-center border-t border-gray-300/50 pt-5 sm:pt-6 print-hide">
+                    <button id="btn-check-exercises" onclick="checkExercises()" class="bg-emerald-500 hover:bg-emerald-400 text-white font-extrabold text-base sm:text-lg py-2.5 sm:py-3 px-8 sm:px-10 rounded-xl border-b-[4px] border-emerald-700 active:border-b-0 active:mt-[4px] transition-all shadow-lg w-full md:w-auto">Провери Задачите</button>
+                    <div id="exercises-result" class="hidden mt-4 text-lg sm:text-xl font-bold text-center p-3 sm:p-5 rounded-xl w-full"></div>
                 </div>
             </div>
 
@@ -378,7 +370,7 @@
             try {
                 const printWin = window.open('', '_blank');
                 if (!printWin) {
-                    alert('Изскачащите прозорци са блокирани от браузъра. За да принтирате, натиснете клавишната комбинация Ctrl + P (или Cmd + P) на клавиатурата.');
+                    alert('Изскачащите прозорци са блокирани от браузъра. За да принтирате, натиснете Ctrl + P.');
                     window.print(); 
                     return;
                 }
@@ -395,42 +387,34 @@
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
                         <style>
                             body { background: white; font-family: 'Inter', sans-serif; padding: 20px; color: black; }
-                            h1 { text-align: center; margin-bottom: 30px; font-size: 24px; font-weight: bold; text-transform: uppercase; }
-                            .grid-container { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px; }
+                            h1 { text-align: center; margin-bottom: 20px; font-size: 20px; font-weight: bold; text-transform: uppercase; }
+                            .grid-container { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 15px; }
                             .ex-card { 
-                                width: calc(50% - 15px); 
+                                width: calc(50% - 10px); 
                                 border: 1px solid #ccc; 
-                                border-radius: 12px; 
-                                padding: 15px; 
+                                border-radius: 8px; 
+                                padding: 12px; 
                                 page-break-inside: avoid; 
                                 break-inside: avoid;
                             }
-                            @media (max-width: 768px) {
-                                .ex-card { width: 100%; }
-                            }
+                            @media (max-width: 768px) { .ex-card { width: 100%; } }
                             .ex-input-area { display: none !important; }
-                            .print-answer-line { display: block !important; margin-top: 40px; border-bottom: 1px solid #000; width: 140px; height: 1px; }
-                            .print-answer-line::before { content: "Отговор: "; position: absolute; margin-top: -20px; font-size: 14px; color: gray; }
-                            svg { max-height: 120px; margin: 0 auto 10px auto; display: block; }
-                            .teacher-ans { font-weight: bold; color: #15803d; margin-bottom: 10px; font-size: 14px; }
+                            .print-answer-line { display: block !important; margin-top: 30px; border-bottom: 1px solid #000; width: 120px; height: 1px; }
+                            .print-answer-line::before { content: "Отговор: "; position: absolute; margin-top: -18px; font-size: 12px; color: gray; }
+                            svg { max-height: 100px; margin: 0 auto 8px auto; display: block; }
+                            .teacher-ans { font-weight: bold; color: #15803d; margin-bottom: 8px; font-size: 12px; }
                         </style>
                     </head>
                     <body>
                         <h1>Практически задачи по тригонометрия</h1>
-                        <div class="grid-container">
-                            ${containerHtml}
-                        </div>
-                        <script>
-                            setTimeout(() => { 
-                                window.print(); 
-                            }, 1500);
-                        <\/script>
+                        <div class="grid-container">${containerHtml}</div>
+                        <script>setTimeout(() => { window.print(); }, 1500);<\/script>
                     </body>
                     </html>
                 `);
                 printWin.document.close();
             } catch (e) {
-                alert('Средата блокира директното принтиране. Моля, натиснете клавишната комбинация Ctrl + P (или Cmd + P) на клавиатурата.');
+                alert('Средата блокира директното принтиране. Моля, натиснете Ctrl + P.');
                 window.print();
             }
         }
@@ -446,10 +430,10 @@
         }
 
         const tabsData = {
-            sim: { active: 'bg-blue-500 border-blue-700 text-white mt-[6px] border-b-0 shadow-inner', inactive: 'border-b-[4px] md:border-b-[6px] border-gray-300 bg-white/90 text-gray-600 hover:-translate-y-1 hover:bg-white shadow-sm' },
-            theory: { active: 'bg-purple-500 border-purple-700 text-white mt-[6px] border-b-0 shadow-inner', inactive: 'border-b-[4px] md:border-b-[6px] border-gray-300 bg-white/90 text-gray-600 hover:-translate-y-1 hover:bg-white shadow-sm' },
-            quiz: { active: 'bg-yellow-400 border-yellow-600 text-yellow-900 mt-[6px] border-b-0 shadow-inner', inactive: 'border-b-[4px] md:border-b-[6px] border-gray-300 bg-white/90 text-gray-600 hover:-translate-y-1 hover:bg-white shadow-sm' },
-            exercises: { active: 'bg-emerald-500 border-emerald-700 text-white mt-[6px] border-b-0 shadow-inner', inactive: 'border-b-[4px] md:border-b-[6px] border-gray-300 bg-white/90 text-gray-600 hover:-translate-y-1 hover:bg-white shadow-sm' }
+            sim: { active: 'bg-blue-500 border-blue-700 text-white mt-[4px] border-b-0 shadow-inner', inactive: 'border-b-[4px] border-gray-300 bg-white/90 text-gray-600 hover:-translate-y-0.5 hover:bg-white shadow-sm' },
+            theory: { active: 'bg-purple-500 border-purple-700 text-white mt-[4px] border-b-0 shadow-inner', inactive: 'border-b-[4px] border-gray-300 bg-white/90 text-gray-600 hover:-translate-y-0.5 hover:bg-white shadow-sm' },
+            quiz: { active: 'bg-yellow-400 border-yellow-600 text-yellow-900 mt-[4px] border-b-0 shadow-inner', inactive: 'border-b-[4px] border-gray-300 bg-white/90 text-gray-600 hover:-translate-y-0.5 hover:bg-white shadow-sm' },
+            exercises: { active: 'bg-emerald-500 border-emerald-700 text-white mt-[4px] border-b-0 shadow-inner', inactive: 'border-b-[4px] border-gray-300 bg-white/90 text-gray-600 hover:-translate-y-0.5 hover:bg-white shadow-sm' }
         };
 
         const tabs = ['sim', 'theory', 'quiz', 'exercises'];
@@ -457,10 +441,10 @@
         function showTab(tabName) {
             tabs.forEach(t => {
                 document.getElementById(`tab-${t}`).classList.add('hidden');
-                document.getElementById(`nav-${t}`).className = `snap-start flex-1 min-w-[120px] md:min-w-fit py-2 sm:py-3 md:py-4 px-3 sm:px-4 md:px-6 text-center font-extrabold text-sm sm:text-lg md:text-xl rounded-xl md:rounded-2xl transition-all whitespace-nowrap ${tabsData[t].inactive}`;
+                document.getElementById(`nav-${t}`).className = `snap-start flex-1 min-w-[110px] md:min-w-fit py-2 px-3 text-center font-extrabold text-sm md:text-base rounded-xl transition-all whitespace-nowrap ${tabsData[t].inactive}`;
             });
             document.getElementById(`tab-${tabName}`).classList.remove('hidden');
-            document.getElementById(`nav-${tabName}`).className = `snap-start flex-1 min-w-[120px] md:min-w-fit py-2 sm:py-3 md:py-4 px-3 sm:px-4 md:px-6 text-center font-extrabold text-sm sm:text-lg md:text-xl rounded-xl md:rounded-2xl transition-all whitespace-nowrap ${tabsData[tabName].active}`;
+            document.getElementById(`nav-${tabName}`).className = `snap-start flex-1 min-w-[110px] md:min-w-fit py-2 px-3 text-center font-extrabold text-sm md:text-base rounded-xl transition-all whitespace-nowrap ${tabsData[tabName].active}`;
             
             if (tabName === 'sim') drawSimulation(); 
         }
@@ -489,8 +473,9 @@
         const hypSlider = document.getElementById('hypSlider');
 
         const dpr = window.devicePixelRatio || 1;
+        // Височината е значително намалена, за да побира чертежа на екран
         canvas.width = 650 * dpr;
-        canvas.height = 450 * dpr;
+        canvas.height = 360 * dpr;
         ctx.scale(dpr, dpr);
 
         angleSlider.addEventListener('input', drawSimulation);
@@ -502,8 +487,8 @@
             const btnAlpha = document.getElementById('btn-alpha');
             const btnBeta = document.getElementById('btn-beta');
             
-            const activeClasses = 'px-6 sm:px-8 py-1.5 sm:py-2 font-bold rounded-xl transition-all text-lg sm:text-xl bg-indigo-500 text-white mt-[4px] border-b-0 shadow-inner flex-1';
-            const inactiveClasses = 'px-6 sm:px-8 py-1.5 sm:py-2 font-bold rounded-xl transition-all text-lg sm:text-xl bg-white/90 text-indigo-600 border-b-4 border-indigo-200 hover:bg-indigo-50 hover:-translate-y-[2px] active:mt-[4px] active:border-b-0 flex-1';
+            const activeClasses = 'px-6 py-1.5 font-bold rounded-lg transition-all text-sm sm:text-base bg-indigo-500 text-white mt-[3px] border-b-0 shadow-inner flex-1';
+            const inactiveClasses = 'px-6 py-1.5 font-bold rounded-lg transition-all text-sm sm:text-base bg-white/90 text-indigo-600 border-b-[3px] border-indigo-200 hover:bg-indigo-50 hover:-translate-y-[1px] active:mt-[3px] active:border-b-0 flex-1';
             
             btnAlpha.className = angleName === 'alpha' ? activeClasses : inactiveClasses;
             btnBeta.className = angleName === 'beta' ? activeClasses : inactiveClasses;
@@ -522,14 +507,13 @@
             btnIds.forEach(id => {
                 const btn = document.getElementById(`btn-filter-${id}`);
                 btn.className = id === 'all' 
-                    ? `col-span-1 sm:col-span-2 px-2 py-2 text-xs sm:text-sm font-bold rounded-lg transition-all leading-tight flex justify-center items-center ${id === filter ? activeClasses : inactiveClasses}`
-                    : `py-1.5 font-bold rounded-lg transition-all flex justify-center items-center ${id === filter ? activeClasses : inactiveClasses}`;
+                    ? `col-span-2 px-2 py-1.5 text-[11px] sm:text-xs font-bold rounded-lg transition-all leading-tight flex justify-center items-center ${id === filter ? activeClasses : inactiveClasses}`
+                    : `py-1 text-[10px] sm:text-[11px] font-bold rounded-lg transition-all flex justify-center items-center ${id === filter ? activeClasses : inactiveClasses}`;
             });
             
             drawSimulation();
         }
 
-        // --- ПОМОЩНИ ФУНКЦИИ ЗА ПОКАЗВАНЕ В ОТНОШЕНИЯТА ---
         function formatExactSide(c, angleDeg, isSideA) {
             if (![30, 45, 60].includes(angleDeg)) {
                 let rad = angleDeg * Math.PI / 180;
@@ -556,7 +540,7 @@
         };
 
         function drawSimulation() {
-            const W = 650; const H = 450;
+            const W = 650; const H = 360; // Намалена височина на Canvas
             ctx.clearRect(0, 0, W, H);
 
             const alphaDeg = parseInt(angleSlider.value);
@@ -589,12 +573,10 @@
             if(isSpecial) {
                 let rAlpha = exactRatios[alphaDeg];
                 let rBeta = exactRatios[betaDeg];
-                
-                if(currentFocus === 'alpha') {
-                    valSin = rAlpha.sin; valCos = rAlpha.cos; valTg = rAlpha.tg; valCotg = rAlpha.cotg;
-                } else {
-                    valSin = rBeta.sin; valCos = rBeta.cos; valTg = rBeta.tg; valCotg = rBeta.cotg;
-                }
+                valSin = currentFocus === 'alpha' ? rAlpha.sin : rBeta.sin;
+                valCos = currentFocus === 'alpha' ? rAlpha.cos : rBeta.cos;
+                valTg  = currentFocus === 'alpha' ? rAlpha.tg  : rBeta.tg;
+                valCotg= currentFocus === 'alpha' ? rAlpha.cotg: rBeta.cotg;
             } else {
                 let focusRad = currentFocus === 'alpha' ? alphaRad : betaRad;
                 valSin = Math.sin(focusRad).toFixed(3);
@@ -608,11 +590,9 @@
             let opColor = currentFocus === 'alpha' ? '#EF4444' : '#3B82F6';
             let adjColor = currentFocus === 'alpha' ? '#3B82F6' : '#EF4444';
 
-            // Вземане на числовите стойности според фокуса
             let valOpSide = currentFocus === 'alpha' ? strA : strB;
             let valAdjSide = currentFocus === 'alpha' ? strB : strA;
             
-            // Ако стойността съдържа дроб, я слагаме в скоби
             let valOpDisplay = valOpSide.includes('frac') ? `\\left(${valOpSide}\\right)` : valOpSide;
             let valAdjDisplay = valAdjSide.includes('frac') ? `\\left(${valAdjSide}\\right)` : valAdjSide;
 
@@ -621,20 +601,20 @@
             let showTg = currentRatioFilter === 'all' || currentRatioFilter === 'tg' ? '' : 'hidden';
             let showCotg = currentRatioFilter === 'all' || currentRatioFilter === 'cotg' ? '' : 'hidden';
 
-            let baseBoxClass = "flex flex-col justify-center items-center bg-white/90 p-2 sm:p-4 rounded-xl shadow-sm border border-purple-100 font-bold w-full overflow-x-auto overflow-y-hidden transition-all duration-300";
+            let baseBoxClass = "flex flex-col justify-center items-center bg-white/90 p-2 sm:p-3 rounded-xl shadow-sm border border-purple-100 font-bold w-full overflow-x-auto overflow-y-hidden transition-all duration-300";
             
             let sizeClass = currentRatioFilter === 'all' 
-                ? "min-h-[75px] sm:min-h-[85px] text-base" 
-                : "min-h-[150px] flex-1 text-xl sm:text-2xl";
+                ? "min-h-[55px] sm:min-h-[65px] text-sm sm:text-base" 
+                : "min-h-[120px] flex-1 text-lg sm:text-xl";
 
             let labelClass = currentRatioFilter === 'all'
-                ? "text-[10px] sm:text-xs text-gray-500 font-semibold mb-2 uppercase tracking-wider flex flex-col items-center leading-tight"
-                : "text-sm sm:text-base text-gray-500 font-bold mb-4 uppercase tracking-widest flex flex-col items-center leading-tight";
+                ? "text-[9px] sm:text-[10px] text-gray-500 font-semibold mb-1 uppercase tracking-wider flex flex-col items-center leading-tight"
+                : "text-xs sm:text-sm text-gray-500 font-bold mb-3 uppercase tracking-widest flex flex-col items-center leading-tight";
 
             const makeFracLabel = (top, bottom) => `
                 <div class="inline-flex flex-col items-center">
-                    <span class="border-b-[1.5px] border-gray-400 w-full text-center pb-1 mb-1 px-2">${top}</span>
-                    <span class="w-full text-center px-2">${bottom}</span>
+                    <span class="border-b border-gray-400 w-full text-center pb-0.5 mb-0.5 px-1">${top}</span>
+                    <span class="w-full text-center px-1">${bottom}</span>
                 </div>
             `;
 
@@ -664,10 +644,10 @@
                 katex.render(`\\frac{\\color{${adjColor}}${adjSide}}{\\color{${opColor}}${opSide}} = \\frac{\\color{${adjColor}}${valAdjDisplay}}{\\color{${opColor}}${valOpDisplay}} = ${valCotg}`, document.getElementById('r-cotg'), {throwOnError: false});
             }
 
-            // ВИЗУАЛНИ КООРДИНАТИ НА ТРИЪГЪЛНИКА
+            // ВИЗУАЛНИ КООРДИНАТИ НА ТРИЪГЪЛНИКА (Преизчислени за новата височина)
             const c_len = cVal * 20; 
             const originX = (W - c_len) / 2; 
-            const originY = 380; 
+            const originY = 300; // По-нагоре, за да се събере
             
             const ptA = { x: originX, y: originY };
             const ptB = { x: originX + c_len, y: originY };
@@ -680,7 +660,7 @@
             const alphaFill = currentFocus === 'alpha' ? 'rgba(37, 99, 235, 0.3)' : 'rgba(156, 163, 175, 0.2)';
             const betaFill = currentFocus === 'beta' ? 'rgba(37, 99, 235, 0.3)' : 'rgba(156, 163, 175, 0.2)';
 
-            const maxArc = Math.min(60, c_len / 3.5);
+            const maxArc = Math.min(50, c_len / 3.5);
 
             // 1. Алфа
             ctx.beginPath();
@@ -689,8 +669,8 @@
             ctx.fillStyle = alphaFill; ctx.fill();
             ctx.lineWidth = 2; ctx.strokeStyle = currentFocus === 'alpha' ? '#2563EB' : '#9CA3AF'; ctx.stroke();
             
-            ctx.font = "bold 18px Inter"; ctx.fillStyle = currentFocus === 'alpha' ? '#1D4ED8' : '#6B7280';
-            ctx.fillText(`α=${alphaDeg}°`, ptA.x + (maxArc + 20) * Math.cos(-alphaRad/2) - 15, ptA.y + (maxArc + 20) * Math.sin(-alphaRad/2) + 6);
+            ctx.font = "bold 16px Inter"; ctx.fillStyle = currentFocus === 'alpha' ? '#1D4ED8' : '#6B7280';
+            ctx.fillText(`α=${alphaDeg}°`, ptA.x + (maxArc + 15) * Math.cos(-alphaRad/2) - 15, ptA.y + (maxArc + 15) * Math.sin(-alphaRad/2) + 6);
 
             // 2. Бета
             ctx.beginPath();
@@ -700,15 +680,15 @@
             
             ctx.lineWidth = 2; ctx.strokeStyle = currentFocus === 'beta' ? '#2563EB' : '#9CA3AF'; 
             ctx.beginPath(); ctx.arc(ptB.x, ptB.y, maxArc, Math.PI, Math.PI + betaRad, false); ctx.stroke();
-            ctx.beginPath(); ctx.arc(ptB.x, ptB.y, maxArc + 7, Math.PI, Math.PI + betaRad, false); ctx.stroke();
+            ctx.beginPath(); ctx.arc(ptB.x, ptB.y, maxArc + 6, Math.PI, Math.PI + betaRad, false); ctx.stroke();
             
             ctx.fillStyle = currentFocus === 'beta' ? '#1D4ED8' : '#6B7280';
-            ctx.fillText(`β=${betaDeg}°`, ptB.x - (maxArc + 45) * Math.cos(betaRad/2), ptB.y - (maxArc + 15) * Math.sin(betaRad/2));
+            ctx.fillText(`β=${betaDeg}°`, ptB.x - (maxArc + 40) * Math.cos(betaRad/2), ptB.y - (maxArc + 12) * Math.sin(betaRad/2));
 
             // 3. Прав ъгъл 
             const angCA = Math.atan2(ptA.y - ptC.y, ptA.x - ptC.x);
             const angCB = Math.atan2(ptB.y - ptC.y, ptB.x - ptC.x);
-            const sq = 24; 
+            const sq = 20; 
 
             const ptSq1 = { x: ptC.x + sq * Math.cos(angCA), y: ptC.y + sq * Math.sin(angCA) };
             const ptSq2 = { x: ptC.x + sq * Math.cos(angCA) + sq * Math.cos(angCB), y: ptC.y + sq * Math.sin(angCA) + sq * Math.sin(angCB) };
@@ -723,7 +703,7 @@
             ctx.fillStyle = '#4B5563'; ctx.fill();
 
             // 4. Страни
-            ctx.lineJoin = 'round'; ctx.lineCap = 'round'; ctx.lineWidth = 5;
+            ctx.lineJoin = 'round'; ctx.lineCap = 'round'; ctx.lineWidth = 4;
             ctx.beginPath(); ctx.moveTo(ptA.x, ptA.y); ctx.lineTo(ptC.x, ptC.y);
             ctx.strokeStyle = '#3B82F6'; ctx.stroke();
             ctx.beginPath(); ctx.moveTo(ptB.x, ptB.y); ctx.lineTo(ptC.x, ptC.y);
@@ -733,21 +713,21 @@
 
             // Върхове
             const drawPoint = (p) => {
-                ctx.beginPath(); ctx.arc(p.x, p.y, 6, 0, 2*Math.PI); ctx.fillStyle = '#111827'; ctx.fill();
+                ctx.beginPath(); ctx.arc(p.x, p.y, 5, 0, 2*Math.PI); ctx.fillStyle = '#111827'; ctx.fill();
             };
             drawPoint(ptA); drawPoint(ptB); drawPoint(ptC);
 
-            ctx.font = "bold 26px Inter"; ctx.fillStyle = "#111827";
-            ctx.fillText("A", ptA.x - 25, ptA.y + 30);
-            ctx.fillText("B", ptB.x + 10, ptB.y + 30);
-            ctx.fillText("C", ptC.x - 10, ptC.y - 15);
+            ctx.font = "bold 22px Inter"; ctx.fillStyle = "#111827";
+            ctx.fillText("A", ptA.x - 20, ptA.y + 25);
+            ctx.fillText("B", ptB.x + 8, ptB.y + 25);
+            ctx.fillText("C", ptC.x - 8, ptC.y - 12);
 
-            ctx.font = "bold 18px Inter";
+            ctx.font = "bold 14px Inter";
             let labelA = currentFocus === 'alpha' ? "срещулежащ на α (a)" : "прилежащ на β (a)";
             let labelB = currentFocus === 'alpha' ? "прилежащ на α (b)" : "срещулежащ на β (b)";
 
             ctx.save();
-            ctx.translate((ptA.x + ptB.x) / 2, ptA.y + 35);
+            ctx.translate((ptA.x + ptB.x) / 2, ptA.y + 30);
             ctx.textAlign = "center"; ctx.fillStyle = "#059669";
             ctx.fillText("хипотенуза (c)", 0, 0);
             ctx.restore();
@@ -757,7 +737,7 @@
             ctx.translate((ptA.x + ptC.x) / 2, (ptA.y + ptC.y) / 2);
             ctx.rotate(angleAC); 
             ctx.textAlign = "center"; ctx.fillStyle = "#2563EB";
-            ctx.fillText(labelB, 0, -18); 
+            ctx.fillText(labelB, 0, -14); 
             ctx.restore();
 
             ctx.save();
@@ -765,7 +745,7 @@
             ctx.translate((ptC.x + ptB.x) / 2, (ptC.y + ptB.y) / 2);
             ctx.rotate(angleCB_text); 
             ctx.textAlign = "center"; ctx.fillStyle = "#DC2626";
-            ctx.fillText(labelA, 0, -18); 
+            ctx.fillText(labelA, 0, -14); 
             ctx.restore();
         }
 
@@ -803,17 +783,17 @@
             const shuffledBank = shuffleArray([...testBank]);
             shuffledBank.forEach((qObj, index) => {
                 const qDiv = document.createElement('div');
-                qDiv.className = 'p-4 sm:p-6 bg-white/90 backdrop-blur-sm rounded-2xl shadow-sm border border-white/60 hover:shadow-md transition';
+                qDiv.className = 'p-4 sm:p-5 bg-white/90 backdrop-blur-sm rounded-2xl shadow-sm border border-white/60 hover:shadow-md transition';
                 
-                let html = `<p class="font-bold text-lg sm:text-xl mb-4 sm:mb-5 text-gray-800">${index + 1}. ${qObj.q}</p><div class="flex flex-col space-y-3 sm:space-y-4 pl-2 sm:pl-3">`;
+                let html = `<p class="font-bold text-base sm:text-lg mb-3 sm:mb-4 text-gray-800">${index + 1}. ${qObj.q}</p><div class="flex flex-col space-y-2 sm:space-y-3 pl-2">`;
                 
                 const shuffledOpts = shuffleArray([...qObj.opts]);
                 shuffledOpts.forEach((opt, optIdx) => {
                     if(opt.c) currentQuizCorrectAnswers[index] = optIdx; 
-                    html += `<label class="flex items-center space-x-3 sm:space-x-4 cursor-pointer p-2 hover:bg-gray-100 rounded-lg transition"><input type="radio" name="q${index}" value="${optIdx}" class="w-5 h-5 sm:w-6 sm:h-6 text-blue-600"><span class="text-gray-700 font-medium">${opt.t}</span></label>`;
+                    html += `<label class="flex items-center space-x-3 cursor-pointer p-1.5 hover:bg-gray-100 rounded-lg transition"><input type="radio" name="q${index}" value="${optIdx}" class="w-4 h-4 sm:w-5 sm:h-5 text-blue-600"><span class="text-sm sm:text-base text-gray-700 font-medium">${opt.t}</span></label>`;
                 });
                 
-                html += `</div><p id="q-feedback-${index}" class="mt-3 sm:mt-4 hidden font-bold text-base sm:text-lg"></p>`;
+                html += `</div><p id="q-feedback-${index}" class="mt-2 sm:mt-3 hidden font-bold text-sm sm:text-base"></p>`;
                 qDiv.innerHTML = html;
                 container.appendChild(qDiv);
             });
@@ -826,19 +806,19 @@
                 const selected = document.querySelector(`input[name="q${i}"]:checked`);
                 const feedback = document.getElementById(`q-feedback-${i}`);
                 if(!selected) {
-                    allAnswered = false; feedback.innerHTML = '⚠️ Посочете отговор!'; feedback.className = 'mt-3 sm:mt-4 font-bold text-base sm:text-lg text-orange-500 block'; continue;
+                    allAnswered = false; feedback.innerHTML = '⚠️ Посочете отговор!'; feedback.className = 'mt-2 sm:mt-3 font-bold text-sm sm:text-base text-orange-500 block'; continue;
                 }
                 if(parseInt(selected.value) === currentQuizCorrectAnswers[i]) {
-                    score++; feedback.innerHTML = '✅ Вярно!'; feedback.className = 'mt-3 sm:mt-4 font-bold text-base sm:text-lg text-green-600 block';
+                    score++; feedback.innerHTML = '✅ Вярно!'; feedback.className = 'mt-2 sm:mt-3 font-bold text-sm sm:text-base text-green-600 block';
                 } else {
-                    feedback.innerHTML = '❌ Грешно.'; feedback.className = 'mt-3 sm:mt-4 font-bold text-base sm:text-lg text-red-600 block';
+                    feedback.innerHTML = '❌ Грешно.'; feedback.className = 'mt-2 sm:mt-3 font-bold text-sm sm:text-base text-red-600 block';
                 }
             }
             if(!allAnswered) return alert("Отговорете на всички въпроси!");
             const resDiv = document.getElementById('quiz-result');
             resDiv.classList.remove('hidden');
             document.getElementById('btn-check-quiz').classList.add('hidden'); 
-            resDiv.className = `mt-6 sm:mt-8 text-2xl sm:text-3xl font-bold text-center p-4 sm:p-6 rounded-2xl w-full shadow-inner ${score > 7 ? 'bg-green-100/90 text-green-700' : 'bg-red-100/90 text-red-700'}`;
+            resDiv.className = `mt-6 text-xl sm:text-2xl font-bold text-center p-4 sm:p-5 rounded-2xl w-full shadow-inner ${score > 7 ? 'bg-green-100/90 text-green-700' : 'bg-red-100/90 text-red-700'}`;
             resDiv.innerHTML = `Резултат: ${score} от 10 точки`;
         }
 
@@ -877,7 +857,7 @@
             else if (lblAlpha) displayAlpha = lblAlpha;
 
             return `
-            <svg viewBox="0 0 140 120" class="w-full h-32 sm:h-40 mb-4 sm:mb-6 mx-auto block overflow-visible">
+            <svg viewBox="0 0 140 120" class="w-full h-28 sm:h-32 mb-3 sm:mb-4 mx-auto block overflow-visible">
                 <polygon points="${Ax},${Ay} ${Bx},${By} ${Cx},${Cy}" fill="rgba(59, 130, 246, 0.05)" stroke="#9CA3AF" stroke-width="1.5"/>
                 
                 <polyline points="${Cx},${Cy} ${sqPts}" fill="none" stroke="#9CA3AF" stroke-width="1"/>
@@ -906,10 +886,7 @@
         ];
 
         const pythagoreanTriples = [
-            [3, 4, 5],
-            [5, 12, 13],
-            [8, 15, 17],
-            [7, 24, 25]
+            [3, 4, 5], [5, 12, 13], [8, 15, 17], [7, 24, 25]
         ];
 
         function initExercises() {
@@ -995,10 +972,7 @@
                     const k = Math.floor(Math.random() * 3) + 1; 
                     
                     let aBase = baseTriple[0], bBase = baseTriple[1], cBase = baseTriple[2];
-                    if (Math.random() < 0.5) { 
-                        aBase = baseTriple[1]; 
-                        bBase = baseTriple[0]; 
-                    } 
+                    if (Math.random() < 0.5) { aBase = baseTriple[1]; bBase = baseTriple[0]; } 
                     
                     const aVal = aBase * k;
                     const bVal = bBase * k;
@@ -1054,7 +1028,6 @@
                     }
 
                     let funcName = func === 'tg' ? '\\operatorname{tg}' : (func === 'cotg' ? '\\operatorname{cotg}' : '\\' + func);
-
                     let sideNameGiven = { 'a': `катет \\( a = ${givenValText} \\)`, 'b': `катет \\( b = ${givenValText} \\)`, 'c': `хипотенуза \\( c = ${givenValText} \\)` };
                     let sideNameTarget = { 'a': 'катета \\( a \\)', 'b': 'катета \\( b \\)', 'c': 'хипотенузата \\( c \\)' };
                     
@@ -1070,23 +1043,23 @@
                 currentExerciseAnswers.push(correctAns);
 
                 const exDiv = document.createElement('div');
-                exDiv.className = 'ex-card p-4 sm:p-6 bg-white/90 backdrop-blur-sm rounded-2xl shadow-sm border border-white/60 flex flex-col justify-between hover:shadow-md transition';
+                exDiv.className = 'ex-card p-4 sm:p-5 bg-white/90 backdrop-blur-sm rounded-2xl shadow-sm border border-white/60 flex flex-col justify-between hover:shadow-md transition';
                 
-                let teacherAnsHTML = teacherMode ? `<div class="teacher-ans text-sm text-green-700 font-bold mb-2">Отговор: ${correctAns.toFixed(2).replace(/\.00$/, '')}</div>` : '';
+                let teacherAnsHTML = teacherMode ? `<div class="teacher-ans text-xs text-green-700 font-bold mb-1.5">Отговор: ${correctAns.toFixed(2).replace(/\.00$/, '')}</div>` : '';
 
                 exDiv.innerHTML = `
                     <div>
-                        <div class="mb-4">${svgHtml}</div>
-                        <p class="font-medium text-gray-800 mb-4 sm:mb-5 text-justify text-sm sm:text-base">${i + 1}. ${html}</p>
+                        <div class="mb-3">${svgHtml}</div>
+                        <p class="font-medium text-gray-800 mb-3 sm:mb-4 text-justify text-sm">${i + 1}. ${html}</p>
                     </div>
                     <div>
                         ${teacherAnsHTML}
-                        <div class="ex-input-area flex items-center space-x-3 sm:space-x-4">
-                            <input type="number" id="ex-input-${i}" step="0.01" class="border-2 border-gray-300 rounded-xl px-3 sm:px-4 py-2 sm:py-3 w-32 sm:w-40 text-lg sm:text-xl font-bold focus:border-blue-500 focus:outline-none" placeholder="Отговор">
-                            <span id="ex-icon-${i}" class="text-2xl sm:text-3xl"></span>
+                        <div class="ex-input-area flex items-center space-x-2 sm:space-x-3">
+                            <input type="number" id="ex-input-${i}" step="0.01" class="border-2 border-gray-300 rounded-lg px-2 sm:px-3 py-1.5 sm:py-2 w-24 sm:w-32 text-base sm:text-lg font-bold focus:border-blue-500 focus:outline-none" placeholder="Отговор">
+                            <span id="ex-icon-${i}" class="text-xl sm:text-2xl"></span>
                         </div>
                         <div class="print-answer-line"></div>
-                        <p id="ex-feedback-${i}" class="text-base sm:text-lg font-bold mt-2 sm:mt-3 hidden"></p>
+                        <p id="ex-feedback-${i}" class="text-sm sm:text-base font-bold mt-1.5 sm:mt-2 hidden"></p>
                     </div>
                 `;
                 container.appendChild(exDiv);
@@ -1103,17 +1076,17 @@
                 const feedback = document.getElementById(`ex-feedback-${i}`);
 
                 if(isNaN(userVal)) {
-                    icon.innerHTML = '⚠️'; feedback.innerHTML = 'Въведете число!'; feedback.className = 'text-base sm:text-lg mt-2 sm:mt-3 text-orange-500 font-bold block'; continue;
+                    icon.innerHTML = '⚠️'; feedback.innerHTML = 'Въведете число!'; feedback.className = 'text-sm sm:text-base mt-1.5 sm:mt-2 text-orange-500 font-bold block'; continue;
                 }
                 if(Math.abs(userVal - correctAns) <= tolerance) {
-                    score++; icon.innerHTML = '✅'; feedback.innerHTML = 'Вярно!'; feedback.className = 'text-base sm:text-lg mt-2 sm:mt-3 text-green-600 font-bold block';
+                    score++; icon.innerHTML = '✅'; feedback.innerHTML = 'Вярно!'; feedback.className = 'text-sm sm:text-base mt-1.5 sm:mt-2 text-green-600 font-bold block';
                 } else {
-                    icon.innerHTML = '❌'; feedback.innerHTML = `Грешно. Точен отговор: <strong>${correctAns.toFixed(2).replace(/\.00$/, '')}</strong>`; feedback.className = 'text-base sm:text-lg mt-2 sm:mt-3 text-red-600 font-bold block';
+                    icon.innerHTML = '❌'; feedback.innerHTML = `Грешно. Точен отговор: <strong>${correctAns.toFixed(2).replace(/\.00$/, '')}</strong>`; feedback.className = 'text-sm sm:text-base mt-1.5 sm:mt-2 text-red-600 font-bold block';
                 }
             }
             const resDiv = document.getElementById('exercises-result');
             resDiv.classList.remove('hidden'); document.getElementById('btn-check-exercises').classList.add('hidden');
-            resDiv.className = `mt-6 sm:mt-8 text-2xl sm:text-3xl font-bold text-center p-4 sm:p-6 rounded-2xl w-full shadow-inner ${score > 14 ? 'bg-green-100/90 text-green-700' : 'bg-red-100/90 text-red-700'}`;
+            resDiv.className = `mt-5 sm:mt-6 text-xl sm:text-2xl font-bold text-center p-3 sm:p-5 rounded-xl w-full shadow-inner ${score > 14 ? 'bg-green-100/90 text-green-700' : 'bg-red-100/90 text-red-700'}`;
             resDiv.innerHTML = `Резултат от задачите: ${score} / 20`;
         }
     </script>
