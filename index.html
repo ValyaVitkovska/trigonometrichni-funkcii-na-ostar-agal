@@ -1537,189 +1537,31 @@
             document.getElementById('btn-check-exercises').classList.remove('hidden');
             currentExerciseAnswers = [];
 
-            for(let i = 0; i < 20; i++) { 
-                let html = '', correctAns = 0, svgHtml = '';
-                
-                if (i < 5) {
-                    const tr = triangles[Math.floor(Math.random() * triangles.length)];
-                    const type = Math.floor(Math.random() * 3);
-                    if (type === 0) { 
-                        html = `В правоъгълен триъгълник хипотенузата е \\( c = ${tr.cStr} \\), а \\( \\alpha = ${tr.ang}^\\circ \\). Намерете катет \\( a \\).`;
-                        svgHtml = generateTaskSVG(tr.ang, '?', '', tr.cStr);
-                        correctAns = tr.a;
-                    } else if (type === 1) { 
-                        html = `В правоъгълен триъгълник хипотенузата е \\( c = ${tr.cStr} \\), а \\( \\alpha = ${tr.ang}^\\circ \\). Намерете катет \\( b \\).`;
-                        svgHtml = generateTaskSVG(tr.ang, '', '?', tr.cStr);
-                        correctAns = tr.b;
-                    } else { 
-                        html = `В правоъгълен триъгълник катетът \\( b = ${tr.bStr} \\), а \\( \\alpha = ${tr.ang}^\\circ \\). Намерете катет \\( a \\).`;
-                        svgHtml = generateTaskSVG(tr.ang, '?', tr.bStr, '');
-                        correctAns = tr.a;
-                    }
-                } 
-                else if (i < 10) {
-                    const tr = triangles[Math.floor(Math.random() * triangles.length)];
-                    const type = Math.floor(Math.random() * 3);
-                    if (type === 0) { 
-                        html = `В правоъгълен триъгълник са дадени катет \\( a = ${tr.aStr} \\) и хипотенуза \\( c = ${tr.cStr} \\). Намерете ъгъл \\( \\alpha \\) в градуси.`;
-                        svgHtml = generateTaskSVG('?', tr.aStr, '', tr.cStr);
-                    } else if (type === 1) { 
-                        html = `В правоъгълен триъгълник са дадени катет \\( b = ${tr.bStr} \\) и хипотенуза \\( c = ${tr.cStr} \\). Намерете ъгъл \\( \\alpha \\) в градуси.`;
-                        svgHtml = generateTaskSVG('?', '', tr.bStr, tr.cStr);
-                    } else { 
-                        html = `В правоъгълен триъгълник са дадени катети \\( a = ${tr.aStr} \\) и \\( b = ${tr.bStr} \\). Намерете ъгъл \\( \\alpha \\) (срещу a) в градуси.`;
-                        svgHtml = generateTaskSVG('?', tr.aStr, tr.bStr, '');
-                    }
-                    correctAns = tr.ang;
-                }
-                else if (i < 15) {
-                    const tr = triangles[Math.floor(Math.random() * triangles.length)];
-                    const funcs = ['sin', 'cos', 'tg', 'cotg'];
-                    const func = funcs[Math.floor(Math.random() * 4)];
-                    const valLaTeX = exactRatios[tr.ang][func];
-                    let funcName = func === 'tg' ? '\\operatorname{tg}' : (func === 'cotg' ? '\\operatorname{cotg}' : '\\' + func);
-                    
-                    const type = Math.floor(Math.random() * 2);
-                    if(func === 'sin' || func === 'cos') {
-                        if(type === 0) { 
-                            let targetStr = func === 'sin' ? 'a' : 'b';
-                            html = `В правоъгълен триъгълник е дадено \\( ${funcName} \\alpha = ${valLaTeX} \\) и хипотенуза \\( c = ${tr.cStr} \\). Намерете катета \\( ${targetStr} \\).`;
-                            svgHtml = generateTaskSVG('α', func === 'sin' ? '?' : '', func === 'cos' ? '?' : '', tr.cStr);
-                            correctAns = func === 'sin' ? tr.a : tr.b;
-                        } else { 
-                            let givenStr = func === 'sin' ? 'a' : 'b';
-                            let givenVal = func === 'sin' ? tr.aStr : tr.bStr;
-                            html = `В правоъгълен триъгълник е дадено \\( ${funcName} \\alpha = ${valLaTeX} \\) и катет \\( ${givenStr} = ${givenVal} \\). Намерете хипотенузата \\( c \\).`;
-                            svgHtml = generateTaskSVG('α', func === 'sin' ? tr.aStr : '', func === 'cos' ? tr.bStr : '', '?');
-                            correctAns = tr.c;
-                        }
-                    } else { 
-                        if(type === 0) { 
-                            let givenStr = func === 'tg' ? 'b' : 'a';
-                            let givenVal = func === 'tg' ? tr.bStr : tr.aStr;
-                            let targetStr = func === 'tg' ? 'a' : 'b';
-                            html = `В правоъгълен триъгълник \\( ${funcName} \\alpha = ${valLaTeX} \\) и катет \\( ${givenStr} = ${givenVal} \\). Намерете катета \\( ${targetStr} \\).`;
-                            svgHtml = generateTaskSVG('α', func === 'tg' ? '?' : tr.aStr, func === 'tg' ? tr.bStr : '?', '');
-                            correctAns = func === 'tg' ? tr.a : tr.b;
-                        } else {
-                            html = `В правоъгълен триъгълник \\( ${funcName} \\alpha = ${valLaTeX} \\) и катет \\( b = ${tr.bStr} \\). Намерете катета \\( a \\).`;
-                            svgHtml = generateTaskSVG('α', '?', tr.bStr, '');
-                            correctAns = tr.a;
-                        }
-                    }
-                }
-                else {
-                    const baseTriple = pythagoreanTriples[Math.floor(Math.random() * pythagoreanTriples.length)];
-                    const k = Math.floor(Math.random() * 3) + 1; 
-                    
-                    let aBase = baseTriple[0], bBase = baseTriple[1], cBase = baseTriple[2];
-                    if (Math.random() < 0.5) { aBase = baseTriple[1]; bBase = baseTriple[0]; } 
-                    
-                    const aVal = aBase * k;
-                    const bVal = bBase * k;
-                    const cVal = cBase * k;
-                    
-                    let func = '', funcValLaTeX = '', givenStr = '', targetStr = '', givenValText = '';
-                    const isVariant = Math.random() < 0.5;
-
-                    if (i === 15) { 
-                        if (isVariant) {
-                            func = 'sin'; funcValLaTeX = `\\frac{${aBase}}{${cBase}}`;
-                            givenStr = 'b'; givenValText = bVal.toString(); targetStr = 'a'; correctAns = aVal;
-                        } else {
-                            func = 'cos'; funcValLaTeX = `\\frac{${bBase}}{${cBase}}`;
-                            givenStr = 'a'; givenValText = aVal.toString(); targetStr = 'b'; correctAns = bVal;
-                        }
-                    } else if (i === 16) { 
-                        if (isVariant) {
-                            func = 'tg'; funcValLaTeX = `\\frac{${aBase}}{${bBase}}`;
-                            givenStr = 'c'; givenValText = cVal.toString(); targetStr = 'a'; correctAns = aVal;
-                        } else {
-                            func = 'cotg'; funcValLaTeX = `\\frac{${bBase}}{${aBase}}`;
-                            givenStr = 'c'; givenValText = cVal.toString(); targetStr = 'b'; correctAns = bVal;
-                        }
-                    } else if (i === 17) { 
-                        targetStr = 'c'; correctAns = cVal;
-                        if (isVariant) {
-                            func = 'tg'; funcValLaTeX = `\\frac{${aBase}}{${bBase}}`;
-                            givenStr = 'a'; givenValText = aVal.toString();
-                        } else {
-                            func = 'sin'; funcValLaTeX = `\\frac{${aBase}}{${cBase}}`;
-                            givenStr = 'b'; givenValText = bVal.toString();
-                        }
-                    } else if (i === 18) { 
-                        givenStr = 'c'; givenValText = cVal.toString();
-                        if (isVariant) {
-                            func = 'sin'; funcValLaTeX = `\\frac{${aBase}}{${cBase}}`;
-                            targetStr = 'b'; correctAns = bVal;
-                        } else {
-                            func = 'cos'; funcValLaTeX = `\\frac{${bBase}}{${cBase}}`;
-                            targetStr = 'a'; correctAns = aVal;
-                        }
-                    } else if (i === 19) { 
-                        if (isVariant) {
-                            func = 'sin'; funcValLaTeX = `\\frac{${aBase}}{${cBase}}`;
-                            givenStr = 'a'; givenValText = aVal.toString();
-                            targetStr = 'b'; correctAns = bVal;
-                        } else {
-                            func = 'cos'; funcValLaTeX = `\\frac{${bBase}}{${cBase}}`;
-                            givenStr = 'b'; givenValText = bVal.toString();
-                            targetStr = 'a'; correctAns = aVal;
-                        }
-                    }
-
-                    let funcName = func === 'tg' ? '\\operatorname{tg}' : (func === 'cotg' ? '\\operatorname{cotg}' : '\\' + func);
-                    let sideNameGiven = { 'a': `катет \\( a = ${givenValText} \\)`, 'b': `катет \\( b = ${givenValText} \\)`, 'c': `хипотенуза \\( c = ${givenValText} \\)` };
-                    let sideNameTarget = { 'a': 'катета \\( a \\)', 'b': 'катета \\( b \\)', 'c': 'хипотенузата \\( c \\)' };
-                    
-                    html = `В правоъгълен триъгълник е дадено \\( ${funcName} \\alpha = ${funcValLaTeX} \\) и ${sideNameGiven[givenStr]}. Намерете ${sideNameTarget[targetStr]}.`;
-
-                    svgHtml = generateTaskSVG('α', 
-                        targetStr === 'a' ? '?' : (givenStr === 'a' ? givenValText : ''),
-                        targetStr === 'b' ? '?' : (givenStr === 'b' ? givenValText : ''),
-                        targetStr === 'c' ? '?' : (givenStr === 'c' ? givenValText : '')
-                    );
-                }
-
-                currentExerciseAnswers.push(correctAns);
-
-                const exDiv = document.createElement('div');
-                exDiv.className = 'ex-card p-4 sm:p-5 bg-white/90 backdrop-blur-sm rounded-2xl shadow-sm border border-white/60 flex flex-col justify-between hover:shadow-md transition';
-                
-                let teacherAnsHTML = teacherMode ? `<div class="teacher-ans text-xs text-green-700 font-bold mb-1.5">Отговор: ${correctAns.toFixed(2).replace(/\.00$/, '')}</div>` : '';
-
-                exDiv.innerHTML = `
-                    <div>
-                        <div class="mb-3">${svgHtml}</div>
-                        <p class="font-medium text-gray-800 mb-3 sm:mb-4 text-justify text-sm">${i + 1}. ${html}</p>
-                    </div>
-                    <div>
-                        ${teacherAnsHTML}
-                        <div class="ex-input-area flex items-center space-x-2 sm:space-x-3">
-                            <input type="text" inputmode="text" autocomplete="off" id="ex-input-${i}" class="border-2 border-gray-300 rounded-lg px-2 sm:px-3 py-1.5 sm:py-2 w-28 sm:w-36 text-base sm:text-lg font-bold focus:border-blue-500 focus:outline-none" placeholder="напр. 5√3">
-                            <button type="button" onclick="insertRoot(${i})" class="shrink-0 px-2.5 py-1.5 rounded-lg bg-indigo-100 text-indigo-700 font-bold border border-indigo-200 hover:bg-indigo-200 transition text-base" title="Вмъкни знак за корен">√</button>
-                            <span id="ex-icon-${i}" class="text-xl sm:text-2xl"></span>
-                        </div>
-                        <div class="print-answer-line"></div>
-                        <p id="ex-feedback-${i}" class="text-sm sm:text-base font-bold mt-1.5 sm:mt-2 hidden"></p>
-                    </div>
-                `;
-                container.appendChild(exDiv);
-            }
-
-            // === ДОПЪЛНИТЕЛНИ ЗАДАЧИ (по подобие на работните листове) ===
             const R = n => Math.floor(Math.random() * n);
             const fname = f => f === 'tg' ? '\\operatorname{tg}' : (f === 'cotg' ? '\\operatorname{cotg}' : '\\' + f);
 
-            // (1) Намерете ъгъл по стойност на функцията (специален ъгъл)
+            // ===== ЗАДАЧИ СЪС СПЕЦИАЛЕН ЪГЪЛ (по-малко на брой) =====
+            function genSA_cAngle() {
+                const tr = triangles[R(triangles.length)];
+                const findA = R(2) === 0;
+                return {
+                    html: `В правоъгълен триъгълник хипотенузата е \\( c = ${tr.cStr} \\), а \\( \\alpha = ${tr.ang}^\\circ \\). Намерете катет \\( ${findA ? 'a' : 'b'} \\).`,
+                    answer: findA ? tr.a : tr.b,
+                    svg: generateTaskSVG(tr.ang, findA ? '?' : '', findA ? '' : '?', tr.cStr)
+                };
+            }
+            function genSA_legAngle() {
+                const tr = triangles[R(triangles.length)];
+                const mode = R(3);
+                if (mode === 0) return { html: `В правоъгълен триъгълник катетът \\( b = ${tr.bStr} \\), а \\( \\alpha = ${tr.ang}^\\circ \\). Намерете катет \\( a \\).`, answer: tr.a, svg: generateTaskSVG(tr.ang, '?', tr.bStr, '') };
+                if (mode === 1) return { html: `В правоъгълен триъгълник катетът \\( a = ${tr.aStr} \\), а \\( \\alpha = ${tr.ang}^\\circ \\). Намерете катет \\( b \\).`, answer: tr.b, svg: generateTaskSVG(tr.ang, tr.aStr, '?', '') };
+                return { html: `В правоъгълен триъгълник катетът \\( a = ${tr.aStr} \\), а \\( \\alpha = ${tr.ang}^\\circ \\). Намерете хипотенузата \\( c \\).`, answer: tr.c, svg: generateTaskSVG(tr.ang, tr.aStr, '', '?') };
+            }
             function genFindAngle() {
-                const angles = [30, 45, 60];
-                const funcs = ['sin', 'cos', 'tg', 'cotg'];
+                const angles = [30, 45, 60], funcs = ['sin', 'cos', 'tg', 'cotg'];
                 const ang = angles[R(3)], f = funcs[R(4)];
                 return { html: `Намерете ъгъл \\( \\alpha \\) (в градуси), ако \\( ${fname(f)}\\alpha = ${exactRatios[ang][f]} \\).`, answer: ang, svg: '' };
             }
-
-            // (2) Пресметнете стойността на израз със специални ъгли
             const exprBank = [
                 { l: '\\sin 30^\\circ + \\cos 60^\\circ', v: 1 },
                 { l: '\\sin 30^\\circ \\cdot \\cos 60^\\circ', v: 0.25 },
@@ -1739,7 +1581,39 @@
                 return { html: `Пресметнете стойността на израза: \\( ${e.l} \\).`, answer: e.v, svg: '' };
             }
 
-            // (3) Основно тъждество: sin²α + cos²α = 1
+            // ===== ЗАДАЧИ БЕЗ СПЕЦИАЛЕН ЪГЪЛ (повече разнообразие) =====
+            function genTwoSides() {
+                const base = pythagoreanTriples[R(pythagoreanTriples.length)];
+                const k = R(3) + 1;
+                let aB = base[0], bB = base[1];
+                if (R(2) === 0) { aB = base[1]; bB = base[0]; }
+                const a = aB * k, b = bB * k, c = base[2] * k;
+                const f = ['sin', 'cos', 'tg', 'cotg'][R(4)];
+                const ans = { sin: a / c, cos: b / c, tg: a / b, cotg: b / a }[f];
+                return { html: `В правоъгълен триъгълник катетите са \\( a = ${a} \\) и \\( b = ${b} \\), а \\( \\alpha \\) е ъгълът срещу \\( a \\). Намерете \\( ${fname(f)}\\alpha \\).`, answer: ans, svg: generateTaskSVG('α', '' + a, '' + b, '') };
+            }
+            function genPythSide() {
+                const base = pythagoreanTriples[R(pythagoreanTriples.length)];
+                const k = R(3) + 1;
+                let aB = base[0], bB = base[1];
+                if (R(2) === 0) { aB = base[1]; bB = base[0]; }
+                const a = aB * k, b = bB * k, c = base[2] * k, cB = base[2];
+                const variants = [
+                    { f: 'sin', val: `\\frac{${aB}}{${cB}}`, gL: 'c', gv: c, tName: 'катета', tL: 'a', ans: a },
+                    { f: 'cos', val: `\\frac{${bB}}{${cB}}`, gL: 'c', gv: c, tName: 'катета', tL: 'b', ans: b },
+                    { f: 'tg', val: `\\frac{${aB}}{${bB}}`, gL: 'b', gv: b, tName: 'катета', tL: 'a', ans: a },
+                    { f: 'cotg', val: `\\frac{${bB}}{${aB}}`, gL: 'a', gv: a, tName: 'катета', tL: 'b', ans: b },
+                    { f: 'sin', val: `\\frac{${aB}}{${cB}}`, gL: 'a', gv: a, tName: 'хипотенузата', tL: 'c', ans: c },
+                    { f: 'cos', val: `\\frac{${bB}}{${cB}}`, gL: 'b', gv: b, tName: 'хипотенузата', tL: 'c', ans: c }
+                ];
+                const v = variants[R(variants.length)];
+                const givenStr = v.gL === 'c' ? `хипотенуза \\( c = ${v.gv} \\)` : `катет \\( ${v.gL} = ${v.gv} \\)`;
+                const svg = generateTaskSVG('α',
+                    v.tL === 'a' ? '?' : (v.gL === 'a' ? '' + v.gv : ''),
+                    v.tL === 'b' ? '?' : (v.gL === 'b' ? '' + v.gv : ''),
+                    v.tL === 'c' ? '?' : (v.gL === 'c' ? '' + v.gv : ''));
+                return { html: `В правоъгълен триъгълник е дадено \\( ${fname(v.f)}\\alpha = ${v.val} \\) и ${givenStr}. Намерете ${v.tName} \\( ${v.tL} \\).`, answer: v.ans, svg };
+            }
             const pyth2 = [
                 { s: '\\frac{3}{5}', sv: 3 / 5, c: '\\frac{4}{5}', cv: 4 / 5 },
                 { s: '\\frac{5}{13}', sv: 5 / 13, c: '\\frac{12}{13}', cv: 12 / 13 },
@@ -1752,8 +1626,6 @@
                 if (R(2) === 0) return { html: `Намерете \\( \\sin\\alpha \\), ако \\( \\cos\\alpha = ${p.c} \\) (\\( \\alpha \\) е остър ъгъл).`, answer: p.sv, svg: '' };
                 return { html: `Намерете \\( \\cos\\alpha \\), ако \\( \\sin\\alpha = ${p.s} \\) (\\( \\alpha \\) е остър ъгъл).`, answer: p.cv, svg: '' };
             }
-
-            // (4) Реципрочни: tg·cotg = 1
             function genReciprocal() {
                 const pairs = [[2, 3], [3, 4], [1, 2], [3, 5], [5, 2], [2, 1], [5, 1], [1, 4]];
                 const [p, q] = pairs[R(pairs.length)];
@@ -1761,8 +1633,6 @@
                 if (R(2) === 0) return { html: `Намерете \\( \\operatorname{tg}\\alpha \\), ако \\( \\operatorname{cotg}\\alpha = ${frac} \\).`, answer: q / p, svg: '' };
                 return { html: `Намерете \\( \\operatorname{cotg}\\alpha \\), ако \\( \\operatorname{tg}\\alpha = ${frac} \\).`, answer: q / p, svg: '' };
             }
-
-            // (5) Ко-функции: 90° − α
             function genCofunc() {
                 const opts = [
                     () => { const v = [0.5, 0.6, 0.8][R(3)]; return { html: `Намерете \\( \\cos(90^\\circ-\\alpha) \\), ако \\( \\sin\\alpha = ${('' + v).replace('.', '{,}')} \\).`, answer: v }; },
@@ -1770,48 +1640,54 @@
                     () => { const k = [2, 3, 4, 5][R(4)]; return { html: `Намерете \\( \\operatorname{tg}(90^\\circ-\\alpha) \\), ако \\( \\operatorname{tg}\\alpha = ${k} \\).`, answer: 1 / k }; },
                     () => { const k = [2, 3, 4, 5][R(4)]; return { html: `Намерете \\( \\operatorname{cotg}(90^\\circ-\\alpha) \\), ако \\( \\operatorname{cotg}\\alpha = ${k} \\).`, answer: 1 / k }; }
                 ];
-                const r = opts[R(opts.length)]();
-                return { html: r.html, answer: r.answer, svg: '' };
+                return opts[R(opts.length)]();
             }
 
-            // (6) Намерете тригонометрична функция по две страни (Питагорова тройка)
-            function genTwoSides() {
-                const base = pythagoreanTriples[R(pythagoreanTriples.length)];
-                const k = R(3) + 1;
-                let aB = base[0], bB = base[1];
-                if (R(2) === 0) { aB = base[1]; bB = base[0]; }
-                const a = aB * k, b = bB * k, c = base[2] * k;
-                const f = ['sin', 'cos', 'tg', 'cotg'][R(4)];
-                const ans = { sin: a / c, cos: b / c, tg: a / b, cotg: b / a }[f];
-                const svg = generateTaskSVG('α', '' + a, '' + b, '');
-                return { html: `В правоъгълен триъгълник катетите са \\( a = ${a} \\) и \\( b = ${b} \\), а \\( \\alpha \\) е ъгълът срещу \\( a \\). Намерете \\( ${fname(f)}\\alpha \\).`, answer: ans, svg: svg };
-            }
+            // ===== ПЛАН (8 със специален ъгъл, 16 без) с глобална защита срещу повторения =====
+            const plan = [
+                [genSA_cAngle, 2],
+                [genSA_legAngle, 2],
+                [genFindAngle, 2],
+                [genExpr, 2],
+                [genTwoSides, 4],
+                [genPythSide, 4],
+                [genIdentity, 3],
+                [genReciprocal, 3],
+                [genCofunc, 2]
+            ];
+            const tasks = [], seen = new Set();
+            plan.forEach(([gen, count]) => {
+                let made = 0, attempts = 0;
+                while (made < count && attempts < 300) {
+                    attempts++;
+                    const t = gen();
+                    if (seen.has(t.html)) continue;
+                    seen.add(t.html);
+                    tasks.push(t);
+                    made++;
+                }
+            });
+            shuffleArray(tasks);
 
-            const genFns = [genFindAngle, genExpr, genIdentity, genReciprocal, genCofunc, genTwoSides];
-            let extras = [];
-            genFns.forEach(g => { extras.push(g()); extras.push(g()); }); // по 2 от всеки тип
-            shuffleArray(extras);
-
-            extras.forEach((ex, j) => {
-                const k = 20 + j;
-                currentExerciseAnswers.push(ex.answer);
+            tasks.forEach((t, i) => {
+                currentExerciseAnswers.push(t.answer);
                 const exDiv = document.createElement('div');
                 exDiv.className = 'ex-card p-4 sm:p-5 bg-white/90 backdrop-blur-sm rounded-2xl shadow-sm border border-white/60 flex flex-col justify-between hover:shadow-md transition';
-                let teacherAnsHTML = teacherMode ? `<div class="teacher-ans text-xs text-green-700 font-bold mb-1.5">Отговор: ${ex.answer.toFixed(2).replace(/\.00$/, '')}</div>` : '';
+                const teacherAnsHTML = teacherMode ? `<div class="teacher-ans text-xs text-green-700 font-bold mb-1.5">Отговор: ${t.answer.toFixed(2).replace(/\.00$/, '')}</div>` : '';
                 exDiv.innerHTML = `
                     <div>
-                        ${ex.svg ? `<div class="mb-3">${ex.svg}</div>` : ''}
-                        <p class="font-medium text-gray-800 mb-3 sm:mb-4 text-justify text-sm">${k + 1}. ${ex.html}</p>
+                        ${t.svg ? `<div class="mb-3">${t.svg}</div>` : ''}
+                        <p class="font-medium text-gray-800 mb-3 sm:mb-4 text-justify text-sm">${i + 1}. ${t.html}</p>
                     </div>
                     <div>
                         ${teacherAnsHTML}
                         <div class="ex-input-area flex items-center space-x-2 sm:space-x-3">
-                            <input type="text" inputmode="text" autocomplete="off" id="ex-input-${k}" class="border-2 border-gray-300 rounded-lg px-2 sm:px-3 py-1.5 sm:py-2 w-28 sm:w-36 text-base sm:text-lg font-bold focus:border-blue-500 focus:outline-none" placeholder="напр. 5√3">
-                            <button type="button" onclick="insertRoot(${k})" class="shrink-0 px-2.5 py-1.5 rounded-lg bg-indigo-100 text-indigo-700 font-bold border border-indigo-200 hover:bg-indigo-200 transition text-base" title="Вмъкни знак за корен">√</button>
-                            <span id="ex-icon-${k}" class="text-xl sm:text-2xl"></span>
+                            <input type="text" inputmode="text" autocomplete="off" id="ex-input-${i}" class="border-2 border-gray-300 rounded-lg px-2 sm:px-3 py-1.5 sm:py-2 w-28 sm:w-36 text-base sm:text-lg font-bold focus:border-blue-500 focus:outline-none" placeholder="напр. 5√3">
+                            <button type="button" onclick="insertRoot(${i})" class="shrink-0 px-2.5 py-1.5 rounded-lg bg-indigo-100 text-indigo-700 font-bold border border-indigo-200 hover:bg-indigo-200 transition text-base" title="Вмъкни знак за корен">√</button>
+                            <span id="ex-icon-${i}" class="text-xl sm:text-2xl"></span>
                         </div>
                         <div class="print-answer-line"></div>
-                        <p id="ex-feedback-${k}" class="text-sm sm:text-base font-bold mt-1.5 sm:mt-2 hidden"></p>
+                        <p id="ex-feedback-${i}" class="text-sm sm:text-base font-bold mt-1.5 sm:mt-2 hidden"></p>
                     </div>
                 `;
                 container.appendChild(exDiv);
