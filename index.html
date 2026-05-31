@@ -163,8 +163,8 @@
 
         <div class="intro-card relative z-10 w-full max-w-4xl text-center bg-white/70 backdrop-blur-xl p-6 md:p-10 rounded-3xl shadow-2xl border border-white/60">
             <!-- Закачлива анимирана фигура: триъгълник с лице -->
-            <div class="intro-item flex justify-center w-full mb-2 md:mb-4">
-                <canvas id="introCanvas" class="w-[300px] sm:w-[360px] max-w-full h-auto animate-floaty"></canvas>
+            <div class="intro-item flex justify-center w-full mb-1 md:mb-2">
+                <canvas id="introCanvas" class="w-[260px] sm:w-[320px] max-w-full h-auto animate-floaty"></canvas>
             </div>
             <h1 class="intro-item intro-delay-1 text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4 md:mb-6 tracking-tight leading-tight">Тригонометрични функции на остър ъгъл в правоъгълен триъгълник</h1>
             <p class="intro-item intro-delay-2 text-gray-600 text-lg md:text-xl mb-6 md:mb-8 leading-relaxed">
@@ -591,7 +591,7 @@
             const cnv = document.getElementById('introCanvas');
             if (!cnv) return;
             const c = cnv.getContext('2d');
-            const W = 360, H = 240;
+            const W = 360, H = 150;
             const dprI = window.devicePixelRatio || 1;
             cnv.width = W * dprI; cnv.height = H * dprI;
             c.scale(dprI, dprI);
@@ -605,8 +605,8 @@
 
                 // ъгълът α плавно осцилира между 22° и 64°
                 const a = (43 + 21 * Math.sin(frame / 70)) * Math.PI / 180;
-                const cLen = 250;
-                const Ax = 55, Ay = 195;
+                const cLen = 230;
+                const Ax = 65, Ay = 128;
                 const Bx = Ax + cLen, By = Ay;
                 const Cx = Ax + cLen * Math.pow(Math.cos(a), 2);
                 const Cy = Ay - cLen * Math.cos(a) * Math.sin(a);
