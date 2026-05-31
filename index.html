@@ -52,7 +52,7 @@
             body > *:not(#main-screen) { display: none !important; }
             #background-wrapper { display: none !important; }
             #intro-screen, nav, .print-hide, #teacher-controls { display: none !important; }
-            #tab-sim, #tab-theory, #tab-quiz { display: none !important; }
+            #tab-sim, #tab-theory, #tab-special, #tab-quiz { display: none !important; }
             #tab-exercises { display: block !important; }
             
             #main-screen { display: block !important; max-width: 100% !important; padding: 0 !important; margin: 0 !important; border: none !important; box-shadow: none !important; }
@@ -84,6 +84,68 @@
             height: auto !important;
             max-width: 650px;
         }
+
+        /* === АНИМАЦИИ === */
+
+        /* Анимация на фоновите "петна" */
+        @keyframes blob {
+            0%   { transform: translate(0px, 0px) scale(1); }
+            33%  { transform: translate(30px, -50px) scale(1.1); }
+            66%  { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
+        }
+        .animate-blob { animation: blob 12s infinite ease-in-out; }
+
+        /* Плавно появяване на разделите */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in { animation: fadeIn 0.4s ease-out; }
+
+        /* === АНИМАЦИИ НА НАЧАЛНАТА СТРАНИЦА === */
+
+        /* Появяване на картата отдолу нагоре */
+        @keyframes introCardIn {
+            0%   { opacity: 0; transform: translateY(40px) scale(0.96); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .intro-card { animation: introCardIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+        /* Последователно появяване на елементите вътре */
+        @keyframes introItemIn {
+            0%   { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .intro-item { animation: introItemIn 0.7s ease-out both; }
+        .intro-delay-1 { animation-delay: 0.25s; }
+        .intro-delay-2 { animation-delay: 0.45s; }
+        .intro-delay-3 { animation-delay: 0.65s; }
+        .intro-delay-4 { animation-delay: 0.85s; }
+
+        /* Леко плаващо движение на логото/иконата */
+        @keyframes floaty {
+            0%, 100% { transform: translateY(0); }
+            50%      { transform: translateY(-10px); }
+        }
+        .animate-floaty { animation: floaty 3.5s ease-in-out infinite; }
+
+        /* Пулсиращ ореол около бутона */
+        @keyframes ctaPulse {
+            0%   { box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 0 0 0 rgba(59,130,246,0.5); }
+            70%  { box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 0 0 18px rgba(59,130,246,0); }
+            100% { box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 0 0 0 rgba(59,130,246,0); }
+        }
+        .animate-cta { animation: ctaPulse 2.4s ease-out infinite; }
+
+        /* Уважение към потребители, които предпочитат намалено движение */
+        @media (prefers-reduced-motion: reduce) {
+            .animate-blob, .animate-floaty, .animate-cta,
+            .intro-card, .intro-item, .fade-in {
+                animation: none !important;
+            }
+            .intro-card, .intro-item { opacity: 1 !important; transform: none !important; }
+        }
     </style>
 </head>
 <body class="text-gray-800 antialiased min-h-screen flex flex-col items-center relative z-0">
@@ -97,23 +159,24 @@
     </div>
 
     <!-- НАЧАЛЕН ЕКРАН -->
-    <div id="intro-screen" class="flex flex-col items-center justify-center min-h-screen w-full p-4 md:p-6">
-        <div class="w-full max-w-4xl text-center bg-white/70 backdrop-blur-xl p-6 md:p-10 rounded-3xl shadow-2xl border border-white/60">
-            <div class="flex justify-center w-full mb-4 md:mb-6">
-                <!-- Оптимизирана височина на логото -->
-                <img src="TFOA.png" alt="TFOA" class="w-full h-auto max-h-[20vh] md:max-h-[30vh] object-contain drop-shadow-xl rounded-xl" onerror="this.onerror=null; this.outerHTML='<div class=\'inline-flex items-center justify-center w-20 h-20 md:w-28 md:h-28 rounded-full bg-blue-100 text-blue-600 mb-4 shadow-inner\'><svg class=\'w-10 h-10 md:w-14 md:h-14\' fill=\'none\' stroke=\'currentColor\' viewBox=\'0 0 24 24\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'2\' d=\'M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5\'></path></svg></div>'">
+    <div id="intro-screen" class="relative flex flex-col items-center justify-center min-h-screen w-full p-4 md:p-6 overflow-hidden">
+
+        <div class="intro-card relative z-10 w-full max-w-4xl text-center bg-white/70 backdrop-blur-xl p-6 md:p-10 rounded-3xl shadow-2xl border border-white/60">
+            <!-- Закачлива анимирана фигура: триъгълник с лице -->
+            <div class="intro-item flex justify-center w-full mb-2 md:mb-4">
+                <canvas id="introCanvas" class="w-[300px] sm:w-[360px] max-w-full h-auto animate-floaty"></canvas>
             </div>
-            <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4 md:mb-6 tracking-tight leading-tight">Тригонометрични функции на остър ъгъл в правоъгълен триъгълник</h1>
-            <p class="text-gray-600 text-lg md:text-xl mb-6 md:mb-8 leading-relaxed">
+            <h1 class="intro-item intro-delay-1 text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4 md:mb-6 tracking-tight leading-tight">Тригонометрични функции на остър ъгъл в правоъгълен триъгълник</h1>
+            <p class="intro-item intro-delay-2 text-gray-600 text-lg md:text-xl mb-6 md:mb-8 leading-relaxed">
                 Интерактивен урок за синус, косинус, тангенс и котангенс. Изследвайте функциите чрез симулация, научете тъждествата и решавайте задачи.
             </p>
-            <button onclick="startLesson()" class="bg-blue-500 hover:bg-blue-400 text-white font-extrabold text-xl md:text-2xl py-3 px-10 rounded-full border-b-[5px] border-blue-700 active:border-b-0 active:mt-[5px] transition-all shadow-lg hover:-translate-y-1 w-full sm:w-auto">
+            <button onclick="startLesson()" class="intro-item intro-delay-3 animate-cta bg-blue-500 hover:bg-blue-400 text-white font-extrabold text-xl md:text-2xl py-3 px-10 rounded-full border-b-[5px] border-blue-700 active:border-b-0 active:mt-[5px] transition-all hover:-translate-y-1 w-full sm:w-auto">
                 Започни Урока
             </button>
             
-            <div class="mt-6 md:mt-8 pt-4 border-t border-gray-300/50 flex flex-col space-y-1 text-sm md:text-base text-gray-600">
+            <div class="intro-item intro-delay-4 mt-6 md:mt-8 pt-4 border-t border-gray-300/50 flex flex-col space-y-1 text-sm md:text-base text-gray-600">
                 <p>Идея и педагогически решения: <span class="font-bold text-gray-800">Валя Витковска</span></p>
-                <p>Реализация: <span class="font-bold text-blue-600">Gemini</span></p>
+                <p>Реализация: <span class="font-bold text-blue-600">Gemini, Claude</span></p>
             </div>
         </div>
     </div>
@@ -136,6 +199,7 @@
             <nav class="flex overflow-x-auto gap-2 sm:gap-3 p-2 sm:p-3 bg-white/40 border-b border-white/50 print-hide snap-x">
                 <button id="nav-sim" onclick="showTab('sim')" class="snap-start flex-1 min-w-[110px] md:min-w-fit py-2 px-3 text-center font-extrabold text-sm md:text-base rounded-xl transition-all whitespace-nowrap bg-blue-500 border-blue-700 text-white mt-[4px] border-b-0 shadow-inner">📐 Симулация</button>
                 <button id="nav-theory" onclick="showTab('theory')" class="snap-start flex-1 min-w-[110px] md:min-w-fit py-2 px-3 text-center font-extrabold text-sm md:text-base rounded-xl transition-all whitespace-nowrap border-b-[4px] border-gray-300 bg-white/90 text-gray-600 hover:-translate-y-0.5 hover:bg-white shadow-sm">📚 Теория</button>
+                <button id="nav-special" onclick="showTab('special')" class="snap-start flex-1 min-w-[110px] md:min-w-fit py-2 px-3 text-center font-extrabold text-sm md:text-base rounded-xl transition-all whitespace-nowrap border-b-[4px] border-gray-300 bg-white/90 text-gray-600 hover:-translate-y-0.5 hover:bg-white shadow-sm">📐 Специални ъгли</button>
                 <button id="nav-quiz" onclick="showTab('quiz')" class="snap-start flex-1 min-w-[110px] md:min-w-fit py-2 px-3 text-center font-extrabold text-sm md:text-base rounded-xl transition-all whitespace-nowrap border-b-[4px] border-gray-300 bg-white/90 text-gray-600 hover:-translate-y-0.5 hover:bg-white shadow-sm">📝 Тест</button>
                 <button id="nav-exercises" onclick="showTab('exercises')" class="snap-start flex-1 min-w-[110px] md:min-w-fit py-2 px-3 text-center font-extrabold text-sm md:text-base rounded-xl transition-all whitespace-nowrap border-b-[4px] border-gray-300 bg-white/90 text-gray-600 hover:-translate-y-0.5 hover:bg-white shadow-sm">🧮 Задачи</button>
             </nav>
@@ -154,20 +218,18 @@
                     <div class="w-full lg:w-1/4 flex flex-col gap-4 shrink-0">
                         <div class="bg-white/90 backdrop-blur-md p-3 md:p-4 rounded-2xl border border-white/50 shadow-sm hover:shadow-md transition">
                             <h4 class="font-bold text-gray-700 mb-3 border-b border-gray-200 pb-1.5 text-xs uppercase tracking-wider">Управление</h4>
-                            <div class="space-y-4">
-                                <div>
-                                    <label class="flex justify-between font-bold text-gray-700 mb-1.5 text-sm">
-                                        <span>Ъгъл \(\alpha\)</span>
-                                        <span id="alpha-val-display" class="text-blue-700 bg-blue-50 px-1.5 py-0.5 rounded shadow-sm border border-blue-100">45°</span>
-                                    </label>
-                                    <input type="range" id="angleSlider" min="10" max="80" value="45" step="1">
+                            <div class="bg-amber-50 border border-amber-200 rounded-xl p-2.5 mb-3 text-xs sm:text-sm text-amber-800 flex items-start gap-2">
+                                <span class="text-base leading-none">✋</span>
+                                <span>Влачи точките <strong class="text-indigo-700">C</strong> (за ъгъла) и <strong class="text-red-600">B</strong> (за дължината). Правият ъгъл при <strong>C</strong> се запазва автоматично.</span>
+                            </div>
+                            <div class="space-y-2.5">
+                                <div class="flex justify-between items-center bg-blue-50 rounded-lg px-3 py-2 border border-blue-100">
+                                    <span class="font-bold text-gray-700 text-sm">Ъгъл \(\alpha\)</span>
+                                    <span id="alpha-val-display" class="font-bold text-blue-700 bg-white px-2 py-0.5 rounded shadow-sm border border-blue-100">45°</span>
                                 </div>
-                                <div>
-                                    <label class="flex justify-between font-bold text-gray-700 mb-1.5 text-sm">
-                                        <span>Хипотенуза (\(c\))</span>
-                                        <span id="hyp-val-display" class="text-green-700 bg-green-50 px-1.5 py-0.5 rounded shadow-sm border border-green-100">25</span>
-                                    </label>
-                                    <input type="range" id="hypSlider" min="5" max="25" value="25" step="1">
+                                <div class="flex justify-between items-center bg-green-50 rounded-lg px-3 py-2 border border-green-100">
+                                    <span class="font-bold text-gray-700 text-sm">Хипотенуза \(c\)</span>
+                                    <span id="hyp-val-display" class="font-bold text-green-700 bg-white px-2 py-0.5 rounded shadow-sm border border-green-100">25</span>
                                 </div>
                             </div>
                         </div>
@@ -279,24 +341,132 @@
                     </div>
                 </div>
 
+                <div class="bg-yellow-50/90 backdrop-blur-sm border-l-4 border-yellow-400 p-3 sm:p-4 mb-5 sm:mb-6 text-sm sm:text-base text-gray-700 shadow-sm rounded-r-lg">
+                    <p>Всички доказателства по-долу използват дефинициите \(\sin \alpha = \frac{a}{c}\), \(\cos \alpha = \frac{b}{c}\), \(\operatorname{tg} \alpha = \frac{a}{b}\), \(\operatorname{cotg} \alpha = \frac{b}{a}\) и Питагоровата теорема \(a^2 + b^2 = c^2\).</p>
+                </div>
+
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                     <div class="bg-white/80 backdrop-blur-md border border-white/60 p-5 sm:p-6 rounded-2xl shadow-sm hover:shadow-md transition">
-                        <h4 class="font-bold text-lg sm:text-xl mb-4 text-gray-800">Основни тъждества</h4>
-                        <ul class="space-y-3 sm:space-y-4">
-                            <li class="bg-gray-50/90 p-3 sm:p-4 rounded-xl shadow-inner border border-gray-200">\(\sin^2 \alpha + \cos^2 \alpha = 1\)</li>
-                            <li class="bg-gray-50/90 p-3 sm:p-4 rounded-xl shadow-inner border border-gray-200 overflow-x-auto">\(\operatorname{tg} \alpha = \frac{\sin \alpha}{\cos \alpha} \quad \text{и} \quad \operatorname{cotg} \alpha = \frac{\cos \alpha}{\sin \alpha}\)</li>
-                            <li class="bg-gray-50/90 p-3 sm:p-4 rounded-xl shadow-inner border border-gray-200">\(\operatorname{tg} \alpha \cdot \operatorname{cotg} \alpha = 1\)</li>
-                        </ul>
+                        <h4 class="font-bold text-lg sm:text-xl mb-4 text-gray-800">Основни тъждества <span class="text-sm font-normal text-gray-500">(с доказателства)</span></h4>
+                        <div class="space-y-4 sm:space-y-5">
+
+                            <!-- Тъждество 1 -->
+                            <div class="bg-gray-50/90 p-3 sm:p-4 rounded-xl shadow-inner border border-gray-200">
+                                <div class="font-bold text-base sm:text-lg mb-2 text-gray-800">\(\sin^2 \alpha + \cos^2 \alpha = 1\)</div>
+                                <p class="text-xs sm:text-sm text-gray-500 mb-2 font-semibold uppercase tracking-wide">Доказателство:</p>
+                                <div class="text-sm sm:text-base overflow-x-auto bg-white/80 p-2 sm:p-3 rounded-lg border border-gray-200">
+                                    \(\sin^2 \alpha + \cos^2 \alpha = \left(\dfrac{a}{c}\right)^2 + \left(\dfrac{b}{c}\right)^2 = \dfrac{a^2 + b^2}{c^2} = \dfrac{c^2}{c^2} = 1\)
+                                </div>
+                                <p class="text-xs sm:text-sm text-gray-600 mt-2">Използвахме Питагоровата теорема \(a^2 + b^2 = c^2\). \(\blacksquare\)</p>
+                            </div>
+
+                            <!-- Тъждество 2 -->
+                            <div class="bg-gray-50/90 p-3 sm:p-4 rounded-xl shadow-inner border border-gray-200">
+                                <div class="font-bold text-base sm:text-lg mb-2 text-gray-800 overflow-x-auto">\(\operatorname{tg} \alpha = \dfrac{\sin \alpha}{\cos \alpha} \quad \text{и} \quad \operatorname{cotg} \alpha = \dfrac{\cos \alpha}{\sin \alpha}\)</div>
+                                <p class="text-xs sm:text-sm text-gray-500 mb-2 font-semibold uppercase tracking-wide">Доказателство:</p>
+                                <div class="text-sm sm:text-base overflow-x-auto bg-white/80 p-2 sm:p-3 rounded-lg border border-gray-200 space-y-2">
+                                    <div>\(\dfrac{\sin \alpha}{\cos \alpha} = \dfrac{a/c}{b/c} = \dfrac{a}{c} \cdot \dfrac{c}{b} = \dfrac{a}{b} = \operatorname{tg} \alpha\)</div>
+                                    <div>\(\dfrac{\cos \alpha}{\sin \alpha} = \dfrac{b/c}{a/c} = \dfrac{b}{c} \cdot \dfrac{c}{a} = \dfrac{b}{a} = \operatorname{cotg} \alpha\)</div>
+                                </div>
+                                <p class="text-xs sm:text-sm text-gray-600 mt-2">\(\blacksquare\)</p>
+                            </div>
+
+                            <!-- Тъждество 3 -->
+                            <div class="bg-gray-50/90 p-3 sm:p-4 rounded-xl shadow-inner border border-gray-200">
+                                <div class="font-bold text-base sm:text-lg mb-2 text-gray-800">\(\operatorname{tg} \alpha \cdot \operatorname{cotg} \alpha = 1\)</div>
+                                <p class="text-xs sm:text-sm text-gray-500 mb-2 font-semibold uppercase tracking-wide">Доказателство:</p>
+                                <div class="text-sm sm:text-base overflow-x-auto bg-white/80 p-2 sm:p-3 rounded-lg border border-gray-200">
+                                    \(\operatorname{tg} \alpha \cdot \operatorname{cotg} \alpha = \dfrac{a}{b} \cdot \dfrac{b}{a} = 1\)
+                                </div>
+                                <p class="text-xs sm:text-sm text-gray-600 mt-2">Тоест тангенсът и котангенсът са взаимно реципрочни. \(\blacksquare\)</p>
+                            </div>
+
+                        </div>
                     </div>
                     <div class="bg-indigo-50/90 backdrop-blur-md border border-indigo-100 p-5 sm:p-6 rounded-2xl shadow-sm hover:shadow-md transition">
-                        <h4 class="font-bold text-lg sm:text-xl mb-4 text-indigo-900">Връзка между \(\alpha\) и \(\beta\)</h4>
+                        <h4 class="font-bold text-lg sm:text-xl mb-4 text-indigo-900">Връзка между \(\alpha\) и \(\beta\) <span class="text-sm font-normal text-indigo-400">(с доказателство)</span></h4>
                         <p class="text-sm sm:text-base mb-4">Тъй като \(\alpha + \beta = 90^\circ\), функциите преминават в своите ко-функции:</p>
-                        <ul class="space-y-2 sm:space-y-3 font-mono text-sm sm:text-base bg-white/90 p-3 sm:p-4 rounded-xl border border-indigo-200 shadow-sm overflow-x-auto">
+                        <ul class="space-y-2 sm:space-y-3 text-sm sm:text-base bg-white/90 p-3 sm:p-4 rounded-xl border border-indigo-200 shadow-sm overflow-x-auto mb-4">
                             <li>\(\sin \alpha = \cos(90^\circ - \alpha) = \cos \beta\)</li>
                             <li>\(\cos \alpha = \sin(90^\circ - \alpha) = \sin \beta\)</li>
                             <li>\(\operatorname{tg} \alpha = \operatorname{cotg}(90^\circ - \alpha) = \operatorname{cotg} \beta\)</li>
                             <li>\(\operatorname{cotg} \alpha = \operatorname{tg}(90^\circ - \alpha) = \operatorname{tg} \beta\)</li>
                         </ul>
+                        <div class="bg-white/90 p-3 sm:p-4 rounded-xl border border-indigo-200 shadow-sm">
+                            <p class="text-xs sm:text-sm text-indigo-500 mb-2 font-semibold uppercase tracking-wide">Доказателство:</p>
+                            <p class="text-sm sm:text-base mb-3">Ключово наблюдение: страната \(a\) е <strong>срещулежаща</strong> на \(\alpha\), но <strong>прилежаща</strong> на \(\beta\). Аналогично \(b\) е прилежаща на \(\alpha\), но срещулежаща на \(\beta\). Затова:</p>
+                            <div class="text-sm sm:text-base overflow-x-auto space-y-2">
+                                <div>\(\sin \alpha = \dfrac{a}{c} = \cos \beta \qquad \cos \alpha = \dfrac{b}{c} = \sin \beta\)</div>
+                                <div>\(\operatorname{tg} \alpha = \dfrac{a}{b} = \operatorname{cotg} \beta \qquad \operatorname{cotg} \alpha = \dfrac{b}{a} = \operatorname{tg} \beta\)</div>
+                            </div>
+                            <p class="text-xs sm:text-sm text-gray-600 mt-3">Тъй като \(\beta = 90^\circ - \alpha\), получаваме търсените равенства. \(\blacksquare\)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- РАЗДЕЛ 2Б: СПЕЦИАЛНИ ЪГЛИ -->
+            <div id="tab-special" class="hidden fade-in text-base sm:text-lg leading-relaxed print-hide">
+                <h3 class="text-xl sm:text-2xl font-bold mb-4 text-gray-800 drop-shadow-sm">Стойности на тригонометричните функции на специални ъгли</h3>
+                <p class="mb-4 sm:mb-6 text-sm sm:text-base text-gray-700 bg-white/60 p-3 rounded-xl border border-white/50 shadow-sm">
+                    Ъглите \(30^\circ\), \(45^\circ\) и \(60^\circ\) се срещат най-често в задачите, защото стойностите им могат да се запишат точно (без калкулатор). Те следват от равностранен триъгълник (за \(30^\circ\) и \(60^\circ\)) и от равнобедрен правоъгълен триъгълник (за \(45^\circ\)).
+                </p>
+
+                <div class="bg-white/85 backdrop-blur-md border border-white/60 rounded-2xl shadow-sm overflow-x-auto mb-6 sm:mb-8">
+                    <table class="w-full text-center border-collapse min-w-[480px]">
+                        <thead>
+                            <tr class="bg-gradient-to-r from-blue-600 to-indigo-500 text-white">
+                                <th class="py-3 px-2 sm:px-4 text-sm sm:text-lg font-bold border-r border-white/20">Функция</th>
+                                <th class="py-3 px-2 sm:px-4 text-sm sm:text-lg font-bold border-r border-white/20">\(30^\circ\)</th>
+                                <th class="py-3 px-2 sm:px-4 text-sm sm:text-lg font-bold border-r border-white/20">\(45^\circ\)</th>
+                                <th class="py-3 px-2 sm:px-4 text-sm sm:text-lg font-bold">\(60^\circ\)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-gray-200 hover:bg-blue-50/60 transition">
+                                <td class="py-3 px-2 sm:px-4 font-bold text-red-600 border-r border-gray-200 bg-red-50/50">\(\sin \alpha\)</td>
+                                <td class="py-3 px-2 sm:px-4 border-r border-gray-200">\(\dfrac{1}{2}\)</td>
+                                <td class="py-3 px-2 sm:px-4 border-r border-gray-200">\(\dfrac{\sqrt{2}}{2}\)</td>
+                                <td class="py-3 px-2 sm:px-4">\(\dfrac{\sqrt{3}}{2}\)</td>
+                            </tr>
+                            <tr class="border-b border-gray-200 hover:bg-blue-50/60 transition">
+                                <td class="py-3 px-2 sm:px-4 font-bold text-blue-600 border-r border-gray-200 bg-blue-50/50">\(\cos \alpha\)</td>
+                                <td class="py-3 px-2 sm:px-4 border-r border-gray-200">\(\dfrac{\sqrt{3}}{2}\)</td>
+                                <td class="py-3 px-2 sm:px-4 border-r border-gray-200">\(\dfrac{\sqrt{2}}{2}\)</td>
+                                <td class="py-3 px-2 sm:px-4">\(\dfrac{1}{2}\)</td>
+                            </tr>
+                            <tr class="border-b border-gray-200 hover:bg-blue-50/60 transition">
+                                <td class="py-3 px-2 sm:px-4 font-bold text-purple-600 border-r border-gray-200 bg-purple-50/50">\(\operatorname{tg} \alpha\)</td>
+                                <td class="py-3 px-2 sm:px-4 border-r border-gray-200">\(\dfrac{\sqrt{3}}{3}\)</td>
+                                <td class="py-3 px-2 sm:px-4 border-r border-gray-200">\(1\)</td>
+                                <td class="py-3 px-2 sm:px-4">\(\sqrt{3}\)</td>
+                            </tr>
+                            <tr class="hover:bg-blue-50/60 transition">
+                                <td class="py-3 px-2 sm:px-4 font-bold text-green-600 border-r border-gray-200 bg-green-50/50">\(\operatorname{cotg} \alpha\)</td>
+                                <td class="py-3 px-2 sm:px-4 border-r border-gray-200">\(\sqrt{3}\)</td>
+                                <td class="py-3 px-2 sm:px-4 border-r border-gray-200">\(1\)</td>
+                                <td class="py-3 px-2 sm:px-4">\(\dfrac{\sqrt{3}}{3}\)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+                    <div class="bg-indigo-50/90 backdrop-blur-md border border-indigo-100 p-5 sm:p-6 rounded-2xl shadow-sm hover:shadow-md transition">
+                        <h4 class="font-bold text-lg sm:text-xl mb-4 text-indigo-900">Откъде идват стойностите за \(30^\circ\) и \(60^\circ\)</h4>
+                        <p class="text-sm sm:text-base mb-3">В равностранен триъгълник със страна \(2\) височината го разделя на два правоъгълни триъгълника с ъгли \(30^\circ\) и \(60^\circ\), катети \(1\) и \(\sqrt{3}\) и хипотенуза \(2\):</p>
+                        <div class="bg-white/90 p-3 sm:p-4 rounded-xl border border-indigo-200 shadow-sm text-sm sm:text-base overflow-x-auto space-y-2">
+                            <div>\(\sin 30^\circ = \dfrac{1}{2}, \quad \cos 30^\circ = \dfrac{\sqrt{3}}{2}\)</div>
+                            <div>\(\sin 60^\circ = \dfrac{\sqrt{3}}{2}, \quad \cos 60^\circ = \dfrac{1}{2}\)</div>
+                        </div>
+                    </div>
+                    <div class="bg-green-50/90 backdrop-blur-md border border-green-100 p-5 sm:p-6 rounded-2xl shadow-sm hover:shadow-md transition">
+                        <h4 class="font-bold text-lg sm:text-xl mb-4 text-green-900">Откъде идват стойностите за \(45^\circ\)</h4>
+                        <p class="text-sm sm:text-base mb-3">В равнобедрен правоъгълен триъгълник с катети \(1\) хипотенузата е \(\sqrt{2}\). И двата остри ъгъла са \(45^\circ\):</p>
+                        <div class="bg-white/90 p-3 sm:p-4 rounded-xl border border-green-200 shadow-sm text-sm sm:text-base overflow-x-auto space-y-2">
+                            <div>\(\sin 45^\circ = \cos 45^\circ = \dfrac{1}{\sqrt{2}} = \dfrac{\sqrt{2}}{2}\)</div>
+                            <div>\(\operatorname{tg} 45^\circ = \operatorname{cotg} 45^\circ = \dfrac{1}{1} = 1\)</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -345,6 +515,114 @@
     </div>
 
     <script>
+        // --- ЗАКАЧЛИВА АНИМИРАНА ФИГУРА НА НАЧАЛНАТА СТРАНИЦА ---
+        (function introMascot() {
+            const cnv = document.getElementById('introCanvas');
+            if (!cnv) return;
+            const c = cnv.getContext('2d');
+            const W = 360, H = 240;
+            const dprI = window.devicePixelRatio || 1;
+            cnv.width = W * dprI; cnv.height = H * dprI;
+            c.scale(dprI, dprI);
+
+            let blink = 0, nextBlink = 90, frame = 0;
+            let rafId = null;
+
+            function draw() {
+                frame++;
+                c.clearRect(0, 0, W, H);
+
+                // ъгълът α плавно осцилира между 22° и 64°
+                const a = (43 + 21 * Math.sin(frame / 70)) * Math.PI / 180;
+                const cLen = 250;
+                const Ax = 55, Ay = 195;
+                const Bx = Ax + cLen, By = Ay;
+                const Cx = Ax + cLen * Math.pow(Math.cos(a), 2);
+                const Cy = Ay - cLen * Math.cos(a) * Math.sin(a);
+
+                // запълване на триъгълника
+                c.beginPath();
+                c.moveTo(Ax, Ay); c.lineTo(Bx, By); c.lineTo(Cx, Cy); c.closePath();
+                const grad = c.createLinearGradient(Ax, Ay, Cx, Cy);
+                grad.addColorStop(0, 'rgba(99,102,241,0.18)');
+                grad.addColorStop(1, 'rgba(59,130,246,0.10)');
+                c.fillStyle = grad; c.fill();
+
+                // дъга на ъгъла α
+                c.beginPath();
+                c.moveTo(Ax, Ay);
+                c.arc(Ax, Ay, 34, 0, -a, true);
+                c.closePath();
+                c.fillStyle = 'rgba(37,99,235,0.20)'; c.fill();
+                c.beginPath(); c.arc(Ax, Ay, 34, 0, -a, true);
+                c.strokeStyle = '#2563EB'; c.lineWidth = 2; c.stroke();
+                c.font = 'bold 16px Inter'; c.fillStyle = '#1D4ED8';
+                c.fillText('α', Ax + 42 * Math.cos(-a / 2) - 5, Ay + 42 * Math.sin(-a / 2) + 5);
+
+                // прав ъгъл при C
+                const angCA = Math.atan2(Ay - Cy, Ax - Cx);
+                const angCB = Math.atan2(By - Cy, Bx - Cx);
+                const sq = 14;
+                c.beginPath();
+                c.moveTo(Cx + sq * Math.cos(angCA), Cy + sq * Math.sin(angCA));
+                c.lineTo(Cx + sq * Math.cos(angCA) + sq * Math.cos(angCB), Cy + sq * Math.sin(angCA) + sq * Math.sin(angCB));
+                c.lineTo(Cx + sq * Math.cos(angCB), Cy + sq * Math.sin(angCB));
+                c.strokeStyle = '#9CA3AF'; c.lineWidth = 1.5; c.stroke();
+
+                // страни в цветовете на урока
+                c.lineCap = 'round'; c.lineJoin = 'round'; c.lineWidth = 5;
+                c.beginPath(); c.moveTo(Ax, Ay); c.lineTo(Cx, Cy); c.strokeStyle = '#3B82F6'; c.stroke();
+                c.beginPath(); c.moveTo(Bx, By); c.lineTo(Cx, Cy); c.strokeStyle = '#EF4444'; c.stroke();
+                c.beginPath(); c.moveTo(Ax, Ay); c.lineTo(Bx, By); c.strokeStyle = '#10B981'; c.stroke();
+
+                // върхове
+                [[Ax, Ay], [Bx, By], [Cx, Cy]].forEach(([x, y]) => {
+                    c.beginPath(); c.arc(x, y, 5, 0, 2 * Math.PI); c.fillStyle = '#111827'; c.fill();
+                });
+
+                // === ЗАКАЧЛИВО ЛИЦЕ в центъра на триъгълника ===
+                const fx = (Ax + Bx + Cx) / 3;
+                const fy = (Ay + By + Cy) / 3 + 6;
+
+                // мигане
+                if (frame > nextBlink) { blink = 8; nextBlink = frame + 70 + Math.random() * 80; }
+                if (blink > 0) blink--;
+                const eyeOpen = blink > 0 ? 1.5 : 7;
+
+                // очи — зениците гледат към движещата се точка C
+                const lookX = (Cx - fx) / 60, lookY = (Cy - fy) / 60;
+                const eyeDX = 13;
+                [-eyeDX, eyeDX].forEach(dx => {
+                    c.beginPath(); c.ellipse(fx + dx, fy - 8, 8, eyeOpen, 0, 0, 2 * Math.PI);
+                    c.fillStyle = '#fff'; c.fill();
+                    c.strokeStyle = '#1F2937'; c.lineWidth = 1.5; c.stroke();
+                    if (blink <= 0) {
+                        c.beginPath();
+                        c.arc(fx + dx + lookX * 3, fy - 8 + lookY * 3, 3.2, 0, 2 * Math.PI);
+                        c.fillStyle = '#1F2937'; c.fill();
+                    }
+                });
+
+                // усмивка
+                c.beginPath();
+                c.arc(fx, fy + 4, 9, 0.15 * Math.PI, 0.85 * Math.PI);
+                c.strokeStyle = '#1F2937'; c.lineWidth = 2.2; c.lineCap = 'round'; c.stroke();
+                // розови бузки
+                c.fillStyle = 'rgba(244,114,182,0.45)';
+                c.beginPath(); c.arc(fx - 16, fy + 2, 4, 0, 2 * Math.PI); c.fill();
+                c.beginPath(); c.arc(fx + 16, fy + 2, 4, 0, 2 * Math.PI); c.fill();
+
+                rafId = requestAnimationFrame(draw);
+            }
+
+            // уважение към prefers-reduced-motion
+            if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                frame = 50; draw(); cancelAnimationFrame(rafId);
+            } else {
+                draw();
+            }
+        })();
+
         // --- УЧИТЕЛСКИ РЕЖИМ ---
         let titleClicks = 0;
         let clickTimer;
@@ -432,11 +710,12 @@
         const tabsData = {
             sim: { active: 'bg-blue-500 border-blue-700 text-white mt-[4px] border-b-0 shadow-inner', inactive: 'border-b-[4px] border-gray-300 bg-white/90 text-gray-600 hover:-translate-y-0.5 hover:bg-white shadow-sm' },
             theory: { active: 'bg-purple-500 border-purple-700 text-white mt-[4px] border-b-0 shadow-inner', inactive: 'border-b-[4px] border-gray-300 bg-white/90 text-gray-600 hover:-translate-y-0.5 hover:bg-white shadow-sm' },
+            special: { active: 'bg-indigo-500 border-indigo-700 text-white mt-[4px] border-b-0 shadow-inner', inactive: 'border-b-[4px] border-gray-300 bg-white/90 text-gray-600 hover:-translate-y-0.5 hover:bg-white shadow-sm' },
             quiz: { active: 'bg-yellow-400 border-yellow-600 text-yellow-900 mt-[4px] border-b-0 shadow-inner', inactive: 'border-b-[4px] border-gray-300 bg-white/90 text-gray-600 hover:-translate-y-0.5 hover:bg-white shadow-sm' },
             exercises: { active: 'bg-emerald-500 border-emerald-700 text-white mt-[4px] border-b-0 shadow-inner', inactive: 'border-b-[4px] border-gray-300 bg-white/90 text-gray-600 hover:-translate-y-0.5 hover:bg-white shadow-sm' }
         };
 
-        const tabs = ['sim', 'theory', 'quiz', 'exercises'];
+        const tabs = ['sim', 'theory', 'special', 'quiz', 'exercises'];
         
         function showTab(tabName) {
             tabs.forEach(t => {
@@ -466,11 +745,13 @@
         // --- ЛОГИКА ЗА СИМУЛАЦИЯ (CANVAS) ---
         let currentFocus = 'alpha'; 
         let currentRatioFilter = 'all'; 
+
+        // Състояние на триъгълника (заменя плъзгачите)
+        let alphaDeg = 45;   // ъгъл α (10–80)
+        let cVal = 25;       // хипотенуза c (5–25)
         
         const canvas = document.getElementById('simCanvas');
         const ctx = canvas.getContext('2d');
-        const angleSlider = document.getElementById('angleSlider');
-        const hypSlider = document.getElementById('hypSlider');
 
         const dpr = window.devicePixelRatio || 1;
         // Височината е значително намалена, за да побира чертежа на екран
@@ -478,8 +759,81 @@
         canvas.height = 360 * dpr;
         ctx.scale(dpr, dpr);
 
-        angleSlider.addEventListener('input', drawSimulation);
-        hypSlider.addEventListener('input', drawSimulation);
+        // Фиксиран произход, така че точка A да служи за стабилна опорна точка при влачене
+        const SIM_ORIGIN_X = 75;
+        const SIM_ORIGIN_Y = 300;
+        const SIM_SCALE = 20; // пиксели на единица дължина
+
+        // Връща логическите координати (0–650, 0–360) от събитие на мишка/докосване
+        function getCanvasPoint(evt) {
+            const rect = canvas.getBoundingClientRect();
+            const src = (evt.touches && evt.touches[0]) ? evt.touches[0] : evt;
+            return {
+                x: (src.clientX - rect.left) * (650 / rect.width),
+                y: (src.clientY - rect.top) * (360 / rect.height)
+            };
+        }
+
+        // Текущи върхове според състоянието
+        function getVertices() {
+            const aRad = alphaDeg * Math.PI / 180;
+            const c_len = cVal * SIM_SCALE;
+            const A = { x: SIM_ORIGIN_X, y: SIM_ORIGIN_Y };
+            const B = { x: SIM_ORIGIN_X + c_len, y: SIM_ORIGIN_Y };
+            const C = {
+                x: SIM_ORIGIN_X + c_len * Math.pow(Math.cos(aRad), 2),
+                y: SIM_ORIGIN_Y - c_len * Math.cos(aRad) * Math.sin(aRad)
+            };
+            return { A, B, C };
+        }
+
+        let dragging = null; // 'B' или 'C'
+
+        function onDragStart(evt) {
+            const p = getCanvasPoint(evt);
+            const { B, C } = getVertices();
+            const hit = (pt) => Math.hypot(pt.x - p.x, pt.y - p.y) < 24;
+            if (hit(C)) dragging = 'C';
+            else if (hit(B)) dragging = 'B';
+            if (dragging) { evt.preventDefault(); onDragMove(evt); }
+        }
+
+        function onDragMove(evt) {
+            if (!dragging) return;
+            evt.preventDefault();
+            const p = getCanvasPoint(evt);
+
+            if (dragging === 'C') {
+                // Ъгъл α = наклонът на отсечката A→курсор (A е върхът на α)
+                let ang = Math.atan2(SIM_ORIGIN_Y - p.y, p.x - SIM_ORIGIN_X) * 180 / Math.PI;
+                ang = Math.round(ang);
+                alphaDeg = Math.max(10, Math.min(80, ang));
+            } else if (dragging === 'B') {
+                // Дължина на хипотенузата = хоризонтално разстояние от A
+                let len = (p.x - SIM_ORIGIN_X) / SIM_SCALE;
+                cVal = Math.max(5, Math.min(25, Math.round(len)));
+            }
+            drawSimulation();
+        }
+
+        function onDragEnd() { dragging = null; }
+
+        // Курсор подсказка при посочване на влачима точка
+        function onHover(evt) {
+            if (dragging) return;
+            const p = getCanvasPoint(evt);
+            const { B, C } = getVertices();
+            const near = Math.hypot(C.x - p.x, C.y - p.y) < 24 || Math.hypot(B.x - p.x, B.y - p.y) < 24;
+            canvas.style.cursor = near ? 'grab' : 'default';
+        }
+
+        canvas.addEventListener('mousedown', onDragStart);
+        window.addEventListener('mousemove', onDragMove);
+        window.addEventListener('mouseup', onDragEnd);
+        canvas.addEventListener('mousemove', onHover);
+        canvas.addEventListener('touchstart', onDragStart, { passive: false });
+        window.addEventListener('touchmove', onDragMove, { passive: false });
+        window.addEventListener('touchend', onDragEnd);
 
         function setFocusAngle(angleName) {
             currentFocus = angleName;
@@ -543,9 +897,7 @@
             const W = 650; const H = 360; // Намалена височина на Canvas
             ctx.clearRect(0, 0, W, H);
 
-            const alphaDeg = parseInt(angleSlider.value);
             const betaDeg = 90 - alphaDeg;
-            const cVal = parseInt(hypSlider.value);
             const alphaRad = alphaDeg * Math.PI / 180;
             const betaRad = betaDeg * Math.PI / 180;
             
@@ -644,10 +996,10 @@
                 katex.render(`\\frac{\\color{${adjColor}}${adjSide}}{\\color{${opColor}}${opSide}} = \\frac{\\color{${adjColor}}${valAdjDisplay}}{\\color{${opColor}}${valOpDisplay}} = ${valCotg}`, document.getElementById('r-cotg'), {throwOnError: false});
             }
 
-            // ВИЗУАЛНИ КООРДИНАТИ НА ТРИЪГЪЛНИКА (Преизчислени за новата височина)
-            const c_len = cVal * 20; 
-            const originX = (W - c_len) / 2; 
-            const originY = 300; // По-нагоре, за да се събере
+            // ВИЗУАЛНИ КООРДИНАТИ НА ТРИЪГЪЛНИКА (фиксиран произход → A е стабилна опора)
+            const c_len = cVal * SIM_SCALE; 
+            const originX = SIM_ORIGIN_X; 
+            const originY = SIM_ORIGIN_Y;
             
             const ptA = { x: originX, y: originY };
             const ptB = { x: originX + c_len, y: originY };
@@ -715,12 +1067,28 @@
             const drawPoint = (p) => {
                 ctx.beginPath(); ctx.arc(p.x, p.y, 5, 0, 2*Math.PI); ctx.fillStyle = '#111827'; ctx.fill();
             };
-            drawPoint(ptA); drawPoint(ptB); drawPoint(ptC);
+
+            // Влачими дръжки за B и C (ясен ореол + по-голяма точка)
+            const pulse = 12;
+            const drawHandle = (p, color) => {
+                ctx.beginPath(); ctx.arc(p.x, p.y, pulse + 6, 0, 2*Math.PI);
+                ctx.fillStyle = color + '22'; ctx.fill();
+                ctx.beginPath(); ctx.arc(p.x, p.y, pulse, 0, 2*Math.PI);
+                ctx.strokeStyle = color; ctx.lineWidth = 2; ctx.stroke();
+                ctx.beginPath(); ctx.arc(p.x, p.y, 6, 0, 2*Math.PI);
+                ctx.fillStyle = color; ctx.fill();
+                ctx.beginPath(); ctx.arc(p.x, p.y, 6, 0, 2*Math.PI);
+                ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.stroke();
+            };
+
+            drawPoint(ptA);
+            drawHandle(ptB, '#EF4444'); // дръжка за дължина
+            drawHandle(ptC, '#6366F1'); // дръжка за ъгъл
 
             ctx.font = "bold 22px Inter"; ctx.fillStyle = "#111827";
             ctx.fillText("A", ptA.x - 20, ptA.y + 25);
-            ctx.fillText("B", ptB.x + 8, ptB.y + 25);
-            ctx.fillText("C", ptC.x - 8, ptC.y - 12);
+            ctx.fillText("B", ptB.x + 12, ptB.y + 25);
+            ctx.fillText("C", ptC.x - 8, ptC.y - 16);
 
             ctx.font = "bold 14px Inter";
             let labelA = currentFocus === 'alpha' ? "срещулежащ на α (a)" : "прилежащ на β (a)";
