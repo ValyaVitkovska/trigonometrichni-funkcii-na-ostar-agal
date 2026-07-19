@@ -1040,6 +1040,7 @@
 
         // Кратко подчертаване кой катет е срещулежащ и кой прилежащ - веднъж, в началото
         let simIntroPulsed = false;
+        let simPulseActive = false;
         function pulseCatheti() {
             if (simIntroPulsed) return;
             simIntroPulsed = true;
@@ -1047,6 +1048,21 @@
             const bCard = document.getElementById('side-b-card');
             if (aCard) aCard.classList.add('pulse-highlight-red');
             if (bCard) bCard.classList.add('pulse-highlight-blue');
+
+            // Ореол директно върху катетите в чертежа - 3 премигвания, синхронизирани с картите
+            let toggles = 0;
+            const maxToggles = 6;
+            const pulseInterval = setInterval(() => {
+                simPulseActive = !simPulseActive;
+                drawSimulation();
+                toggles++;
+                if (toggles >= maxToggles) {
+                    clearInterval(pulseInterval);
+                    simPulseActive = false;
+                    drawSimulation();
+                }
+            }, 450);
+
             setTimeout(() => {
                 if (aCard) aCard.classList.remove('pulse-highlight-red');
                 if (bCard) bCard.classList.remove('pulse-highlight-blue');
@@ -1403,6 +1419,19 @@
             ctx.fillStyle = '#4B5563'; ctx.fill();
 
             // 4. Страни
+
+            // Кратък "ореол" върху катетите в началото на симулацията, за да се откроят
+            if (simPulseActive) {
+                ctx.save();
+                ctx.globalAlpha = 0.4;
+                ctx.lineJoin = 'round'; ctx.lineCap = 'round'; ctx.lineWidth = 16;
+                ctx.beginPath(); ctx.moveTo(ptA.x, ptA.y); ctx.lineTo(ptC.x, ptC.y);
+                ctx.strokeStyle = '#3B82F6'; ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(ptB.x, ptB.y); ctx.lineTo(ptC.x, ptC.y);
+                ctx.strokeStyle = '#EF4444'; ctx.stroke();
+                ctx.restore();
+            }
+
             ctx.lineJoin = 'round'; ctx.lineCap = 'round'; ctx.lineWidth = 4;
             ctx.beginPath(); ctx.moveTo(ptA.x, ptA.y); ctx.lineTo(ptC.x, ptC.y);
             ctx.strokeStyle = '#3B82F6'; ctx.stroke();
@@ -1516,26 +1545,28 @@
             renderAllMath();
         }
 
+        const geoIcon = '<img src="Гео.png" alt="" class="inline-block h-4 w-4 sm:h-5 sm:w-5 align-text-bottom mr-1" onerror="this.style.display=\'none\'">';
+
         function checkQuiz() {
             let score = 0, allAnswered = true;
             for(let i = 0; i < 10; i++) {
                 const selected = document.querySelector(`input[name="q${i}"]:checked`);
                 const feedback = document.getElementById(`q-feedback-${i}`);
                 if(!selected) {
-                    allAnswered = false; feedback.innerHTML = '⚠️ Посочете отговор!'; feedback.className = 'mt-2 sm:mt-3 font-bold text-sm sm:text-base text-orange-500 block'; continue;
+                    allAnswered = false; feedback.innerHTML = geoIcon + '⚠️ Посочете отговор!'; feedback.className = 'mt-2 sm:mt-3 font-bold text-sm sm:text-base text-orange-500 block'; continue;
                 }
                 if(parseInt(selected.value) === currentQuizCorrectAnswers[i]) {
-                    score++; feedback.innerHTML = '✅ Вярно!'; feedback.className = 'mt-2 sm:mt-3 font-bold text-sm sm:text-base text-green-600 block';
+                    score++; feedback.innerHTML = geoIcon + '✅ Вярно!'; feedback.className = 'mt-2 sm:mt-3 font-bold text-sm sm:text-base text-green-600 block';
                 } else {
-                    feedback.innerHTML = '❌ Грешно.'; feedback.className = 'mt-2 sm:mt-3 font-bold text-sm sm:text-base text-red-600 block';
+                    feedback.innerHTML = geoIcon + '❌ Грешно.'; feedback.className = 'mt-2 sm:mt-3 font-bold text-sm sm:text-base text-red-600 block';
                 }
             }
             if(!allAnswered) return alert("Отговорете на всички въпроси!");
             const resDiv = document.getElementById('quiz-result');
             resDiv.classList.remove('hidden');
-            document.getElementById('btn-check-quiz').classList.add('hidden'); 
+            document.getElementById('btn-check-quiz').classList.add('hidden');
             resDiv.className = `mt-6 text-xl sm:text-2xl font-bold text-center p-4 sm:p-5 rounded-2xl w-full shadow-inner ${score > 7 ? 'bg-green-100/90 text-green-700' : 'bg-red-100/90 text-red-700'}`;
-            resDiv.innerHTML = `Резултат: ${score} от 10 точки`;
+            resDiv.innerHTML = geoIcon + `Резултат: ${score} от 10 точки`;
         }
 
         // --- ГЕНЕРАТОР НА ЗАДАЧИ ---
@@ -1858,12 +1889,12 @@
 
                 if (task.type === 'yn') {
                     if (!exSelected[i]) {
-                        icon.innerHTML = '⚠️'; feedback.innerHTML = 'Изберете „Да" или „Не"!'; feedback.className = 'text-sm sm:text-base mt-1.5 sm:mt-2 text-orange-500 font-bold block'; continue;
+                        icon.innerHTML = '⚠️'; feedback.innerHTML = geoIcon + 'Изберете „Да" или „Не"!'; feedback.className = 'text-sm sm:text-base mt-1.5 sm:mt-2 text-orange-500 font-bold block'; continue;
                     }
                     if (exSelected[i] === task.answer) {
-                        score++; icon.innerHTML = '✅'; feedback.innerHTML = 'Вярно!'; feedback.className = 'text-sm sm:text-base mt-1.5 sm:mt-2 text-green-600 font-bold block';
+                        score++; icon.innerHTML = '✅'; feedback.innerHTML = geoIcon + 'Вярно!'; feedback.className = 'text-sm sm:text-base mt-1.5 sm:mt-2 text-green-600 font-bold block';
                     } else {
-                        icon.innerHTML = '❌'; feedback.innerHTML = `Грешно. Точен отговор: <strong>${task.exact}</strong>`; feedback.className = 'text-sm sm:text-base mt-1.5 sm:mt-2 text-red-600 font-bold block';
+                        icon.innerHTML = '❌'; feedback.innerHTML = geoIcon + `Грешно. Точен отговор: <strong>${task.exact}</strong>`; feedback.className = 'text-sm sm:text-base mt-1.5 sm:mt-2 text-red-600 font-bold block';
                     }
                     continue;
                 }
@@ -1871,19 +1902,19 @@
                 const userVal = parseAnswer(document.getElementById(`ex-input-${i}`).value);
                 const correctAns = task.answer;
                 if(isNaN(userVal)) {
-                    icon.innerHTML = '⚠️'; feedback.innerHTML = 'Въведете валиден отговор (число, дроб или израз с √)!'; feedback.className = 'text-sm sm:text-base mt-1.5 sm:mt-2 text-orange-500 font-bold block'; continue;
+                    icon.innerHTML = '⚠️'; feedback.innerHTML = geoIcon + 'Въведете валиден отговор (число, дроб или израз с √)!'; feedback.className = 'text-sm sm:text-base mt-1.5 sm:mt-2 text-orange-500 font-bold block'; continue;
                 }
                 if(Math.abs(userVal - correctAns) <= tolerance) {
-                    score++; icon.innerHTML = '✅'; feedback.innerHTML = 'Вярно!'; feedback.className = 'text-sm sm:text-base mt-1.5 sm:mt-2 text-green-600 font-bold block';
+                    score++; icon.innerHTML = '✅'; feedback.innerHTML = geoIcon + 'Вярно!'; feedback.className = 'text-sm sm:text-base mt-1.5 sm:mt-2 text-green-600 font-bold block';
                 } else {
                     const disp = task.exact || correctAns.toFixed(2).replace(/\.00$/, '');
-                    icon.innerHTML = '❌'; feedback.innerHTML = `Грешно. Точен отговор: <strong>${disp}</strong>`; feedback.className = 'text-sm sm:text-base mt-1.5 sm:mt-2 text-red-600 font-bold block';
+                    icon.innerHTML = '❌'; feedback.innerHTML = geoIcon + `Грешно. Точен отговор: <strong>${disp}</strong>`; feedback.className = 'text-sm sm:text-base mt-1.5 sm:mt-2 text-red-600 font-bold block';
                 }
             }
             const resDiv = document.getElementById('exercises-result');
             resDiv.classList.remove('hidden'); document.getElementById('btn-check-exercises').classList.add('hidden');
             resDiv.className = `mt-5 sm:mt-6 text-xl sm:text-2xl font-bold text-center p-3 sm:p-5 rounded-xl w-full shadow-inner ${score > total * 0.7 ? 'bg-green-100/90 text-green-700' : 'bg-red-100/90 text-red-700'}`;
-            resDiv.innerHTML = `Резултат от задачите: ${score} / ${total}`;
+            resDiv.innerHTML = geoIcon + `Резултат от задачите: ${score} / ${total}`;
         }
 
         // --- РАЗШИРЕНИ ЗАДАЧИ (с готови решения) ---
@@ -1979,7 +2010,7 @@
                     <div class="mb-3">${p.fig()}</div>
                     <p class="font-medium text-gray-800 mb-3 text-justify text-sm sm:text-base">${idx + 1}. ${p.q}</p>
                     <button id="adv-btn-${idx}" onclick="toggleSolution(${idx})" class="self-start text-xs sm:text-sm bg-rose-500 hover:bg-rose-400 text-white border-b-[3px] border-rose-700 active:border-b-0 active:mt-[3px] px-4 py-2 rounded-lg font-bold transition-all shadow-sm">Покажи решение</button>
-                    <div id="adv-sol-${idx}" class="hidden mt-3 bg-rose-50/80 border border-rose-200 rounded-xl p-3 sm:p-4 text-sm sm:text-base text-gray-800 leading-relaxed">${p.sol}</div>
+                    <div id="adv-sol-${idx}" class="hidden mt-3 bg-rose-50/80 border border-rose-200 rounded-xl p-3 sm:p-4 text-sm sm:text-base text-gray-800 leading-relaxed">${geoIcon}${p.sol}</div>
                 `;
                 container.appendChild(div);
             });
