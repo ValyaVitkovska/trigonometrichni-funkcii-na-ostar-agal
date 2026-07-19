@@ -180,38 +180,23 @@
     <!-- НАЧАЛЕН ЕКРАН -->
     <div id="intro-screen" class="relative flex flex-col items-center justify-center min-h-screen w-full p-4 md:p-6 overflow-hidden">
 
-        <div class="intro-card relative z-10 w-full max-w-4xl text-center bg-white/70 backdrop-blur-xl p-6 md:p-10 rounded-3xl shadow-2xl border border-white/60">
+        <div class="intro-card relative z-10 w-full max-w-2xl text-center bg-white/70 backdrop-blur-xl p-6 md:p-10 rounded-3xl shadow-2xl border border-white/60">
             <!-- Закачлива анимирана фигура: триъгълник с лице -->
-            <div class="intro-item flex justify-center w-full mb-1 md:mb-2">
-                <canvas id="introCanvas" class="w-[260px] sm:w-[320px] max-w-full h-auto animate-floaty"></canvas>
+            <div class="intro-item flex justify-center w-full mb-2 md:mb-3">
+                <canvas id="introCanvas" class="w-[220px] sm:w-[260px] max-w-full h-auto animate-floaty"></canvas>
             </div>
-            <h1 class="intro-item intro-delay-1 text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4 md:mb-6 tracking-tight leading-tight">Тригонометрични функции на остър ъгъл в правоъгълен триъгълник</h1>
-            <p class="intro-item intro-delay-2 text-gray-600 text-lg md:text-xl mb-6 md:mb-8 leading-relaxed">
-                Интерактивен урок за синус, косинус, тангенс и котангенс. Изследвайте функциите чрез симулация, научете тъждествата и решавайте задачи.
-            </p>
-            <button onclick="startLesson()" class="intro-item intro-delay-3 animate-cta bg-blue-500 hover:bg-blue-400 text-white font-extrabold text-xl md:text-2xl py-3 px-10 rounded-full border-b-[5px] border-blue-700 active:border-b-0 active:mt-[5px] transition-all hover:-translate-y-1 w-full sm:w-auto">
-                Започни Урока
-            </button>
 
-            <!-- Гео представя урока -->
-            <div id="geo-intro-wrap" class="intro-item intro-delay-3 flex flex-col sm:flex-row items-center gap-4 mt-6 md:mt-8 bg-white/60 rounded-2xl p-4 border border-white/60 text-left">
-                <img src="Гео.png" alt="Гео" class="h-24 sm:h-32 w-auto shrink-0 animate-floaty" onerror="document.getElementById('geo-intro-wrap').style.display='none'">
+            <!-- Гео задава въпрос -->
+            <div id="geo-intro-wrap" class="intro-item intro-delay-1 flex flex-col sm:flex-row items-center gap-4 mb-6 md:mb-8 bg-white/60 rounded-2xl p-4 border border-white/60 text-left">
+                <img src="Гео.png" alt="Гео" class="h-20 sm:h-28 w-auto shrink-0 animate-floaty" onerror="document.getElementById('geo-intro-wrap').style.display='none'">
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-3 sm:p-4 text-sm sm:text-base text-gray-700">
-                    <p class="mb-2"><strong class="text-blue-600">Здравей, аз съм Гео!</strong> 👋 В този урок ще:</p>
-                    <ul class="list-disc list-inside space-y-1">
-                        <li>откриеш чрез <strong>симулация</strong> защо синус, косинус, тангенс и котангенс зависят само от ъгъла, а не от размера на триъгълника;</li>
-                        <li>научиш <strong>теорията</strong> — дефинициите и тъждествата с доказателства;</li>
-                        <li>видиш точните стойности при <strong>30°, 45° и 60°</strong>;</li>
-                        <li>провериш знанията си с <strong>тест</strong> и практически <strong>задачи</strong>;</li>
-                        <li>опиташ по-сложни <strong>разширени задачи</strong> с решения.</li>
-                    </ul>
+                    <p><strong class="text-blue-600">Здравей, аз съм Гео!</strong> 🤔 Има ли връзка между страните и ъглите в правоъгълен триъгълник? Натисни бутона отдолу и открий сам чрез симулацията!</p>
                 </div>
             </div>
 
-            <div class="intro-item intro-delay-4 mt-6 md:mt-8 pt-4 border-t border-gray-300/50 flex flex-col space-y-1 text-sm md:text-base text-gray-600">
-                <p>Идея и педагогически решения: <span class="font-bold text-gray-800">Валя Витковска</span></p>
-                <p>Реализация: <span class="font-bold text-blue-600">Gemini, Claude</span></p>
-            </div>
+            <button onclick="startLesson()" class="intro-item intro-delay-2 animate-cta bg-blue-500 hover:bg-blue-400 text-white font-extrabold text-xl md:text-2xl py-3 px-10 rounded-full border-b-[5px] border-blue-700 active:border-b-0 active:mt-[5px] transition-all hover:-translate-y-1 w-full sm:w-auto">
+                📐 Симулация
+            </button>
         </div>
 
         <!-- Лично лого (долен десен ъгъл, изчезва автоматично ако logo.png липсва) -->
@@ -262,7 +247,7 @@
                         <div class="bg-white/90 backdrop-blur-md p-3 md:p-4 rounded-2xl border border-white/50 shadow-sm hover:shadow-md transition">
                             <h4 class="font-bold text-gray-700 mb-3 border-b border-gray-200 pb-1.5 text-xs uppercase tracking-wider">Управление</h4>
                             <div class="bg-amber-50 border border-amber-200 rounded-xl p-2.5 mb-3 text-xs sm:text-sm text-amber-800 flex items-start gap-2">
-                                <span class="text-base leading-none">✋</span>
+                                <img src="Гео.png" alt="" class="h-6 w-6 sm:h-7 sm:w-7 object-contain shrink-0" onerror="this.style.display='none'">
                                 <span>Влачи точките <strong class="text-indigo-700">C</strong> (за ъгъла) и <strong class="text-red-600">B</strong> (за дължината). Правият ъгъл при <strong>C</strong> се запазва автоматично.</span>
                             </div>
                             <div class="space-y-2.5">
@@ -361,7 +346,10 @@
                     В правоъгълен триъгълник \(\triangle ABC\) (с прав ъгъл при върха \(C\)), функциите се дефинират като отношения на страните. Нека разгледаме острия ъгъл \(\alpha\):
                 </p>
 
-                <p class="text-center text-xs sm:text-sm text-gray-500 mb-3 print-hide">👆 Натисни върху някое равенство, за да видиш чертеж с анимация.</p>
+                <p class="text-center text-xs sm:text-sm text-gray-500 mb-3 print-hide flex items-center justify-center gap-1.5">
+                    <img src="Гео.png" alt="" class="h-5 w-5 object-contain inline-block" onerror="this.style.display='none'">
+                    👆 Натисни върху някое равенство, за да видиш чертеж с анимация.
+                </p>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 sm:mb-8">
                     <div class="bg-red-50/90 backdrop-blur-sm border border-red-100 rounded-xl p-4 shadow-sm text-center hover:shadow-md transition">
                         <h4 class="text-red-700 font-bold text-base sm:text-lg mb-2">Синус</h4>
@@ -665,7 +653,8 @@
                     </div>
                 </div>
                 
-                <div class="bg-blue-50/90 backdrop-blur-sm border-l-4 border-blue-500 p-3 sm:p-4 mb-5 text-xs sm:text-sm text-gray-700 shadow-sm rounded-r-lg print-hide">
+                <div class="bg-blue-50/90 backdrop-blur-sm border-l-4 border-blue-500 p-3 sm:p-4 mb-5 text-xs sm:text-sm text-gray-700 shadow-sm rounded-r-lg print-hide flex items-start gap-2">
+                    <img src="Гео.png" alt="" class="h-6 w-6 object-contain shrink-0 mt-0.5" onerror="this.style.display='none'">
                     <p><strong>Инструкции:</strong> Представянето на отговора да е с крайна десетична дроб или обикновена дроб (напр. <code>5/2</code>), а при ирационални стойности — с помощта на квадратен корен (напр. <code>5√3</code>, <code>√2</code> или <code>√3/3</code>). Десетичните отговори се приемат с толеранс \(\pm 0.02\).</p>
                 </div>
 
@@ -680,7 +669,8 @@
             <!-- РАЗДЕЛ 5: РАЗШИРЕНИ ЗАДАЧИ (с готови решения) -->
             <div id="tab-advanced" class="hidden fade-in print-hide">
                 <h3 class="text-xl sm:text-2xl font-bold text-gray-800 drop-shadow-sm mb-2 text-center sm:text-left">Разширени задачи</h3>
-                <div class="bg-indigo-50/90 backdrop-blur-sm border-l-4 border-indigo-400 p-3 sm:p-4 mb-5 text-xs sm:text-sm text-gray-700 shadow-sm rounded-r-lg">
+                <div class="bg-indigo-50/90 backdrop-blur-sm border-l-4 border-indigo-400 p-3 sm:p-4 mb-5 text-xs sm:text-sm text-gray-700 shadow-sm rounded-r-lg flex items-start gap-2">
+                    <img src="Гео.png" alt="" class="h-6 w-6 object-contain shrink-0 mt-0.5" onerror="this.style.display='none'">
                     <p>По-сложни задачи, в които тригонометрията се прилага заедно с Питагоровата теорема, лице, вписана окръжност и др. Опитай сам, след което натисни <strong>„Покажи решение"</strong>.</p>
                 </div>
                 <div id="advanced-container" class="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 text-sm sm:text-base"></div>
