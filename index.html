@@ -1038,35 +1038,81 @@
             setTimeout(pulseCatheti, 700);
         }
 
-        // Кратко подчертаване кой катет е срещулежащ и кой прилежащ - веднъж, в началото
+        // Малка пулсираща стрелка, сочеща към катет (за подчертаване кой е кой)
+        function drawPulseArrow(p1, p2, awayFrom, color) {
+            const mid = { x: (p1.x + p2.x) / 2, y: (p1.y + p2.y) / 2 };
+            let nx = -(p2.y - p1.y), ny = (p2.x - p1.x);
+            const nlen = Math.hypot(nx, ny) || 1;
+            nx /= nlen; ny /= nlen;
+            const toMid = { x: mid.x - awayFrom.x, y: mid.y - awayFrom.y };
+            if (nx * toMid.x + ny * toMid.y < 0) { nx = -nx; ny = -ny; }
+
+            const dist = 34, tailOffset = 34, tipOffset = 14;
+            const tailX = mid.x + nx * tailOffset, tailY = mid.y + ny * tailOffset;
+            const tipX = mid.x + nx * tipOffset, tipY = mid.y + ny * tipOffset;
+
+            ctx.save();
+            ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = 3.5;
+            ctx.lineCap = 'round';
+            ctx.beginPath(); ctx.moveTo(tailX, tailY); ctx.lineTo(tipX, tipY); ctx.stroke();
+
+            const angle = Math.atan2(tipY - tailY, tipX - tailX);
+            const headLen = 11;
+            ctx.beginPath();
+            ctx.moveTo(tipX, tipY);
+            ctx.lineTo(tipX - headLen * Math.cos(angle - Math.PI / 6), tipY - headLen * Math.sin(angle - Math.PI / 6));
+            ctx.lineTo(tipX - headLen * Math.cos(angle + Math.PI / 6), tipY - headLen * Math.sin(angle + Math.PI / 6));
+            ctx.closePath(); ctx.fill();
+            ctx.restore();
+        }
+
+        // Последователно подчертаване: първо срещулежащия (a), после прилежащия (b) катет,
+        // всеки с трикратно премигване (ореол + стрелка). Стартира в началото и при всяко
+        // кликване на α/β бутоните (setFocusAngle).
         let simIntroPulsed = false;
-        let simPulseActive = false;
+        let simHighlightSide = null;
+        let simHighlightTimer = null;
+
+        function runCathetiHighlightSequence() {
+            if (simHighlightTimer) { clearInterval(simHighlightTimer); simHighlightTimer = null; }
+            const aCard = document.getElementById('side-a-card');
+            const bCard = document.getElementById('side-b-card');
+            if (aCard) aCard.classList.remove('pulse-highlight-red');
+            if (bCard) bCard.classList.remove('pulse-highlight-blue');
+            // прекъсваме анимацията за момент, за да може CSS анимацията да се рестартира чисто
+            void (aCard && aCard.offsetWidth);
+            void (bCard && bCard.offsetWidth);
+
+            const seq = ['a', null, 'a', null, 'a', null, 'b', null, 'b', null, 'b', null];
+            let i = 0;
+
+            simHighlightSide = seq[0];
+            if (aCard) aCard.classList.add('pulse-highlight-red');
+            drawSimulation();
+
+            simHighlightTimer = setInterval(() => {
+                i++;
+                if (i === 6) {
+                    if (aCard) aCard.classList.remove('pulse-highlight-red');
+                    if (bCard) bCard.classList.add('pulse-highlight-blue');
+                }
+                if (i >= seq.length) {
+                    clearInterval(simHighlightTimer);
+                    simHighlightTimer = null;
+                    simHighlightSide = null;
+                    if (bCard) bCard.classList.remove('pulse-highlight-blue');
+                    drawSimulation();
+                    return;
+                }
+                simHighlightSide = seq[i];
+                drawSimulation();
+            }, 450);
+        }
+
         function pulseCatheti() {
             if (simIntroPulsed) return;
             simIntroPulsed = true;
-            const aCard = document.getElementById('side-a-card');
-            const bCard = document.getElementById('side-b-card');
-            if (aCard) aCard.classList.add('pulse-highlight-red');
-            if (bCard) bCard.classList.add('pulse-highlight-blue');
-
-            // Ореол директно върху катетите в чертежа - 3 премигвания, синхронизирани с картите
-            let toggles = 0;
-            const maxToggles = 6;
-            const pulseInterval = setInterval(() => {
-                simPulseActive = !simPulseActive;
-                drawSimulation();
-                toggles++;
-                if (toggles >= maxToggles) {
-                    clearInterval(pulseInterval);
-                    simPulseActive = false;
-                    drawSimulation();
-                }
-            }, 450);
-
-            setTimeout(() => {
-                if (aCard) aCard.classList.remove('pulse-highlight-red');
-                if (bCard) bCard.classList.remove('pulse-highlight-blue');
-            }, 2800);
+            runCathetiHighlightSequence();
         }
 
         const tabsData = {
@@ -1213,6 +1259,7 @@
             
             if(window.katex) katex.render(`\\${angleName}`, document.getElementById('ratio-focus-label'), {throwOnError: false});
             drawSimulation();
+            runCathetiHighlightSequence();
         }
 
         function setRatioFilter(filter) {
@@ -1420,16 +1467,21 @@
 
             // 4. Страни
 
-            // Кратък "ореол" върху катетите в началото на симулацията, за да се откроят
-            if (simPulseActive) {
+            // Последователно подчертаване (ореол + стрелка) на срещулежащия, после прилежащия катет
+            if (simHighlightSide === 'a' || simHighlightSide === 'b') {
+                const isA = simHighlightSide === 'a';
+                const p1 = isA ? ptB : ptA, p2 = ptC;
+                const away = isA ? ptA : ptB;
+                const hColor = isA ? '#EF4444' : '#3B82F6';
+
                 ctx.save();
                 ctx.globalAlpha = 0.4;
                 ctx.lineJoin = 'round'; ctx.lineCap = 'round'; ctx.lineWidth = 16;
-                ctx.beginPath(); ctx.moveTo(ptA.x, ptA.y); ctx.lineTo(ptC.x, ptC.y);
-                ctx.strokeStyle = '#3B82F6'; ctx.stroke();
-                ctx.beginPath(); ctx.moveTo(ptB.x, ptB.y); ctx.lineTo(ptC.x, ptC.y);
-                ctx.strokeStyle = '#EF4444'; ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y);
+                ctx.strokeStyle = hColor; ctx.stroke();
                 ctx.restore();
+
+                drawPulseArrow(p1, p2, away, hColor);
             }
 
             ctx.lineJoin = 'round'; ctx.lineCap = 'round'; ctx.lineWidth = 4;
