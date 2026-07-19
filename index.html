@@ -194,8 +194,13 @@
     <div id="intro-screen" class="relative flex flex-col items-center justify-center min-h-screen w-full p-4 md:p-6 overflow-hidden">
 
         <div class="intro-card relative z-10 w-full max-w-2xl text-center bg-white/70 backdrop-blur-xl p-6 md:p-10 rounded-3xl shadow-2xl border border-white/60">
+            <!-- Закачлива анимирана фигура: триъгълник с лице -->
+            <div class="intro-item flex justify-center w-full mb-2 md:mb-3">
+                <canvas id="introCanvas" class="w-[220px] sm:w-[260px] max-w-full h-auto animate-floaty"></canvas>
+            </div>
+
             <!-- Гео задава въпрос -->
-            <div id="geo-intro-wrap" class="intro-item flex flex-col sm:flex-row items-center gap-4 mb-6 md:mb-8 bg-white/60 rounded-2xl p-4 border border-white/60 text-left">
+            <div id="geo-intro-wrap" class="intro-item intro-delay-1 flex flex-col sm:flex-row items-center gap-4 mb-6 md:mb-8 bg-white/60 rounded-2xl p-4 border border-white/60 text-left">
                 <img src="Гео.png" alt="Гео" class="h-20 sm:h-28 w-auto shrink-0 animate-floaty" onerror="document.getElementById('geo-intro-wrap').style.display='none'">
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-3 sm:p-4 text-sm sm:text-base text-gray-700">
                     <p><strong class="text-blue-600">Здравей, аз съм Гео!</strong> Промени ъгъла и размера на правоъгълния триъгълник. Наблюдавай кои стойности се променят и кои остават постоянни.</p>
@@ -880,6 +885,114 @@
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') document.getElementById('def-modal').classList.add('hidden');
             });
+        })();
+
+        // --- ЗАКАЧЛИВА АНИМИРАНА ФИГУРА НА НАЧАЛНАТА СТРАНИЦА ---
+        (function introMascot() {
+            const cnv = document.getElementById('introCanvas');
+            if (!cnv) return;
+            const c = cnv.getContext('2d');
+            const W = 360, H = 150;
+            const dprI = window.devicePixelRatio || 1;
+            cnv.width = W * dprI; cnv.height = H * dprI;
+            c.scale(dprI, dprI);
+
+            let blink = 0, nextBlink = 90, frame = 0;
+            let rafId = null;
+
+            function draw() {
+                frame++;
+                c.clearRect(0, 0, W, H);
+
+                // ъгълът α плавно осцилира между 22° и 64°
+                const a = (43 + 21 * Math.sin(frame / 70)) * Math.PI / 180;
+                const cLen = 230;
+                const Ax = 65, Ay = 128;
+                const Bx = Ax + cLen, By = Ay;
+                const Cx = Ax + cLen * Math.pow(Math.cos(a), 2);
+                const Cy = Ay - cLen * Math.cos(a) * Math.sin(a);
+
+                // запълване на триъгълника
+                c.beginPath();
+                c.moveTo(Ax, Ay); c.lineTo(Bx, By); c.lineTo(Cx, Cy); c.closePath();
+                const grad = c.createLinearGradient(Ax, Ay, Cx, Cy);
+                grad.addColorStop(0, 'rgba(99,102,241,0.18)');
+                grad.addColorStop(1, 'rgba(59,130,246,0.10)');
+                c.fillStyle = grad; c.fill();
+
+                // дъга на ъгъла α
+                c.beginPath();
+                c.moveTo(Ax, Ay);
+                c.arc(Ax, Ay, 34, 0, -a, true);
+                c.closePath();
+                c.fillStyle = 'rgba(37,99,235,0.20)'; c.fill();
+                c.beginPath(); c.arc(Ax, Ay, 34, 0, -a, true);
+                c.strokeStyle = '#2563EB'; c.lineWidth = 2; c.stroke();
+                c.font = 'bold 16px Inter'; c.fillStyle = '#1D4ED8';
+                c.fillText('α', Ax + 42 * Math.cos(-a / 2) - 5, Ay + 42 * Math.sin(-a / 2) + 5);
+
+                // прав ъгъл при C
+                const angCA = Math.atan2(Ay - Cy, Ax - Cx);
+                const angCB = Math.atan2(By - Cy, Bx - Cx);
+                const sq = 14;
+                c.beginPath();
+                c.moveTo(Cx + sq * Math.cos(angCA), Cy + sq * Math.sin(angCA));
+                c.lineTo(Cx + sq * Math.cos(angCA) + sq * Math.cos(angCB), Cy + sq * Math.sin(angCA) + sq * Math.sin(angCB));
+                c.lineTo(Cx + sq * Math.cos(angCB), Cy + sq * Math.sin(angCB));
+                c.strokeStyle = '#9CA3AF'; c.lineWidth = 1.5; c.stroke();
+
+                // страни в цветовете на урока
+                c.lineCap = 'round'; c.lineJoin = 'round'; c.lineWidth = 5;
+                c.beginPath(); c.moveTo(Ax, Ay); c.lineTo(Cx, Cy); c.strokeStyle = '#3B82F6'; c.stroke();
+                c.beginPath(); c.moveTo(Bx, By); c.lineTo(Cx, Cy); c.strokeStyle = '#EF4444'; c.stroke();
+                c.beginPath(); c.moveTo(Ax, Ay); c.lineTo(Bx, By); c.strokeStyle = '#10B981'; c.stroke();
+
+                // върхове
+                [[Ax, Ay], [Bx, By], [Cx, Cy]].forEach(([x, y]) => {
+                    c.beginPath(); c.arc(x, y, 5, 0, 2 * Math.PI); c.fillStyle = '#111827'; c.fill();
+                });
+
+                // === ЗАКАЧЛИВО ЛИЦЕ в центъра на триъгълника ===
+                const fx = (Ax + Bx + Cx) / 3;
+                const fy = (Ay + By + Cy) / 3 + 6;
+
+                // мигане
+                if (frame > nextBlink) { blink = 8; nextBlink = frame + 70 + Math.random() * 80; }
+                if (blink > 0) blink--;
+                const eyeOpen = blink > 0 ? 1.5 : 7;
+
+                // очи — зениците гледат към движещата се точка C
+                const lookX = (Cx - fx) / 60, lookY = (Cy - fy) / 60;
+                const eyeDX = 13;
+                [-eyeDX, eyeDX].forEach(dx => {
+                    c.beginPath(); c.ellipse(fx + dx, fy - 8, 8, eyeOpen, 0, 0, 2 * Math.PI);
+                    c.fillStyle = '#fff'; c.fill();
+                    c.strokeStyle = '#1F2937'; c.lineWidth = 1.5; c.stroke();
+                    if (blink <= 0) {
+                        c.beginPath();
+                        c.arc(fx + dx + lookX * 3, fy - 8 + lookY * 3, 3.2, 0, 2 * Math.PI);
+                        c.fillStyle = '#1F2937'; c.fill();
+                    }
+                });
+
+                // усмивка
+                c.beginPath();
+                c.arc(fx, fy + 4, 9, 0.15 * Math.PI, 0.85 * Math.PI);
+                c.strokeStyle = '#1F2937'; c.lineWidth = 2.2; c.lineCap = 'round'; c.stroke();
+                // розови бузки
+                c.fillStyle = 'rgba(244,114,182,0.45)';
+                c.beginPath(); c.arc(fx - 16, fy + 2, 4, 0, 2 * Math.PI); c.fill();
+                c.beginPath(); c.arc(fx + 16, fy + 2, 4, 0, 2 * Math.PI); c.fill();
+
+                rafId = requestAnimationFrame(draw);
+            }
+
+            // уважение към prefers-reduced-motion
+            if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                frame = 50; draw(); cancelAnimationFrame(rafId);
+            } else {
+                draw();
+            }
         })();
 
         // --- УЧИТЕЛСКИ РЕЖИМ (видим бутон, панел с действия) ---
