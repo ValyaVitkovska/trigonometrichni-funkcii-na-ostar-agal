@@ -4,10 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Тригонометрични функции на остър ъгъл в правоъгълен триъгълник</title>
-    
+
+    <!-- Лично лого (ако липсва, favicon просто не се показва - без грешка) -->
+    <link rel="icon" type="image/png" href="logo.png">
+    <meta property="og:title" content="Тригонометрични функции на остър ъгъл в правоъгълен триъгълник">
+    <meta property="og:image" content="logo.png">
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <!-- KaTeX -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
@@ -187,11 +192,31 @@
             <button onclick="startLesson()" class="intro-item intro-delay-3 animate-cta bg-blue-500 hover:bg-blue-400 text-white font-extrabold text-xl md:text-2xl py-3 px-10 rounded-full border-b-[5px] border-blue-700 active:border-b-0 active:mt-[5px] transition-all hover:-translate-y-1 w-full sm:w-auto">
                 Започни Урока
             </button>
-            
+
+            <!-- Гео представя урока -->
+            <div id="geo-intro-wrap" class="intro-item intro-delay-3 flex flex-col sm:flex-row items-center gap-4 mt-6 md:mt-8 bg-white/60 rounded-2xl p-4 border border-white/60 text-left">
+                <img src="Гео.png" alt="Гео" class="h-24 sm:h-32 w-auto shrink-0 animate-floaty" onerror="document.getElementById('geo-intro-wrap').style.display='none'">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-3 sm:p-4 text-sm sm:text-base text-gray-700">
+                    <p class="mb-2"><strong class="text-blue-600">Здравей, аз съм Гео!</strong> 👋 В този урок ще:</p>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>откриеш чрез <strong>симулация</strong> защо синус, косинус, тангенс и котангенс зависят само от ъгъла, а не от размера на триъгълника;</li>
+                        <li>научиш <strong>теорията</strong> — дефинициите и тъждествата с доказателства;</li>
+                        <li>видиш точните стойности при <strong>30°, 45° и 60°</strong>;</li>
+                        <li>провериш знанията си с <strong>тест</strong> и практически <strong>задачи</strong>;</li>
+                        <li>опиташ по-сложни <strong>разширени задачи</strong> с решения.</li>
+                    </ul>
+                </div>
+            </div>
+
             <div class="intro-item intro-delay-4 mt-6 md:mt-8 pt-4 border-t border-gray-300/50 flex flex-col space-y-1 text-sm md:text-base text-gray-600">
                 <p>Идея и педагогически решения: <span class="font-bold text-gray-800">Валя Витковска</span></p>
                 <p>Реализация: <span class="font-bold text-blue-600">Gemini, Claude</span></p>
             </div>
+        </div>
+
+        <!-- Лично лого (долен десен ъгъл, изчезва автоматично ако logo.png липсва) -->
+        <div id="intro-logo-corner" class="absolute bottom-3 right-3 sm:bottom-5 sm:right-5 z-20">
+            <img src="logo.png" alt="" class="h-9 sm:h-12 w-auto opacity-90 drop-shadow" onerror="document.getElementById('intro-logo-corner').style.display='none'">
         </div>
     </div>
 
@@ -202,7 +227,10 @@
         <div class="main-container rounded-t-2xl md:rounded-t-3xl border-b-0 overflow-hidden mt-1 shadow-md">
             <!-- По-компактен хедър -->
             <div class="px-4 py-3 md:px-6 md:py-3 bg-gradient-to-r from-blue-700/90 to-blue-500/90 text-white flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-0 print-hide">
-                <h2 id="app-title" class="text-lg sm:text-xl md:text-2xl font-bold cursor-pointer select-none drop-shadow-md text-center sm:text-left">Тригонометрия</h2>
+                <div class="flex items-center gap-2">
+                    <img id="header-logo" src="logo.png" alt="" class="h-7 w-7 rounded-full bg-white/20 object-contain p-0.5" onerror="this.style.display='none'">
+                    <h2 id="app-title" class="text-lg sm:text-xl md:text-2xl font-bold cursor-pointer select-none drop-shadow-md text-center sm:text-left">Тригонометрия</h2>
+                </div>
                 <div class="flex items-center space-x-3">
                     <span id="teacher-badge" class="hidden bg-yellow-400 text-yellow-900 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide shadow-sm">👨‍🏫 Учител</span>
                     <button onclick="location.reload()" class="text-blue-50 hover:text-white underline text-xs md:text-sm font-medium transition">Към началото</button>
@@ -619,6 +647,11 @@
 
             <!-- РАЗДЕЛ 4: ЗАДАЧИ -->
             <div id="tab-exercises" class="hidden fade-in">
+                <!-- Лого при печат (само в отпечатаните работни листове) -->
+                <div class="hidden print:flex items-center gap-2 mb-3">
+                    <img src="logo.png" alt="" class="h-9 w-auto" onerror="this.parentElement.style.display='none'">
+                    <span class="font-bold text-gray-800">Тригонометрични функции на остър ъгъл в правоъгълен триъгълник</span>
+                </div>
                 <div class="flex flex-col sm:flex-row justify-between items-center mb-4 sm:mb-6 print-hide gap-3 sm:gap-0">
                     <h3 class="text-xl sm:text-2xl font-bold text-gray-800 drop-shadow-sm text-center sm:text-left">Практически задачи</h3>
                     
@@ -651,6 +684,8 @@
                     <p>По-сложни задачи, в които тригонометрията се прилага заедно с Питагоровата теорема, лице, вписана окръжност и др. Опитай сам, след което натисни <strong>„Покажи решение"</strong>.</p>
                 </div>
                 <div id="advanced-container" class="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 text-sm sm:text-base"></div>
+
+                <p class="mt-8 pt-4 border-t border-gray-300/50 text-center text-xs sm:text-sm text-gray-500 italic">Ресурсът е създаден по идея и методическа разработка на Валя Витковска с техническа помощ от изкуствен интелект. Съдържанието е проверено и редактирано от автора.</p>
             </div>
 
         </div>
