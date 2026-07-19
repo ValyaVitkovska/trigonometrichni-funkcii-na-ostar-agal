@@ -701,7 +701,7 @@
                 
                 <div class="bg-blue-50/90 backdrop-blur-sm border-l-4 border-blue-500 p-3 sm:p-4 mb-5 text-xs sm:text-sm text-gray-700 shadow-sm rounded-r-lg print-hide flex items-start gap-2">
                     <img src="Гео.png" alt="" class="h-6 w-6 object-contain shrink-0 mt-0.5" onerror="this.style.display='none'">
-                    <p><strong>Инструкции:</strong> Представянето на отговора да е с крайна десетична дроб или обикновена дроб (напр. <code>5/2</code>), а при ирационални стойности — с помощта на квадратен корен (напр. <code>5√3</code>, <code>√2</code> или <code>√3/3</code>). Десетичните отговори се приемат с толеранс \(\pm 0{,}02\).</p>
+                    <p><strong>Инструкции:</strong> Представянето на отговора да е с крайна десетична дроб или обикновена дроб (напр. <code>5/2</code>), а при ирационални стойности — с помощта на квадратен корен (напр. <code>5√3</code>, <code>√2</code> или <code>√3/3</code>). До полето за отговор има бутон <strong>√</strong>, с който можеш да вмъкнеш знака за корен, без да го търсиш на клавиатурата. Докато пишеш, отдолу ще видиш отговора си, изписан както в учебник. Десетичните отговори се приемат с толеранс \(\pm 0{,}02\).</p>
                 </div>
 
                 <div id="exercises-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-6 text-sm sm:text-base"></div>
@@ -2107,10 +2107,11 @@
                         </div>`;
                 } else {
                     answerArea = `<div class="ex-input-area flex items-center space-x-2 sm:space-x-3">
-                            <input type="text" inputmode="text" autocomplete="off" id="ex-input-${i}" class="border-2 border-gray-300 rounded-lg px-2 sm:px-3 py-1.5 sm:py-2 w-28 sm:w-36 text-base sm:text-lg font-bold focus:border-blue-500 focus:outline-none" placeholder="напр. 5√3">
+                            <input type="text" inputmode="text" autocomplete="off" id="ex-input-${i}" oninput="updateAnswerPreviewLive(${i})" class="border-2 border-gray-300 rounded-lg px-2 sm:px-3 py-1.5 sm:py-2 w-28 sm:w-36 text-base sm:text-lg font-bold focus:border-blue-500 focus:outline-none" placeholder="напр. 5√3">
                             <button type="button" onclick="insertRoot(${i})" class="shrink-0 px-2.5 py-1.5 rounded-lg bg-indigo-100 text-indigo-700 font-bold border border-indigo-200 hover:bg-indigo-200 transition text-base" title="Вмъкни знак за корен">√</button>
                             <span id="ex-icon-${i}" class="text-xl sm:text-2xl"></span>
-                        </div>`;
+                        </div>
+                        <div id="ex-preview-${i}" class="ex-input-area text-sm sm:text-base text-indigo-600 mt-1.5 min-h-[1.4em]"></div>`;
                 }
                 exDiv.innerHTML = `
                     <div>
@@ -2140,6 +2141,40 @@
             inp.focus();
             const pos = start + 1;
             try { inp.setSelectionRange(pos, pos); } catch (e) {}
+            updateAnswerPreviewLive(i);
+        }
+
+        // Превръща въведения текстов отговор в LaTeX, за да се изпише „като в учебник"
+        function answerToLatex(raw) {
+            let s = (raw || '').trim();
+            if (!s) return '';
+            const wrapSqrt = str => str
+                .replace(/√\s*\(([^)]*)\)/g, '\\sqrt{$1}')
+                .replace(/√\s*(\d+(?:[.,]\d+)?)/g, '\\sqrt{$1}');
+            if (s.includes('/')) {
+                const parts = s.split('/');
+                if (parts.length === 2 && parts[0].trim() && parts[1].trim()) {
+                    return `\\dfrac{${wrapSqrt(parts[0].trim())}}{${wrapSqrt(parts[1].trim())}}`;
+                }
+            }
+            return wrapSqrt(s);
+        }
+
+        // Показва живо превю на въведения отговор, изписан както в учебник (чрез KaTeX)
+        function updateAnswerPreviewLive(i) {
+            const inp = document.getElementById(`ex-input-${i}`);
+            const prev = document.getElementById(`ex-preview-${i}`);
+            if (!inp || !prev) return;
+            const raw = inp.value.trim();
+            if (!raw) { prev.innerHTML = ''; return; }
+            const latex = answerToLatex(raw);
+            if (window.katex) {
+                try {
+                    katex.render(latex, prev, { throwOnError: false });
+                } catch (e) {
+                    prev.textContent = raw;
+                }
+            }
         }
 
         // Превръща въведения отговор (десетична дроб, обикновена дроб или израз с корен) в число
