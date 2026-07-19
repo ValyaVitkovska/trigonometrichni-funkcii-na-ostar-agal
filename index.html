@@ -210,8 +210,8 @@
         
         <!-- Навигация -->
         <div class="main-container rounded-t-2xl md:rounded-t-3xl border-b-0 overflow-hidden mt-1 shadow-md">
-            <!-- По-компактен хедър -->
-            <div class="px-4 py-3 md:px-6 md:py-3 bg-gradient-to-r from-blue-700/90 to-blue-500/90 text-white flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-0 print-hide">
+            <!-- По-компактен хедър (скрит, докато Гео не отключи урока) -->
+            <div id="main-header-bar" class="hidden px-4 py-3 md:px-6 md:py-3 bg-gradient-to-r from-blue-700/90 to-blue-500/90 text-white flex-col sm:flex-row justify-between items-center gap-2 sm:gap-0 print-hide">
                 <div class="flex items-center gap-2">
                     <img id="header-logo" src="logo.png" alt="" class="h-7 w-7 rounded-full bg-white/20 object-contain p-0.5" onerror="this.style.display='none'">
                     <h2 id="app-title" class="text-lg sm:text-xl md:text-2xl font-bold cursor-pointer select-none drop-shadow-md text-center sm:text-left">Тригонометрия</h2>
@@ -225,11 +225,14 @@
             <!-- По-компактни бутони за раздели -->
             <nav class="flex overflow-x-auto gap-2 sm:gap-3 p-2 sm:p-3 bg-white/40 border-b border-white/50 print-hide snap-x">
                 <button id="nav-sim" onclick="showTab('sim')" class="snap-start flex-1 min-w-[110px] md:min-w-fit py-2 px-3 text-center font-extrabold text-sm md:text-base rounded-xl transition-all whitespace-nowrap bg-blue-500 border-blue-700 text-white mt-[4px] border-b-0 shadow-inner">📐 Симулация</button>
-                <button id="nav-theory" onclick="showTab('theory')" class="snap-start flex-1 min-w-[110px] md:min-w-fit py-2 px-3 text-center font-extrabold text-sm md:text-base rounded-xl transition-all whitespace-nowrap border-b-[4px] border-gray-300 bg-white/90 text-gray-600 hover:-translate-y-0.5 hover:bg-white shadow-sm">📚 Теория</button>
-                <button id="nav-special" onclick="showTab('special')" class="snap-start flex-1 min-w-[110px] md:min-w-fit py-2 px-3 text-center font-extrabold text-sm md:text-base rounded-xl transition-all whitespace-nowrap border-b-[4px] border-gray-300 bg-white/90 text-gray-600 hover:-translate-y-0.5 hover:bg-white shadow-sm">📐 Специални ъгли</button>
-                <button id="nav-quiz" onclick="showTab('quiz')" class="snap-start flex-1 min-w-[110px] md:min-w-fit py-2 px-3 text-center font-extrabold text-sm md:text-base rounded-xl transition-all whitespace-nowrap border-b-[4px] border-gray-300 bg-white/90 text-gray-600 hover:-translate-y-0.5 hover:bg-white shadow-sm">📝 Тест</button>
-                <button id="nav-exercises" onclick="showTab('exercises')" class="snap-start flex-1 min-w-[110px] md:min-w-fit py-2 px-3 text-center font-extrabold text-sm md:text-base rounded-xl transition-all whitespace-nowrap border-b-[4px] border-gray-300 bg-white/90 text-gray-600 hover:-translate-y-0.5 hover:bg-white shadow-sm">🧮 Задачи</button>
-                <button id="nav-advanced" onclick="showTab('advanced')" class="snap-start flex-1 min-w-[110px] md:min-w-fit py-2 px-3 text-center font-extrabold text-sm md:text-base rounded-xl transition-all whitespace-nowrap border-b-[4px] border-gray-300 bg-white/90 text-gray-600 hover:-translate-y-0.5 hover:bg-white shadow-sm">🎓 Разширени</button>
+                <!-- Останалите рубрики - скрити, докато Гео не отключи урока -->
+                <div id="nav-locked-group" style="display:none">
+                    <button id="nav-theory" onclick="showTab('theory')" class="snap-start flex-1 min-w-[110px] md:min-w-fit py-2 px-3 text-center font-extrabold text-sm md:text-base rounded-xl transition-all whitespace-nowrap border-b-[4px] border-gray-300 bg-white/90 text-gray-600 hover:-translate-y-0.5 hover:bg-white shadow-sm">📚 Теория</button>
+                    <button id="nav-special" onclick="showTab('special')" class="snap-start flex-1 min-w-[110px] md:min-w-fit py-2 px-3 text-center font-extrabold text-sm md:text-base rounded-xl transition-all whitespace-nowrap border-b-[4px] border-gray-300 bg-white/90 text-gray-600 hover:-translate-y-0.5 hover:bg-white shadow-sm">📐 Специални ъгли</button>
+                    <button id="nav-quiz" onclick="showTab('quiz')" class="snap-start flex-1 min-w-[110px] md:min-w-fit py-2 px-3 text-center font-extrabold text-sm md:text-base rounded-xl transition-all whitespace-nowrap border-b-[4px] border-gray-300 bg-white/90 text-gray-600 hover:-translate-y-0.5 hover:bg-white shadow-sm">📝 Тест</button>
+                    <button id="nav-exercises" onclick="showTab('exercises')" class="snap-start flex-1 min-w-[110px] md:min-w-fit py-2 px-3 text-center font-extrabold text-sm md:text-base rounded-xl transition-all whitespace-nowrap border-b-[4px] border-gray-300 bg-white/90 text-gray-600 hover:-translate-y-0.5 hover:bg-white shadow-sm">🧮 Задачи</button>
+                    <button id="nav-advanced" onclick="showTab('advanced')" class="snap-start flex-1 min-w-[110px] md:min-w-fit py-2 px-3 text-center font-extrabold text-sm md:text-base rounded-xl transition-all whitespace-nowrap border-b-[4px] border-gray-300 bg-white/90 text-gray-600 hover:-translate-y-0.5 hover:bg-white shadow-sm">🎓 Разширени</button>
+                </div>
             </nav>
         </div>
 
@@ -334,6 +337,19 @@
 
                         <div class="flex-grow flex flex-col gap-2 sm:gap-3 justify-center" id="ratios-container">
                             <!-- Динамично съдържание -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Гео пита за извода - отключва останалите рубрики -->
+                <div id="sim-geo-check" class="mt-4 md:mt-6 bg-white/90 backdrop-blur-md rounded-2xl border border-white/50 shadow-sm p-3 md:p-4">
+                    <div class="flex flex-col sm:flex-row items-center gap-3">
+                        <img src="Гео.png" alt="Гео" class="h-16 sm:h-20 w-auto shrink-0 cursor-pointer" onclick="simGeoToggle()" onerror="this.style.display='none'">
+                        <div class="flex-grow text-center sm:text-left">
+                            <p class="font-bold text-gray-800 text-sm sm:text-base mb-2">Готов ли си с извода? 🤔 Какво забеляза — променят ли се отношенията на страните?</p>
+                            <button id="sim-geo-btn" onclick="simGeoToggle()" class="text-xs sm:text-sm bg-blue-500 hover:bg-blue-400 text-white border-b-[3px] border-blue-700 active:border-b-0 active:mt-[3px] px-4 py-2 rounded-lg font-bold transition-all shadow-sm">Кажи ми извода</button>
+                            <div id="sim-geo-options" class="hidden space-y-2 max-w-md mx-auto sm:mx-0 mt-2"></div>
+                            <div id="sim-geo-feedback" class="hidden mt-2 text-sm font-medium p-2 rounded-lg"></div>
                         </div>
                     </div>
                 </div>
@@ -1934,6 +1950,60 @@
                 container.appendChild(div);
             });
             renderAllMath();
+        }
+
+        // ============================================================
+        // ГЕО ОТКЛЮЧВА УРОКА (заглавие + останалите рубрики)
+        // ============================================================
+        function unlockLesson() {
+            const header = document.getElementById('main-header-bar');
+            const navGroup = document.getElementById('nav-locked-group');
+            if (header) { header.classList.remove('hidden'); header.classList.add('flex'); }
+            if (navGroup) navGroup.style.display = 'contents';
+        }
+
+        const simGeoOptions = [
+            'Отношенията между страните зависят от размера на триъгълника.',
+            'Отношенията между страните зависят само от големината на ъгъла.',
+            'Отношенията между страните са еднакви за всеки триъгълник.'
+        ];
+        const simGeoCorrectIdx = 1;
+
+        function simGeoToggle() {
+            const box = document.getElementById('sim-geo-options');
+            const btn = document.getElementById('sim-geo-btn');
+            if (!box || !btn) return;
+            if (box.classList.contains('hidden')) {
+                box.innerHTML = '';
+                simGeoOptions.forEach((text, idx) => {
+                    const b = document.createElement('button');
+                    b.className = 'w-full text-left text-xs sm:text-sm bg-white hover:bg-blue-50 border border-gray-300 rounded-lg px-3 py-2 transition';
+                    b.textContent = text;
+                    b.onclick = function () { simGeoCheck(idx, b); };
+                    box.appendChild(b);
+                });
+                box.classList.remove('hidden');
+                btn.classList.add('hidden');
+                document.getElementById('sim-geo-feedback').classList.add('hidden');
+            } else {
+                box.classList.add('hidden');
+                btn.classList.remove('hidden');
+            }
+        }
+
+        function simGeoCheck(idx, btnEl) {
+            const feedback = document.getElementById('sim-geo-feedback');
+            if (idx === simGeoCorrectIdx) {
+                feedback.className = 'mt-2 text-sm font-medium p-2 rounded-lg bg-emerald-50 border border-emerald-300 text-emerald-800';
+                feedback.textContent = 'Точно така! Отношенията зависят само от ъгъла, не и от размера. Ето цялото съдържание на урока 👇';
+                btnEl.classList.add('bg-emerald-100', 'border-emerald-400');
+                unlockLesson();
+            } else {
+                feedback.className = 'mt-2 text-sm font-medium p-2 rounded-lg bg-rose-50 border border-rose-300 text-rose-800';
+                feedback.textContent = 'Опитай пак — промени ъгъла и размера в симулацията и наблюдавай отношенията на страните.';
+                btnEl.classList.add('bg-rose-100', 'border-rose-400');
+            }
+            feedback.classList.remove('hidden');
         }
     </script>
 </body>
