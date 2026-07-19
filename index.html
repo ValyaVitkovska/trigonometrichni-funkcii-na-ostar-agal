@@ -108,6 +108,18 @@
         }
         .fade-in { animation: fadeIn 0.4s ease-out; }
 
+        /* Кратко подчертаване на срещулежащия/прилежащия катет в началото на симулацията */
+        @keyframes pulseRed {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(220,38,38,0); transform: scale(1); }
+            50%      { box-shadow: 0 0 0 6px rgba(220,38,38,0.35); transform: scale(1.04); }
+        }
+        @keyframes pulseBlue {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(37,99,235,0); transform: scale(1); }
+            50%      { box-shadow: 0 0 0 6px rgba(37,99,235,0.35); transform: scale(1.04); }
+        }
+        .pulse-highlight-red { animation: pulseRed 0.9s ease-in-out 3; }
+        .pulse-highlight-blue { animation: pulseBlue 0.9s ease-in-out 3; }
+
         /* === АНИМАЦИИ НА НАЧАЛНАТА СТРАНИЦА === */
 
         /* Появяване на картата отдолу нагоре */
@@ -160,7 +172,8 @@
         /* Уважение към потребители, които предпочитат намалено движение */
         @media (prefers-reduced-motion: reduce) {
             .animate-blob, .animate-floaty, .animate-cta,
-            .intro-card, .intro-item, .fade-in {
+            .intro-card, .intro-item, .fade-in,
+            .pulse-highlight-red, .pulse-highlight-blue {
                 animation: none !important;
             }
             .intro-card, .intro-item { opacity: 1 !important; transform: none !important; }
@@ -274,16 +287,16 @@
                                     </span> 
                                     <span id="side-c-val" class="font-bold text-gray-800 text-base sm:text-lg">25</span>
                                 </li>
-                                <li class="flex flex-col items-center bg-white/90 p-2 rounded-xl shadow-sm border border-red-100">
+                                <li id="side-a-card" class="flex flex-col items-center bg-white/90 p-2 rounded-xl shadow-sm border border-red-100">
                                     <span class="text-red-600 flex items-center font-bold w-full justify-center text-center text-xs sm:text-sm">
                                         <span class="w-2 h-2 rounded-full bg-red-500 mr-1.5"></span><span id="label-side-a">Срещулежащ (a)</span>
-                                    </span> 
+                                    </span>
                                     <span id="side-a-val" class="font-bold text-gray-800 text-base sm:text-lg"></span>
                                 </li>
-                                <li class="flex flex-col items-center bg-white/90 p-2 rounded-xl shadow-sm border border-blue-100">
+                                <li id="side-b-card" class="flex flex-col items-center bg-white/90 p-2 rounded-xl shadow-sm border border-blue-100">
                                     <span class="text-blue-700 flex items-center font-bold w-full justify-center text-center text-xs sm:text-sm">
                                         <span class="w-2 h-2 rounded-full bg-blue-500 mr-1.5"></span><span id="label-side-b">Прилежащ (b)</span>
-                                    </span> 
+                                    </span>
                                     <span id="side-b-val" class="font-bold text-gray-800 text-base sm:text-lg"></span>
                                 </li>
                             </ul>
@@ -305,7 +318,12 @@
                     <!-- ДЯСНА КОЛОНА: Отношения -->
                     <div class="w-full lg:w-1/4 bg-purple-50/90 backdrop-blur-md p-3 md:p-4 rounded-2xl border border-purple-100 flex flex-col h-full shadow-sm hover:shadow-md transition shrink-0">
                         <h4 class="font-bold text-purple-900 mb-3 border-b border-purple-200 pb-1.5 text-xs uppercase tracking-wider text-center">Отношения <span id="ratio-focus-label" class="lowercase">\(\alpha\)</span></h4>
-                        
+
+                        <div class="flex items-start gap-1.5 bg-white/80 border border-purple-100 rounded-lg p-2 mb-3 text-[11px] sm:text-xs text-purple-800">
+                            <img src="Гео.png" alt="" class="h-5 w-5 object-contain shrink-0" onerror="this.style.display='none'">
+                            <span>Съвет: следи <strong>по едно отношение наведнъж</strong> — катет/хипотенуза или катет/катет — вместо всички едновременно. Така по-лесно ще откриеш закономерността.</span>
+                        </div>
+
                         <!-- БУТОНИ ЗА ИЗБОР НА ФУНКЦИЯ -->
                         <div class="grid grid-cols-2 gap-2 mb-3">
                             <button onclick="setRatioFilter('all')" id="btn-filter-all" class="col-span-2 px-2 py-1.5 text-[11px] sm:text-xs font-bold rounded-lg transition-all bg-purple-600 text-white shadow-inner mt-[2px] border-b-0 leading-tight flex justify-center items-center">Всички</button>
@@ -1017,6 +1035,22 @@
             initExercises();
             initAdvanced();
             renderAllMath();
+            setTimeout(pulseCatheti, 700);
+        }
+
+        // Кратко подчертаване кой катет е срещулежащ и кой прилежащ - веднъж, в началото
+        let simIntroPulsed = false;
+        function pulseCatheti() {
+            if (simIntroPulsed) return;
+            simIntroPulsed = true;
+            const aCard = document.getElementById('side-a-card');
+            const bCard = document.getElementById('side-b-card');
+            if (aCard) aCard.classList.add('pulse-highlight-red');
+            if (bCard) bCard.classList.add('pulse-highlight-blue');
+            setTimeout(() => {
+                if (aCard) aCard.classList.remove('pulse-highlight-red');
+                if (bCard) bCard.classList.remove('pulse-highlight-blue');
+            }, 2800);
         }
 
         const tabsData = {
@@ -1965,7 +1999,7 @@
         const simGeoOptions = [
             'Отношенията между страните зависят от размера на триъгълника.',
             'Отношенията между страните зависят само от големината на ъгъла.',
-            'Отношенията между страните са еднакви за всеки триъгълник.'
+            'Отношенията между страните зависят едновременно и от ъгъла, и от размера на триъгълника.'
         ];
         const simGeoCorrectIdx = 1;
 
