@@ -56,7 +56,7 @@
             html, body { height: auto !important; min-height: auto !important; overflow: visible !important; display: block !important; background: white !important; }
             body > *:not(#main-screen) { display: none !important; }
             #background-wrapper { display: none !important; }
-            #intro-screen, nav, .print-hide, #teacher-controls { display: none !important; }
+            #intro-screen, nav, .print-hide { display: none !important; }
             #tab-sim, #tab-theory, #tab-special, #tab-quiz, #tab-advanced { display: none !important; }
             #tab-exercises { display: block !important; }
             
@@ -194,21 +194,16 @@
     <div id="intro-screen" class="relative flex flex-col items-center justify-center min-h-screen w-full p-4 md:p-6 overflow-hidden">
 
         <div class="intro-card relative z-10 w-full max-w-2xl text-center bg-white/70 backdrop-blur-xl p-6 md:p-10 rounded-3xl shadow-2xl border border-white/60">
-            <!-- Закачлива анимирана фигура: триъгълник с лице -->
-            <div class="intro-item flex justify-center w-full mb-2 md:mb-3">
-                <canvas id="introCanvas" class="w-[220px] sm:w-[260px] max-w-full h-auto animate-floaty"></canvas>
-            </div>
-
             <!-- Гео задава въпрос -->
-            <div id="geo-intro-wrap" class="intro-item intro-delay-1 flex flex-col sm:flex-row items-center gap-4 mb-6 md:mb-8 bg-white/60 rounded-2xl p-4 border border-white/60 text-left">
+            <div id="geo-intro-wrap" class="intro-item flex flex-col sm:flex-row items-center gap-4 mb-6 md:mb-8 bg-white/60 rounded-2xl p-4 border border-white/60 text-left">
                 <img src="Гео.png" alt="Гео" class="h-20 sm:h-28 w-auto shrink-0 animate-floaty" onerror="document.getElementById('geo-intro-wrap').style.display='none'">
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-3 sm:p-4 text-sm sm:text-base text-gray-700">
-                    <p><strong class="text-blue-600">Здравей, аз съм Гео!</strong> 🤔 Има ли връзка между страните и ъглите в правоъгълен триъгълник? Натисни бутона отдолу и открий сам чрез симулацията!</p>
+                    <p><strong class="text-blue-600">Здравей, аз съм Гео!</strong> Промени ъгъла и размера на правоъгълния триъгълник. Наблюдавай кои стойности се променят и кои остават постоянни.</p>
                 </div>
             </div>
 
             <button onclick="startLesson()" class="intro-item intro-delay-2 animate-cta bg-blue-500 hover:bg-blue-400 text-white font-extrabold text-xl md:text-2xl py-3 px-10 rounded-full border-b-[5px] border-blue-700 active:border-b-0 active:mt-[5px] transition-all hover:-translate-y-1 w-full sm:w-auto">
-                📐 Симулация
+                🔍 Започни изследването
             </button>
         </div>
 
@@ -227,7 +222,7 @@
             <div id="main-header-bar" class="hidden px-4 py-3 md:px-6 md:py-3 bg-gradient-to-r from-blue-700/90 to-blue-500/90 text-white flex-col sm:flex-row justify-between items-center gap-2 sm:gap-0 print-hide">
                 <div class="flex items-center gap-2">
                     <img id="header-logo" src="logo.png" alt="" class="h-7 w-7 rounded-full bg-white/20 object-contain p-0.5" onerror="this.style.display='none'">
-                    <h2 id="app-title" class="text-lg sm:text-xl md:text-2xl font-bold cursor-pointer select-none drop-shadow-md text-center sm:text-left">Тригонометрия</h2>
+                    <h2 id="app-title" class="text-[13px] leading-tight sm:text-base md:text-xl font-bold select-none drop-shadow-md text-center sm:text-left break-words max-w-[220px] sm:max-w-none">Тригонометрични функции на остър ъгъл в правоъгълен триъгълник</h2>
                 </div>
                 <div class="flex items-center space-x-3">
                     <span id="teacher-badge" class="hidden bg-yellow-400 text-yellow-900 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide shadow-sm">👨‍🏫 Учител</span>
@@ -244,7 +239,7 @@
                     <button id="nav-special" onclick="showTab('special')" class="snap-start flex-1 min-w-[110px] md:min-w-fit py-2 px-3 text-center font-extrabold text-sm md:text-base rounded-xl transition-all whitespace-nowrap border-b-[4px] border-gray-300 bg-white/90 text-gray-600 hover:-translate-y-0.5 hover:bg-white shadow-sm">📐 Специални ъгли</button>
                     <button id="nav-quiz" onclick="showTab('quiz')" class="snap-start flex-1 min-w-[110px] md:min-w-fit py-2 px-3 text-center font-extrabold text-sm md:text-base rounded-xl transition-all whitespace-nowrap border-b-[4px] border-gray-300 bg-white/90 text-gray-600 hover:-translate-y-0.5 hover:bg-white shadow-sm">📝 Тест</button>
                     <button id="nav-exercises" onclick="showTab('exercises')" class="snap-start flex-1 min-w-[110px] md:min-w-fit py-2 px-3 text-center font-extrabold text-sm md:text-base rounded-xl transition-all whitespace-nowrap border-b-[4px] border-gray-300 bg-white/90 text-gray-600 hover:-translate-y-0.5 hover:bg-white shadow-sm">🧮 Задачи</button>
-                    <button id="nav-advanced" onclick="showTab('advanced')" class="snap-start flex-1 min-w-[110px] md:min-w-fit py-2 px-3 text-center font-extrabold text-sm md:text-base rounded-xl transition-all whitespace-nowrap border-b-[4px] border-gray-300 bg-white/90 text-gray-600 hover:-translate-y-0.5 hover:bg-white shadow-sm">🎓 Разширени</button>
+                    <button id="nav-advanced" onclick="showTab('advanced')" class="snap-start flex-1 min-w-[110px] md:min-w-fit py-2 px-3 text-center font-extrabold text-sm md:text-base rounded-xl transition-all whitespace-nowrap border-b-[4px] border-gray-300 bg-white/90 text-gray-600 hover:-translate-y-0.5 hover:bg-white shadow-sm">🎓 Предизвикателства</button>
                 </div>
             </nav>
         </div>
@@ -253,8 +248,9 @@
 
             <!-- РАЗДЕЛ 1: СИМУЛАЦИЯ -->
             <div id="tab-sim" class="fade-in print-hide h-full flex flex-col">
-                <div class="flex flex-col md:flex-row justify-between items-center mb-3 md:mb-4">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-2 mb-3 md:mb-4">
                     <h3 class="text-xl md:text-2xl font-bold text-gray-800 drop-shadow-sm text-center md:text-left">Интерактивен правоъгълен триъгълник</h3>
+                    <button onclick="resetSimulation()" class="text-xs sm:text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 border-b-[3px] border-gray-300 active:border-b-0 active:mt-[3px] px-4 py-2 rounded-lg font-bold transition-all shadow-sm whitespace-nowrap">↺ Нулирай симулацията</button>
                 </div>
                 
                 <div class="flex flex-col lg:flex-row gap-4 items-stretch w-full flex-grow">
@@ -465,32 +461,41 @@
                             <!-- Тъждество 1 -->
                             <div class="bg-gray-50/90 p-3 sm:p-4 rounded-xl shadow-inner border border-gray-200">
                                 <div class="font-bold text-base sm:text-lg mb-2 text-gray-800">\(\sin^2 \alpha + \cos^2 \alpha = 1\)</div>
-                                <p class="text-xs sm:text-sm text-gray-500 mb-2 font-semibold uppercase tracking-wide">Доказателство:</p>
-                                <div class="text-sm sm:text-base overflow-x-auto bg-white/80 p-2 sm:p-3 rounded-lg border border-gray-200">
-                                    \(\sin^2 \alpha + \cos^2 \alpha = \left(\dfrac{a}{c}\right)^2 + \left(\dfrac{b}{c}\right)^2 = \dfrac{a^2 + b^2}{c^2} = \dfrac{c^2}{c^2} = 1\)
+                                <button id="proof-btn-th1" onclick="toggleProof('th1')" class="text-xs sm:text-sm font-bold text-blue-600 hover:text-blue-800 underline mb-2">Покажи доказателството</button>
+                                <div id="proof-th1" class="hidden">
+                                    <p class="text-xs sm:text-sm text-gray-500 mb-2 font-semibold uppercase tracking-wide">Доказателство:</p>
+                                    <div class="text-sm sm:text-base overflow-x-auto bg-white/80 p-2 sm:p-3 rounded-lg border border-gray-200">
+                                        \(\sin^2 \alpha + \cos^2 \alpha = \left(\dfrac{a}{c}\right)^2 + \left(\dfrac{b}{c}\right)^2 = \dfrac{a^2 + b^2}{c^2} = \dfrac{c^2}{c^2} = 1\)
+                                    </div>
+                                    <p class="text-xs sm:text-sm text-gray-600 mt-2">Използвахме Питагоровата теорема \(a^2 + b^2 = c^2\). \(\blacksquare\)</p>
                                 </div>
-                                <p class="text-xs sm:text-sm text-gray-600 mt-2">Използвахме Питагоровата теорема \(a^2 + b^2 = c^2\). \(\blacksquare\)</p>
                             </div>
 
                             <!-- Тъждество 2 -->
                             <div class="bg-gray-50/90 p-3 sm:p-4 rounded-xl shadow-inner border border-gray-200">
                                 <div class="font-bold text-base sm:text-lg mb-2 text-gray-800 overflow-x-auto">\(\operatorname{tg} \alpha = \dfrac{\sin \alpha}{\cos \alpha} \quad \text{и} \quad \operatorname{cotg} \alpha = \dfrac{\cos \alpha}{\sin \alpha}\)</div>
-                                <p class="text-xs sm:text-sm text-gray-500 mb-2 font-semibold uppercase tracking-wide">Доказателство:</p>
-                                <div class="text-sm sm:text-base overflow-x-auto bg-white/80 p-2 sm:p-3 rounded-lg border border-gray-200 space-y-2">
-                                    <div>\(\dfrac{\sin \alpha}{\cos \alpha} = \dfrac{a/c}{b/c} = \dfrac{a}{c} \cdot \dfrac{c}{b} = \dfrac{a}{b} = \operatorname{tg} \alpha\)</div>
-                                    <div>\(\dfrac{\cos \alpha}{\sin \alpha} = \dfrac{b/c}{a/c} = \dfrac{b}{c} \cdot \dfrac{c}{a} = \dfrac{b}{a} = \operatorname{cotg} \alpha\)</div>
+                                <button id="proof-btn-th2" onclick="toggleProof('th2')" class="text-xs sm:text-sm font-bold text-blue-600 hover:text-blue-800 underline mb-2">Покажи доказателството</button>
+                                <div id="proof-th2" class="hidden">
+                                    <p class="text-xs sm:text-sm text-gray-500 mb-2 font-semibold uppercase tracking-wide">Доказателство:</p>
+                                    <div class="text-sm sm:text-base overflow-x-auto bg-white/80 p-2 sm:p-3 rounded-lg border border-gray-200 space-y-2">
+                                        <div>\(\dfrac{\sin \alpha}{\cos \alpha} = \dfrac{a/c}{b/c} = \dfrac{a}{c} \cdot \dfrac{c}{b} = \dfrac{a}{b} = \operatorname{tg} \alpha\)</div>
+                                        <div>\(\dfrac{\cos \alpha}{\sin \alpha} = \dfrac{b/c}{a/c} = \dfrac{b}{c} \cdot \dfrac{c}{a} = \dfrac{b}{a} = \operatorname{cotg} \alpha\)</div>
+                                    </div>
+                                    <p class="text-xs sm:text-sm text-gray-600 mt-2">\(\blacksquare\)</p>
                                 </div>
-                                <p class="text-xs sm:text-sm text-gray-600 mt-2">\(\blacksquare\)</p>
                             </div>
 
                             <!-- Тъждество 3 -->
                             <div class="bg-gray-50/90 p-3 sm:p-4 rounded-xl shadow-inner border border-gray-200">
                                 <div class="font-bold text-base sm:text-lg mb-2 text-gray-800">\(\operatorname{tg} \alpha \cdot \operatorname{cotg} \alpha = 1\)</div>
-                                <p class="text-xs sm:text-sm text-gray-500 mb-2 font-semibold uppercase tracking-wide">Доказателство:</p>
-                                <div class="text-sm sm:text-base overflow-x-auto bg-white/80 p-2 sm:p-3 rounded-lg border border-gray-200">
-                                    \(\operatorname{tg} \alpha \cdot \operatorname{cotg} \alpha = \dfrac{a}{b} \cdot \dfrac{b}{a} = 1\)
+                                <button id="proof-btn-th3" onclick="toggleProof('th3')" class="text-xs sm:text-sm font-bold text-blue-600 hover:text-blue-800 underline mb-2">Покажи доказателството</button>
+                                <div id="proof-th3" class="hidden">
+                                    <p class="text-xs sm:text-sm text-gray-500 mb-2 font-semibold uppercase tracking-wide">Доказателство:</p>
+                                    <div class="text-sm sm:text-base overflow-x-auto bg-white/80 p-2 sm:p-3 rounded-lg border border-gray-200">
+                                        \(\operatorname{tg} \alpha \cdot \operatorname{cotg} \alpha = \dfrac{a}{b} \cdot \dfrac{b}{a} = 1\)
+                                    </div>
+                                    <p class="text-xs sm:text-sm text-gray-600 mt-2">Тоест тангенсът и котангенсът са взаимно реципрочни. \(\blacksquare\)</p>
                                 </div>
-                                <p class="text-xs sm:text-sm text-gray-600 mt-2">Тоест тангенсът и котангенсът са взаимно реципрочни. \(\blacksquare\)</p>
                             </div>
 
                         </div>
@@ -504,7 +509,8 @@
                             <li>\(\operatorname{tg} \alpha = \operatorname{cotg}(90^\circ - \alpha) = \operatorname{cotg} \beta\)</li>
                             <li>\(\operatorname{cotg} \alpha = \operatorname{tg}(90^\circ - \alpha) = \operatorname{tg} \beta\)</li>
                         </ul>
-                        <div class="bg-white/90 p-3 sm:p-4 rounded-xl border border-indigo-200 shadow-sm">
+                        <button id="proof-btn-th4" onclick="toggleProof('th4')" class="text-xs sm:text-sm font-bold text-indigo-600 hover:text-indigo-800 underline mb-2">Покажи доказателството</button>
+                        <div id="proof-th4" class="hidden bg-white/90 p-3 sm:p-4 rounded-xl border border-indigo-200 shadow-sm">
                             <p class="text-xs sm:text-sm text-indigo-500 mb-2 font-semibold uppercase tracking-wide">Доказателство:</p>
                             <p class="text-sm sm:text-base mb-3">Ключово наблюдение: страната \(a\) е <strong>срещулежаща</strong> на \(\alpha\), но <strong>прилежаща</strong> на \(\beta\). Аналогично \(b\) е прилежаща на \(\alpha\), но срещулежаща на \(\beta\). Затова:</p>
                             <div class="text-sm sm:text-base overflow-x-auto space-y-2">
@@ -555,13 +561,16 @@
                         </div>
 
                         <!-- Доказателство -->
-                        <p class="text-xs sm:text-sm text-indigo-500 mb-2 font-semibold uppercase tracking-wide">Доказателство:</p>
-                        <ol class="list-decimal list-inside space-y-2 text-sm sm:text-base mb-4 marker:text-indigo-500 marker:font-bold">
-                            <li>Разглеждаме правоъгълен триъгълник с остри ъгли \(30^\circ\) и \(60^\circ\) и хипотенуза \(c = 2\).</li>
-                            <li>Катетът срещу ъгъла \(30^\circ\) е \(a = 1\) (равен на половината от хипотенузата).</li>
-                            <li>Другият катет намираме по Питагоровата теорема: \(b = \sqrt{c^2 - a^2} = \sqrt{2^2 - 1^2} = \sqrt{4 - 1} = \sqrt{3}\).</li>
-                            <li>Прилагаме дефинициите за всеки от двата остри ъгъла.</li>
-                        </ol>
+                        <button id="proof-btn-sp1" onclick="toggleProof('sp1')" class="text-xs sm:text-sm font-bold text-indigo-600 hover:text-indigo-800 underline mb-2">Покажи доказателството</button>
+                        <div id="proof-sp1" class="hidden mb-4">
+                            <p class="text-xs sm:text-sm text-indigo-500 mb-2 font-semibold uppercase tracking-wide">Доказателство:</p>
+                            <ol class="list-decimal list-inside space-y-2 text-sm sm:text-base marker:text-indigo-500 marker:font-bold">
+                                <li>Разглеждаме правоъгълен триъгълник с остри ъгли \(30^\circ\) и \(60^\circ\) и хипотенуза \(c = 2\).</li>
+                                <li>Катетът срещу ъгъла \(30^\circ\) е \(a = 1\) (равен на половината от хипотенузата).</li>
+                                <li>Другият катет намираме по Питагоровата теорема: \(b = \sqrt{c^2 - a^2} = \sqrt{2^2 - 1^2} = \sqrt{4 - 1} = \sqrt{3}\).</li>
+                                <li>Прилагаме дефинициите за всеки от двата остри ъгъла.</li>
+                            </ol>
+                        </div>
                         <div class="bg-white/90 p-3 sm:p-4 rounded-xl border border-indigo-200 shadow-sm text-sm sm:text-base overflow-x-auto space-y-2">
                             <div>\(\sin 30^\circ = \dfrac{1}{2}, \quad \cos 30^\circ = \dfrac{\sqrt{3}}{2}, \quad \operatorname{tg} 30^\circ = \dfrac{1}{\sqrt{3}} = \dfrac{\sqrt{3}}{3}, \quad \operatorname{cotg} 30^\circ = \sqrt{3}\)</div>
                             <div>\(\sin 60^\circ = \dfrac{\sqrt{3}}{2}, \quad \cos 60^\circ = \dfrac{1}{2}, \quad \operatorname{tg} 60^\circ = \sqrt{3}, \quad \operatorname{cotg} 60^\circ = \dfrac{\sqrt{3}}{3}\)</div>
@@ -597,13 +606,16 @@
                         </div>
 
                         <!-- Доказателство -->
-                        <p class="text-xs sm:text-sm text-green-600 mb-2 font-semibold uppercase tracking-wide">Доказателство:</p>
-                        <ol class="list-decimal list-inside space-y-2 text-sm sm:text-base mb-4 marker:text-green-600 marker:font-bold">
-                            <li>Разглеждаме правоъгълен триъгълник с два равни катета: \(a = b = 1\).</li>
-                            <li>Срещу равните катети лежат равни ъгли, а те са в сбор \(90^\circ\), значи всеки е \(\dfrac{90^\circ}{2} = 45^\circ\).</li>
-                            <li>Хипотенузата намираме по Питагоровата теорема: \(c = \sqrt{a^2 + b^2} = \sqrt{1^2 + 1^2} = \sqrt{2}\).</li>
-                            <li>Прилагаме дефинициите за ъгъла \(45^\circ\).</li>
-                        </ol>
+                        <button id="proof-btn-sp2" onclick="toggleProof('sp2')" class="text-xs sm:text-sm font-bold text-green-600 hover:text-green-800 underline mb-2">Покажи доказателството</button>
+                        <div id="proof-sp2" class="hidden mb-4">
+                            <p class="text-xs sm:text-sm text-green-600 mb-2 font-semibold uppercase tracking-wide">Доказателство:</p>
+                            <ol class="list-decimal list-inside space-y-2 text-sm sm:text-base marker:text-green-600 marker:font-bold">
+                                <li>Разглеждаме правоъгълен триъгълник с два равни катета: \(a = b = 1\).</li>
+                                <li>Срещу равните катети лежат равни ъгли, а те са в сбор \(90^\circ\), значи всеки е \(\dfrac{90^\circ}{2} = 45^\circ\).</li>
+                                <li>Хипотенузата намираме по Питагоровата теорема: \(c = \sqrt{a^2 + b^2} = \sqrt{1^2 + 1^2} = \sqrt{2}\).</li>
+                                <li>Прилагаме дефинициите за ъгъла \(45^\circ\).</li>
+                            </ol>
+                        </div>
                         <div class="bg-white/90 p-3 sm:p-4 rounded-xl border border-green-200 shadow-sm text-sm sm:text-base overflow-x-auto space-y-2">
                             <div>\(\sin 45^\circ = \cos 45^\circ = \dfrac{1}{\sqrt{2}} = \dfrac{\sqrt{2}}{2}\)</div>
                             <div>\(\operatorname{tg} 45^\circ = \dfrac{1}{1} = 1, \quad \operatorname{cotg} 45^\circ = \dfrac{1}{1} = 1\)</div>
@@ -678,18 +690,13 @@
                     <h3 class="text-xl sm:text-2xl font-bold text-gray-800 drop-shadow-sm text-center sm:text-left">Практически задачи</h3>
                     
                     <div class="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-2 w-full sm:w-auto">
-                        <div id="teacher-controls" class="hidden w-full sm:w-auto">
-                            <button onclick="printTasks()" class="bg-purple-500 hover:bg-purple-400 text-white border-b-[3px] border-purple-700 active:border-b-0 active:mt-[3px] px-4 py-2 rounded-lg font-bold transition-all shadow-sm flex items-center justify-center w-full text-sm">
-                                <span class="mr-1">🖨️</span> Принтирай
-                            </button>
-                        </div>
                         <button id="btn-new-tasks" onclick="initExercises()" class="text-xs sm:text-sm bg-yellow-400 hover:bg-yellow-300 text-yellow-900 border-b-[3px] border-yellow-600 active:border-b-0 active:mt-[3px] px-4 py-2 rounded-lg font-bold transition-all shadow-sm w-full sm:w-auto">↻ Нови задачи</button>
                     </div>
                 </div>
                 
                 <div class="bg-blue-50/90 backdrop-blur-sm border-l-4 border-blue-500 p-3 sm:p-4 mb-5 text-xs sm:text-sm text-gray-700 shadow-sm rounded-r-lg print-hide flex items-start gap-2">
                     <img src="Гео.png" alt="" class="h-6 w-6 object-contain shrink-0 mt-0.5" onerror="this.style.display='none'">
-                    <p><strong>Инструкции:</strong> Представянето на отговора да е с крайна десетична дроб или обикновена дроб (напр. <code>5/2</code>), а при ирационални стойности — с помощта на квадратен корен (напр. <code>5√3</code>, <code>√2</code> или <code>√3/3</code>). Десетичните отговори се приемат с толеранс \(\pm 0.02\).</p>
+                    <p><strong>Инструкции:</strong> Представянето на отговора да е с крайна десетична дроб или обикновена дроб (напр. <code>5/2</code>), а при ирационални стойности — с помощта на квадратен корен (напр. <code>5√3</code>, <code>√2</code> или <code>√3/3</code>). Десетичните отговори се приемат с толеранс \(\pm 0{,}02\).</p>
                 </div>
 
                 <div id="exercises-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-6 text-sm sm:text-base"></div>
@@ -702,7 +709,7 @@
 
             <!-- РАЗДЕЛ 5: РАЗШИРЕНИ ЗАДАЧИ (с готови решения) -->
             <div id="tab-advanced" class="hidden fade-in print-hide">
-                <h3 class="text-xl sm:text-2xl font-bold text-gray-800 drop-shadow-sm mb-2 text-center sm:text-left">Разширени задачи</h3>
+                <h3 class="text-xl sm:text-2xl font-bold text-gray-800 drop-shadow-sm mb-2 text-center sm:text-left">Предизвикателства</h3>
                 <div class="bg-indigo-50/90 backdrop-blur-sm border-l-4 border-indigo-400 p-3 sm:p-4 mb-5 text-xs sm:text-sm text-gray-700 shadow-sm rounded-r-lg flex items-start gap-2">
                     <img src="Гео.png" alt="" class="h-6 w-6 object-contain shrink-0 mt-0.5" onerror="this.style.display='none'">
                     <p>По-сложни задачи, в които тригонометрията се прилага заедно с Питагоровата теорема, лице, вписана окръжност и др. Опитай сам, след което натисни <strong>„Покажи решение"</strong>.</p>
@@ -728,7 +735,38 @@
         </div>
     </div>
 
+    <!-- ВИДИМ, НЕНАТРАПЧИВ БУТОН ЗА УЧИТЕЛЯ -->
+    <button id="teacher-fab" onclick="openTeacherPanel()" class="print-hide fixed bottom-3 left-3 z-40 flex items-center gap-1.5 bg-white/90 hover:bg-white text-gray-600 hover:text-gray-800 text-xs font-semibold px-3 py-2 rounded-full shadow-md border border-gray-200 backdrop-blur-sm transition" title="За учителя">
+        <span>👨‍🏫</span><span class="hidden sm:inline">За учителя</span>
+    </button>
+
+    <!-- ПАНЕЛ ЗА УЧИТЕЛЯ -->
+    <div id="teacher-panel-backdrop" class="hidden print-hide fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/50 backdrop-blur-sm" onclick="if(event.target===this) closeTeacherPanel()">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-md w-full p-5 sm:p-6 relative">
+            <button onclick="closeTeacherPanel()" class="absolute top-3 right-3 w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold text-lg flex items-center justify-center transition" aria-label="Затвори">✕</button>
+            <h3 class="text-xl font-extrabold text-gray-800 mb-1 flex items-center gap-2">👨‍🏫 За учителя</h3>
+            <p class="text-xs sm:text-sm text-gray-500 mb-4">Инструменти за представяне на урока в клас.</p>
+            <div class="flex flex-col gap-2">
+                <button onclick="teacherOpenAllTabs()" class="text-left text-sm bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-800 font-bold px-4 py-2.5 rounded-xl transition">📂 Отвори всички рубрики</button>
+                <button onclick="teacherNewVariant()" class="text-left text-sm bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-800 font-bold px-4 py-2.5 rounded-xl transition">🔀 Генерирай нов вариант на задачите</button>
+                <button onclick="teacherPrintPlain()" class="text-left text-sm bg-purple-50 hover:bg-purple-100 border border-purple-200 text-purple-800 font-bold px-4 py-2.5 rounded-xl transition">🖨️ Принтирай работен лист</button>
+                <button onclick="teacherPrintAnswers()" class="text-left text-sm bg-purple-50 hover:bg-purple-100 border border-purple-200 text-purple-800 font-bold px-4 py-2.5 rounded-xl transition">🖨️ Принтирай работен лист с отговори</button>
+                <button onclick="teacherShowAllSolutions()" class="text-left text-sm bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-800 font-bold px-4 py-2.5 rounded-xl transition">👁️ Покажи всички решения</button>
+                <button onclick="teacherHideAllSolutions()" class="text-left text-sm bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-700 font-bold px-4 py-2.5 rounded-xl transition">🙈 Скрий всички решения</button>
+            </div>
+        </div>
+    </div>
+
     <script>
+        // === ОБЩА ФУНКЦИЯ ЗА БЪЛГАРСКО ДЕСЕТИЧНО ФОРМАТИРАНЕ (запетая, не точка) ===
+        // Използва се навсякъде за визуално показване на числа - НЕ променя вътрешните
+        // числови стойности в JS, само как се изписват на екрана.
+        function formatBG(num, decimals) {
+            if (num === null || num === undefined || isNaN(num) || !isFinite(num)) return '—';
+            decimals = decimals === undefined ? 2 : decimals;
+            return num.toFixed(decimals).replace('.', ',');
+        }
+
         // --- ИНТЕРАКТИВЕН ЧЕРТЕЖ ЗА ДЕФИНИЦИИТЕ (модал) ---
         (function setupDefinitionModal() {
             // Връхове на правоъгълен триъгълник (прав ъгъл при C, ъгъл α при A)
@@ -844,183 +882,153 @@
             });
         })();
 
-        // --- ЗАКАЧЛИВА АНИМИРАНА ФИГУРА НА НАЧАЛНАТА СТРАНИЦА ---
-        (function introMascot() {
-            const cnv = document.getElementById('introCanvas');
-            if (!cnv) return;
-            const c = cnv.getContext('2d');
-            const W = 360, H = 150;
-            const dprI = window.devicePixelRatio || 1;
-            cnv.width = W * dprI; cnv.height = H * dprI;
-            c.scale(dprI, dprI);
-
-            let blink = 0, nextBlink = 90, frame = 0;
-            let rafId = null;
-
-            function draw() {
-                frame++;
-                c.clearRect(0, 0, W, H);
-
-                // ъгълът α плавно осцилира между 22° и 64°
-                const a = (43 + 21 * Math.sin(frame / 70)) * Math.PI / 180;
-                const cLen = 230;
-                const Ax = 65, Ay = 128;
-                const Bx = Ax + cLen, By = Ay;
-                const Cx = Ax + cLen * Math.pow(Math.cos(a), 2);
-                const Cy = Ay - cLen * Math.cos(a) * Math.sin(a);
-
-                // запълване на триъгълника
-                c.beginPath();
-                c.moveTo(Ax, Ay); c.lineTo(Bx, By); c.lineTo(Cx, Cy); c.closePath();
-                const grad = c.createLinearGradient(Ax, Ay, Cx, Cy);
-                grad.addColorStop(0, 'rgba(99,102,241,0.18)');
-                grad.addColorStop(1, 'rgba(59,130,246,0.10)');
-                c.fillStyle = grad; c.fill();
-
-                // дъга на ъгъла α
-                c.beginPath();
-                c.moveTo(Ax, Ay);
-                c.arc(Ax, Ay, 34, 0, -a, true);
-                c.closePath();
-                c.fillStyle = 'rgba(37,99,235,0.20)'; c.fill();
-                c.beginPath(); c.arc(Ax, Ay, 34, 0, -a, true);
-                c.strokeStyle = '#2563EB'; c.lineWidth = 2; c.stroke();
-                c.font = 'bold 16px Inter'; c.fillStyle = '#1D4ED8';
-                c.fillText('α', Ax + 42 * Math.cos(-a / 2) - 5, Ay + 42 * Math.sin(-a / 2) + 5);
-
-                // прав ъгъл при C
-                const angCA = Math.atan2(Ay - Cy, Ax - Cx);
-                const angCB = Math.atan2(By - Cy, Bx - Cx);
-                const sq = 14;
-                c.beginPath();
-                c.moveTo(Cx + sq * Math.cos(angCA), Cy + sq * Math.sin(angCA));
-                c.lineTo(Cx + sq * Math.cos(angCA) + sq * Math.cos(angCB), Cy + sq * Math.sin(angCA) + sq * Math.sin(angCB));
-                c.lineTo(Cx + sq * Math.cos(angCB), Cy + sq * Math.sin(angCB));
-                c.strokeStyle = '#9CA3AF'; c.lineWidth = 1.5; c.stroke();
-
-                // страни в цветовете на урока
-                c.lineCap = 'round'; c.lineJoin = 'round'; c.lineWidth = 5;
-                c.beginPath(); c.moveTo(Ax, Ay); c.lineTo(Cx, Cy); c.strokeStyle = '#3B82F6'; c.stroke();
-                c.beginPath(); c.moveTo(Bx, By); c.lineTo(Cx, Cy); c.strokeStyle = '#EF4444'; c.stroke();
-                c.beginPath(); c.moveTo(Ax, Ay); c.lineTo(Bx, By); c.strokeStyle = '#10B981'; c.stroke();
-
-                // върхове
-                [[Ax, Ay], [Bx, By], [Cx, Cy]].forEach(([x, y]) => {
-                    c.beginPath(); c.arc(x, y, 5, 0, 2 * Math.PI); c.fillStyle = '#111827'; c.fill();
-                });
-
-                // === ЗАКАЧЛИВО ЛИЦЕ в центъра на триъгълника ===
-                const fx = (Ax + Bx + Cx) / 3;
-                const fy = (Ay + By + Cy) / 3 + 6;
-
-                // мигане
-                if (frame > nextBlink) { blink = 8; nextBlink = frame + 70 + Math.random() * 80; }
-                if (blink > 0) blink--;
-                const eyeOpen = blink > 0 ? 1.5 : 7;
-
-                // очи — зениците гледат към движещата се точка C
-                const lookX = (Cx - fx) / 60, lookY = (Cy - fy) / 60;
-                const eyeDX = 13;
-                [-eyeDX, eyeDX].forEach(dx => {
-                    c.beginPath(); c.ellipse(fx + dx, fy - 8, 8, eyeOpen, 0, 0, 2 * Math.PI);
-                    c.fillStyle = '#fff'; c.fill();
-                    c.strokeStyle = '#1F2937'; c.lineWidth = 1.5; c.stroke();
-                    if (blink <= 0) {
-                        c.beginPath();
-                        c.arc(fx + dx + lookX * 3, fy - 8 + lookY * 3, 3.2, 0, 2 * Math.PI);
-                        c.fillStyle = '#1F2937'; c.fill();
-                    }
-                });
-
-                // усмивка
-                c.beginPath();
-                c.arc(fx, fy + 4, 9, 0.15 * Math.PI, 0.85 * Math.PI);
-                c.strokeStyle = '#1F2937'; c.lineWidth = 2.2; c.lineCap = 'round'; c.stroke();
-                // розови бузки
-                c.fillStyle = 'rgba(244,114,182,0.45)';
-                c.beginPath(); c.arc(fx - 16, fy + 2, 4, 0, 2 * Math.PI); c.fill();
-                c.beginPath(); c.arc(fx + 16, fy + 2, 4, 0, 2 * Math.PI); c.fill();
-
-                rafId = requestAnimationFrame(draw);
-            }
-
-            // уважение към prefers-reduced-motion
-            if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                frame = 50; draw(); cancelAnimationFrame(rafId);
-            } else {
-                draw();
-            }
-        })();
-
-        // --- УЧИТЕЛСКИ РЕЖИМ ---
-        let titleClicks = 0;
-        let clickTimer;
+        // --- УЧИТЕЛСКИ РЕЖИМ (видим бутон, панел с действия) ---
         let teacherMode = false;
 
-        document.getElementById('app-title').addEventListener('click', () => {
-            titleClicks++;
-            clearTimeout(clickTimer);
-            clickTimer = setTimeout(() => { titleClicks = 0; }, 1000);
-            
-            if (titleClicks === 5 && !teacherMode) {
-                teacherMode = true;
-                document.getElementById('teacher-badge').classList.remove('hidden');
-                document.getElementById('teacher-controls').classList.remove('hidden');
-                alert('👨‍🏫 Учителски режим е активиран! Вече можете да принтирате задачите (и виждате отговорите).');
-                titleClicks = 0;
-                initExercises(); 
-            }
+        function openTeacherPanel() {
+            document.getElementById('teacher-panel-backdrop').classList.remove('hidden');
+        }
+        function closeTeacherPanel() {
+            document.getElementById('teacher-panel-backdrop').classList.add('hidden');
+        }
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeTeacherPanel();
         });
 
+        function teacherOpenAllTabs() {
+            teacherMode = true;
+            const badge = document.getElementById('teacher-badge');
+            if (badge) badge.classList.remove('hidden');
+            unlockLesson();
+            initExercises();
+            closeTeacherPanel();
+        }
+        function teacherNewVariant() {
+            initExercises();
+            closeTeacherPanel();
+        }
+        function teacherPrintPlain() {
+            printTasks(false);
+            closeTeacherPanel();
+        }
+        function teacherPrintAnswers() {
+            printTasks(true);
+            closeTeacherPanel();
+        }
+        function teacherShowAllSolutions() {
+            document.querySelectorAll('[id^="adv-sol-"]').forEach(el => el.classList.remove('hidden'));
+            document.querySelectorAll('[id^="adv-btn-"]').forEach(btn => btn.textContent = 'Скрий решението');
+            closeTeacherPanel();
+        }
+        function teacherHideAllSolutions() {
+            document.querySelectorAll('[id^="adv-sol-"]').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('[id^="adv-btn-"]').forEach(btn => btn.textContent = 'Покажи решение');
+            closeTeacherPanel();
+        }
+
         // --- ФУНКЦИЯ ЗА ПРИНТИРАНЕ ---
-        function printTasks() {
+        function printTasks(withAnswers) {
             try {
+                if (!currentExerciseAnswers || !currentExerciseAnswers.length) {
+                    alert('Няма генерирани задачи. Отворете раздел „Задачи" или натиснете „Генерирай нов вариант".');
+                    return;
+                }
                 const printWin = window.open('', '_blank');
                 if (!printWin) {
                     alert('Изскачащите прозорци са блокирани от браузъра. За да принтирате, натиснете Ctrl + P.');
-                    window.print(); 
+                    window.print();
                     return;
                 }
 
-                const containerHtml = document.getElementById('exercises-container').innerHTML;
-                
+                const logoUrl = new URL('logo.png', window.location.href).href;
+                const fullTitle = 'Тригонометрични функции на остър ъгъл в правоъгълен триъгълник';
+
+                const cardsHtml = currentExerciseAnswers.map((t, i) => {
+                    const ansDisp = t.type === 'yn' ? (t.answer === 'да' ? 'Да' : 'Не') : (t.exact || ('' + t.answer));
+                    const answerBlock = withAnswers
+                        ? `<div class="teacher-ans">Отговор: ${ansDisp}</div>`
+                        : `<div class="print-answer-line"></div>`;
+                    return `
+                        <div class="ex-card">
+                            ${t.svg ? `<div class="mb-2">${t.svg}</div>` : ''}
+                            <p class="q-text">${i + 1}. ${t.html}</p>
+                            ${answerBlock}
+                        </div>
+                    `;
+                }).join('');
+
                 printWin.document.write(`
                     <!DOCTYPE html>
                     <html lang="bg">
                     <head>
                         <meta charset="UTF-8">
-                        <title>Задачи - Тригонометрия</title>
+                        <title>${fullTitle}</title>
                         <script src="https://cdn.tailwindcss.com"><\/script>
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+                        <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"><\/script>
+                        <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"><\/script>
                         <style>
-                            body { background: white; font-family: 'Inter', sans-serif; padding: 20px; color: black; }
-                            h1 { text-align: center; margin-bottom: 20px; font-size: 20px; font-weight: bold; text-transform: uppercase; }
+                            body { background: white; font-family: 'Inter', sans-serif; padding: 24px; color: black; }
+                            .print-header { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+                            .print-header img { height: 36px; width: auto; }
+                            h1 { font-size: 17px; font-weight: bold; margin: 0; }
+                            .teacher-tag { display: inline-block; margin-top: 4px; background: #fee2e2; color: #991b1b; font-weight: bold; font-size: 11px; padding: 2px 10px; border-radius: 999px; }
+                            .student-fields { display: flex; flex-wrap: wrap; gap: 18px; margin: 14px 0 18px 0; font-size: 13px; }
+                            .student-fields span { display: inline-block; border-bottom: 1px solid #000; min-width: 140px; padding-bottom: 2px; }
                             .grid-container { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 15px; }
-                            .ex-card { 
-                                width: calc(50% - 10px); 
-                                border: 1px solid #ccc; 
-                                border-radius: 8px; 
-                                padding: 12px; 
-                                page-break-inside: avoid; 
+                            .ex-card {
+                                width: calc(50% - 10px);
+                                border: 1px solid #ccc;
+                                border-radius: 8px;
+                                padding: 12px;
+                                page-break-inside: avoid;
                                 break-inside: avoid;
+                                position: relative;
                             }
                             @media (max-width: 768px) { .ex-card { width: 100%; } }
-                            .ex-input-area { display: none !important; }
-                            .print-answer-line { display: block !important; margin-top: 30px; border-bottom: 1px solid #000; width: 120px; height: 1px; }
-                            .print-answer-line::before { content: "Отговор: "; position: absolute; margin-top: -18px; font-size: 12px; color: gray; }
+                            .q-text { font-size: 13px; text-align: justify; margin: 0; }
+                            .print-answer-line { display: block; margin-top: 34px; border-bottom: 1px solid #000; width: 130px; height: 1px; position: relative; }
+                            .print-answer-line::before { content: "Отговор: "; position: absolute; top: -18px; font-size: 12px; color: gray; }
                             svg { max-height: 100px; margin: 0 auto 8px auto; display: block; }
-                            .teacher-ans { font-weight: bold; color: #15803d; margin-bottom: 8px; font-size: 12px; }
+                            .teacher-ans { font-weight: bold; color: #15803d; margin-top: 8px; font-size: 12px; }
                         </style>
                     </head>
                     <body>
-                        <h1>Практически задачи по тригонометрия</h1>
-                        <div class="grid-container">${containerHtml}</div>
-                        <script>setTimeout(() => { window.print(); }, 1500);<\/script>
+                        <div class="print-header">
+                            <img src="${logoUrl}" onerror="this.style.display='none'">
+                            <div>
+                                <h1>${fullTitle}</h1>
+                                ${withAnswers ? '<span class="teacher-tag">ВАРИАНТ ЗА УЧИТЕЛЯ</span>' : ''}
+                            </div>
+                        </div>
+                        ${withAnswers ? '' : `
+                        <div class="student-fields">
+                            <div>Име: <span>&nbsp;</span></div>
+                            <div>Клас: <span>&nbsp;</span></div>
+                            <div>Дата: <span>&nbsp;</span></div>
+                        </div>`}
+                        <div class="grid-container">${cardsHtml}</div>
+                        <script>
+                            window.onload = function () {
+                                if (window.renderMathInElement) {
+                                    renderMathInElement(document.body, {
+                                        delimiters: [
+                                            {left: "\\\\[", right: "\\\\]", display: true},
+                                            {left: "$", right: "$", display: false},
+                                            {left: "\\\\(", right: "\\\\)", display: false}
+                                        ],
+                                        throwOnError: false
+                                    });
+                                }
+                                setTimeout(function () { window.print(); }, 600);
+                            };
+                        <\/script>
                     </body>
                     </html>
                 `);
                 printWin.document.close();
             } catch (e) {
+                console.error(e);
                 alert('Средата блокира директното принтиране. Моля, натиснете Ctrl + P.');
                 window.print();
             }
@@ -1282,11 +1290,19 @@
             drawSimulation();
         }
 
+        // Връща симулацията в началното ѝ състояние: α=45°, начален размер, фокус α, всички отношения
+        function resetSimulation() {
+            alphaDeg = 45;
+            cVal = 25;
+            setFocusAngle('alpha');
+            setRatioFilter('all');
+        }
+
         function formatExactSide(c, angleDeg, isSideA) {
             if (![30, 45, 60].includes(angleDeg)) {
                 let rad = angleDeg * Math.PI / 180;
                 let val = isSideA ? c * Math.sin(rad) : c * Math.cos(rad);
-                return val.toFixed(2);
+                return formatBG(val, 2);
             }
             if (angleDeg === 30) {
                 if (isSideA) return c % 2 === 0 ? (c/2).toString() : `\\frac{${c}}{2}`;
@@ -1345,10 +1361,10 @@
                 valCotg= currentFocus === 'alpha' ? rAlpha.cotg: rBeta.cotg;
             } else {
                 let focusRad = currentFocus === 'alpha' ? alphaRad : betaRad;
-                valSin = Math.sin(focusRad).toFixed(3);
-                valCos = Math.cos(focusRad).toFixed(3);
-                valTg = Math.tan(focusRad).toFixed(3);
-                valCotg = (1/Math.tan(focusRad)).toFixed(3);
+                valSin = formatBG(Math.sin(focusRad), 3);
+                valCos = formatBG(Math.cos(focusRad), 3);
+                valTg = formatBG(Math.tan(focusRad), 3);
+                valCotg = formatBG(1/Math.tan(focusRad), 3);
             }
 
             let opSide = currentFocus === 'alpha' ? 'a' : 'b';
@@ -1403,11 +1419,13 @@
                 </div>
             `;
 
+            const focusGreek = currentFocus === 'alpha' ? '\\alpha' : '\\beta';
+
             if(window.katex) {
-                katex.render(`\\frac{\\color{${opColor}}${opSide}}{\\color{#10B981}c} = \\frac{\\color{${opColor}}${valOpDisplay}}{\\color{#10B981}${cVal}} = ${valSin}`, document.getElementById('r-sin'), {throwOnError: false});
-                katex.render(`\\frac{\\color{${adjColor}}${adjSide}}{\\color{#10B981}c} = \\frac{\\color{${adjColor}}${valAdjDisplay}}{\\color{#10B981}${cVal}} = ${valCos}`, document.getElementById('r-cos'), {throwOnError: false});
-                katex.render(`\\frac{\\color{${opColor}}${opSide}}{\\color{${adjColor}}${adjSide}} = \\frac{\\color{${opColor}}${valOpDisplay}}{\\color{${adjColor}}${valAdjDisplay}} = ${valTg}`, document.getElementById('r-tg'), {throwOnError: false});
-                katex.render(`\\frac{\\color{${adjColor}}${adjSide}}{\\color{${opColor}}${opSide}} = \\frac{\\color{${adjColor}}${valAdjDisplay}}{\\color{${opColor}}${valOpDisplay}} = ${valCotg}`, document.getElementById('r-cotg'), {throwOnError: false});
+                katex.render(`\\sin${focusGreek} = \\frac{\\color{${opColor}}${opSide}}{\\color{#10B981}c} = \\frac{\\color{${opColor}}${valOpDisplay}}{\\color{#10B981}${cVal}} = ${valSin}`, document.getElementById('r-sin'), {throwOnError: false});
+                katex.render(`\\cos${focusGreek} = \\frac{\\color{${adjColor}}${adjSide}}{\\color{#10B981}c} = \\frac{\\color{${adjColor}}${valAdjDisplay}}{\\color{#10B981}${cVal}} = ${valCos}`, document.getElementById('r-cos'), {throwOnError: false});
+                katex.render(`\\operatorname{tg}${focusGreek} = \\frac{\\color{${opColor}}${opSide}}{\\color{${adjColor}}${adjSide}} = \\frac{\\color{${opColor}}${valOpDisplay}}{\\color{${adjColor}}${valAdjDisplay}} = ${valTg}`, document.getElementById('r-tg'), {throwOnError: false});
+                katex.render(`\\operatorname{cotg}${focusGreek} = \\frac{\\color{${adjColor}}${adjSide}}{\\color{${opColor}}${opSide}} = \\frac{\\color{${adjColor}}${valAdjDisplay}}{\\color{${opColor}}${valOpDisplay}} = ${valCotg}`, document.getElementById('r-cotg'), {throwOnError: false});
             }
 
             // ВИЗУАЛНИ КООРДИНАТИ НА ТРИЪГЪЛНИКА (фиксиран произход → A е стабилна опора)
@@ -1556,18 +1574,60 @@
             ctx.restore();
         }
 
-        // --- ГЕНЕРАТОР НА ТЕСТОВЕ ---
+        // --- ГЕНЕРАТОР НА ТЕСТОВЕ (банка от 30+ въпроса, на всеки старт се теглят 10 на случаен принцип) ---
         const testBank = [
-            { q: "Как се дефинира тангенс от остър ъгъл?", opts: [{t: "Отношението на срещулежащия към прилежащия катет", c: true}, {t: "Отношението на прилежащия към срещулежащия катет", c: false}, {t: "Отношението на срещулежащия катет към хипотенузата", c: false}, {t: "Отношението на хипотенузата към прилежащия катет", c: false}] },
-            { q: "Как се дефинира котангенс от остър ъгъл?", opts: [{t: "Отношението на прилежащия към срещулежащия катет", c: true}, {t: "Отношението на срещулежащия към прилежащия катет", c: false}, {t: "Отношението на прилежащия катет към хипотенузата", c: false}, {t: "Отношението на хипотенузата към срещулежащия катет", c: false}] },
-            { q: "Кое твърдение е вярно за всеки остър ъгъл \\( \\alpha \\)?", opts: [{t: "\\( \\operatorname{tg} \\alpha \\cdot \\operatorname{cotg} \\alpha = 1 \\)", c: true}, {t: "\\( \\operatorname{tg} \\alpha + \\operatorname{cotg} \\alpha = 1 \\)", c: false}, {t: "\\( \\sin \\alpha \\cdot \\cos \\alpha = 1 \\)", c: false}, {t: "\\( \\operatorname{tg} \\alpha = \\cos \\alpha / \\sin \\alpha \\)", c: false}] },
-            { q: "Ако \\( \\alpha \\) и \\( \\beta \\) са остри ъгли в правоъгълен триъгълник, на какво е равно \\( \\sin \\alpha \\)?", opts: [{t: "\\( \\cos \\beta \\)", c: true}, {t: "\\( \\sin \\beta \\)", c: false}, {t: "\\( \\operatorname{tg} \\beta \\)", c: false}, {t: "\\( 1 - \\cos \\alpha \\)", c: false}] },
-            { q: "Коя е стойността на \\( \\operatorname{tg}(45^\\circ) \\)?", opts: [{t: "\\( 1 \\)", c: true}, {t: "\\( 0 \\)", c: false}, {t: "\\( 0.5 \\)", c: false}, {t: "\\( \\sqrt{2} \\)", c: false}] },
-            { q: "Кое от следните е Основното тригонометрично тъждество?", opts: [{t: "\\( \\sin^2 \\alpha + \\cos^2 \\alpha = 1 \\)", c: true}, {t: "\\( \\sin \\alpha + \\cos \\alpha = 1 \\)", c: false}, {t: "\\( \\operatorname{tg}^2 \\alpha + 1 = \\sin^2 \\alpha \\)", c: false}, {t: "\\( \\sin^2 \\alpha - \\cos^2 \\alpha = 1 \\)", c: false}] },
-            { q: "Когато ъгълът \\( \\alpha \\) расте от \\( 0^\\circ \\) към \\( 90^\\circ \\), какво се случва със стойността на \\( \\cos \\alpha \\)?", opts: [{t: "Намалява", c: true}, {t: "Расте", c: false}, {t: "Остава същата", c: false}, {t: "Става отрицателна", c: false}] },
-            { q: "На какво е равен изразът \\( \\frac{\\cos \\alpha}{\\sin \\alpha} \\)?", opts: [{t: "\\( \\operatorname{cotg} \\alpha \\)", c: true}, {t: "\\( \\operatorname{tg} \\alpha \\)", c: false}, {t: "\\( 1 \\)", c: false}, {t: "Не може да се определи", c: false}] },
-            { q: "Ако \\( \\sin \\alpha = 0.6 \\) и \\( \\cos \\alpha = 0.8 \\), то \\( \\operatorname{cotg} \\alpha \\) е:", opts: [{t: "\\( \\frac{4}{3} \\)", c: true}, {t: "\\( \\frac{3}{4} \\)", c: false}, {t: "\\( 1.4 \\)", c: false}, {t: "\\( 1 \\)", c: false}] },
-            { q: "Коя е стойността на \\( \\sin(30^\\circ) \\)?", opts: [{t: "\\( 0.5 \\)", c: true}, {t: "\\( 1 \\)", c: false}, {t: "\\( \\frac{\\sqrt{2}}{2} \\)", c: false}, {t: "\\( \\frac{\\sqrt{3}}{2} \\)", c: false}] }
+            // 1. Дефиниции на четирите функции
+            { q: "Как се дефинира синус от остър ъгъл в правоъгълен триъгълник?", opts: [{t: "Отношението на срещулежащия катет към хипотенузата", c: true}, {t: "Отношението на прилежащия катет към хипотенузата", c: false}, {t: "Отношението на срещулежащия към прилежащия катет", c: false}, {t: "Отношението на хипотенузата към срещулежащия катет", c: false}], exp: "sin α = срещулежащ катет / хипотенуза." },
+            { q: "Как се дефинира косинус от остър ъгъл в правоъгълен триъгълник?", opts: [{t: "Отношението на прилежащия катет към хипотенузата", c: true}, {t: "Отношението на срещулежащия катет към хипотенузата", c: false}, {t: "Отношението на прилежащия към срещулежащия катет", c: false}, {t: "Отношението на хипотенузата към прилежащия катет", c: false}], exp: "cos α = прилежащ катет / хипотенуза." },
+            { q: "Как се дефинира тангенс от остър ъгъл?", opts: [{t: "Отношението на срещулежащия към прилежащия катет", c: true}, {t: "Отношението на прилежащия към срещулежащия катет", c: false}, {t: "Отношението на срещулежащия катет към хипотенузата", c: false}, {t: "Отношението на хипотенузата към прилежащия катет", c: false}], exp: "tg α = срещулежащ катет / прилежащ катет." },
+            { q: "Как се дефинира котангенс от остър ъгъл?", opts: [{t: "Отношението на прилежащия към срещулежащия катет", c: true}, {t: "Отношението на срещулежащия към прилежащия катет", c: false}, {t: "Отношението на прилежащия катет към хипотенузата", c: false}, {t: "Отношението на хипотенузата към срещулежащия катет", c: false}], exp: "cotg α = прилежащ катет / срещулежащ катет." },
+            { q: "Изразът \\( \\dfrac{a}{c} \\), където \\( a \\) е катетът срещулежащ на \\( \\alpha \\), а \\( c \\) е хипотенузата, отговаря на коя функция?", opts: [{t: "\\( \\sin \\alpha \\)", c: true}, {t: "\\( \\cos \\alpha \\)", c: false}, {t: "\\( \\operatorname{tg} \\alpha \\)", c: false}, {t: "\\( \\operatorname{cotg} \\alpha \\)", c: false}], exp: "Срещулежащ катет към хипотенуза е точно определението на sin α." },
+
+            // 2. Срещулежащ / прилежащ катет
+            { q: "В триъгълник ABC с прав ъгъл при C, ъгълът \\( \\alpha \\) е при връх A. Кой катет е срещулежащ на \\( \\alpha \\)?", opts: [{t: "Катетът BC", c: true}, {t: "Катетът AC", c: false}, {t: "Хипотенузата AB", c: false}, {t: "И двата катета едновременно", c: false}], exp: "Срещулежащият катет е този, който не се допира до връх A — тоест BC." },
+            { q: "В същия триъгълник ABC (прав ъгъл при C, \\( \\alpha \\) при A) кой катет е прилежащ на \\( \\alpha \\)?", opts: [{t: "Катетът AC", c: true}, {t: "Катетът BC", c: false}, {t: "Хипотенузата AB", c: false}, {t: "Никой от катетите", c: false}], exp: "Прилежащият катет докосва връх A (без хипотенузата) — тоест AC." },
+
+            // 3. Роля на катета спрямо α и β
+            { q: "Катетът \\( a \\) е срещулежащ на ъгъла \\( \\alpha \\). Какъв е той спрямо другия остър ъгъл \\( \\beta \\)?", opts: [{t: "Прилежащ на \\( \\beta \\)", c: true}, {t: "Срещулежащ на \\( \\beta \\)", c: false}, {t: "Той е хипотенуза", c: false}, {t: "Няма връзка с \\( \\beta \\)", c: false}], exp: "Всеки катет е срещулежащ на единия остър ъгъл и прилежащ на другия." },
+            { q: "Катетът \\( b \\) е прилежащ на ъгъла \\( \\alpha \\). Какъв е той спрямо ъгъла \\( \\beta \\)?", opts: [{t: "Срещулежащ на \\( \\beta \\)", c: true}, {t: "Прилежащ на \\( \\beta \\)", c: false}, {t: "Той е хипотенуза", c: false}, {t: "Равен на хипотенузата", c: false}], exp: "Катет, прилежащ на единия остър ъгъл, е срещулежащ на другия." },
+
+            // 4. Допълващи се ъгли (α + β = 90°)
+            { q: "В правоъгълен триъгълник острите ъгли \\( \\alpha \\) и \\( \\beta \\) удовлетворяват:", opts: [{t: "\\( \\alpha + \\beta = 90^\\circ \\)", c: true}, {t: "\\( \\alpha + \\beta = 180^\\circ \\)", c: false}, {t: "\\( \\alpha = \\beta \\) винаги", c: false}, {t: "\\( \\alpha - \\beta = 90^\\circ \\)", c: false}], exp: "Сборът на трите ъгъла е 180°, а правият ъгъл е 90°, значи острите се допълват до 90°." },
+            { q: "Ако \\( \\alpha \\) и \\( \\beta \\) са остри ъгли в правоъгълен триъгълник, на какво е равно \\( \\sin \\alpha \\)?", opts: [{t: "\\( \\cos \\beta \\)", c: true}, {t: "\\( \\sin \\beta \\)", c: false}, {t: "\\( \\operatorname{tg} \\beta \\)", c: false}, {t: "\\( 1 - \\cos \\alpha \\)", c: false}], exp: "sin α = cos(90° − α) = cos β, защото α и β се допълват до 90°." },
+            { q: "На какво е равно \\( \\operatorname{tg} \\alpha \\), изразено чрез \\( \\beta \\)?", opts: [{t: "\\( \\operatorname{cotg} \\beta \\)", c: true}, {t: "\\( \\operatorname{tg} \\beta \\)", c: false}, {t: "\\( \\sin \\beta \\)", c: false}, {t: "\\( \\cos \\beta \\)", c: false}], exp: "tg α = cotg(90° − α) = cotg β." },
+
+            // 5. Основно тригонометрично тъждество
+            { q: "Кое от следните е Основното тригонометрично тъждество?", opts: [{t: "\\( \\sin^2 \\alpha + \\cos^2 \\alpha = 1 \\)", c: true}, {t: "\\( \\sin \\alpha + \\cos \\alpha = 1 \\)", c: false}, {t: "\\( \\operatorname{tg}^2 \\alpha + 1 = \\sin^2 \\alpha \\)", c: false}, {t: "\\( \\sin^2 \\alpha - \\cos^2 \\alpha = 1 \\)", c: false}], exp: "Следва директно от Питагоровата теорема, разделена на \\( c^2 \\): sin²α + cos²α = 1." },
+            { q: "Кое твърдение е вярно за всеки остър ъгъл \\( \\alpha \\)?", opts: [{t: "\\( \\operatorname{tg} \\alpha \\cdot \\operatorname{cotg} \\alpha = 1 \\)", c: true}, {t: "\\( \\operatorname{tg} \\alpha + \\operatorname{cotg} \\alpha = 1 \\)", c: false}, {t: "\\( \\sin \\alpha \\cdot \\cos \\alpha = 1 \\)", c: false}, {t: "\\( \\operatorname{tg} \\alpha = \\cos \\alpha / \\sin \\alpha \\)", c: false}], exp: "tg α и cotg α са взаимно обратни числа, затова произведението им е 1." },
+            { q: "На какво е равен изразът \\( \\dfrac{\\cos \\alpha}{\\sin \\alpha} \\)?", opts: [{t: "\\( \\operatorname{cotg} \\alpha \\)", c: true}, {t: "\\( \\operatorname{tg} \\alpha \\)", c: false}, {t: "\\( 1 \\)", c: false}, {t: "Не може да се определи", c: false}], exp: "cotg α = прилежащ/срещулежащ = (b/c)/(a/c) = cos α / sin α." },
+            { q: "Ако \\( \\sin \\alpha = 0{,}6 \\), на какво е равно \\( \\cos \\alpha \\) (за остър ъгъл)?", opts: [{t: "\\( 0{,}8 \\)", c: true}, {t: "\\( 0{,}4 \\)", c: false}, {t: "\\( 0{,}6 \\)", c: false}, {t: "\\( 1{,}0 \\)", c: false}], exp: "От sin²α + cos²α = 1 получаваме cos α = √(1 − 0,36) = √0,64 = 0,8." },
+            { q: "Ако \\( \\sin \\alpha = 0{,}6 \\) и \\( \\cos \\alpha = 0{,}8 \\), то \\( \\operatorname{cotg} \\alpha \\) е:", opts: [{t: "\\( \\frac{4}{3} \\)", c: true}, {t: "\\( \\frac{3}{4} \\)", c: false}, {t: "\\( 1{,}4 \\)", c: false}, {t: "\\( 1 \\)", c: false}], exp: "cotg α = cos α / sin α = 0,8 / 0,6 = 4/3." },
+
+            // 6. Специални ъгли 30°/45°/60°
+            { q: "Коя е стойността на \\( \\operatorname{tg}(45^\\circ) \\)?", opts: [{t: "\\( 1 \\)", c: true}, {t: "\\( 0 \\)", c: false}, {t: "\\( 0{,}5 \\)", c: false}, {t: "\\( \\sqrt{2} \\)", c: false}], exp: "При 45° катетите са равни, затова tg 45° = 1." },
+            { q: "Коя е стойността на \\( \\sin(30^\\circ) \\)?", opts: [{t: "\\( 0{,}5 \\)", c: true}, {t: "\\( 1 \\)", c: false}, {t: "\\( \\frac{\\sqrt{2}}{2} \\)", c: false}, {t: "\\( \\frac{\\sqrt{3}}{2} \\)", c: false}], exp: "sin 30° = 1/2 = 0,5 — стойност от таблицата на специалните ъгли." },
+            { q: "Коя е стойността на \\( \\cos(60^\\circ) \\)?", opts: [{t: "\\( \\frac{1}{2} \\)", c: true}, {t: "\\( \\frac{\\sqrt{3}}{2} \\)", c: false}, {t: "\\( \\sqrt{3} \\)", c: false}, {t: "\\( 1 \\)", c: false}], exp: "cos 60° = sin 30° = 1/2, защото 60° и 30° са допълващи се ъгли." },
+            { q: "Коя е стойността на \\( \\operatorname{tg}(60^\\circ) \\)?", opts: [{t: "\\( \\sqrt{3} \\)", c: true}, {t: "\\( \\frac{\\sqrt{3}}{3} \\)", c: false}, {t: "\\( 1 \\)", c: false}, {t: "\\( \\frac{1}{2} \\)", c: false}], exp: "tg 60° = sin 60° / cos 60° = (√3/2)/(1/2) = √3." },
+            { q: "На какво са равни едновременно \\( \\sin(45^\\circ) \\) и \\( \\cos(45^\\circ) \\)?", opts: [{t: "\\( \\frac{\\sqrt{2}}{2} \\)", c: true}, {t: "\\( \\frac{1}{2} \\)", c: false}, {t: "\\( 1 \\)", c: false}, {t: "\\( \\sqrt{2} \\)", c: false}], exp: "При 45° триъгълникът е равнобедрен, затова sin 45° = cos 45° = √2/2." },
+
+            // 7. Пресмятане по дадени страни
+            { q: "В правоъгълен триъгълник катетите са \\( a = 3 \\) и \\( b = 4 \\). Колко е хипотенузата \\( c \\)?", opts: [{t: "\\( 5 \\)", c: true}, {t: "\\( 6 \\)", c: false}, {t: "\\( 7 \\)", c: false}, {t: "\\( 12 \\)", c: false}], exp: "По Питагоровата теорема: c = √(3² + 4²) = √25 = 5." },
+            { q: "При \\( a = 3 \\), \\( b = 4 \\), \\( c = 5 \\) (\\( \\alpha \\) срещу катета \\( a \\)), на какво е равно \\( \\sin \\alpha \\)?", opts: [{t: "\\( \\frac{3}{5} \\)", c: true}, {t: "\\( \\frac{4}{5} \\)", c: false}, {t: "\\( \\frac{3}{4} \\)", c: false}, {t: "\\( \\frac{4}{3} \\)", c: false}], exp: "sin α = срещулежащ / хипотенуза = a/c = 3/5." },
+            { q: "При \\( a = 3 \\), \\( b = 4 \\), \\( c = 5 \\) (\\( \\alpha \\) срещу катета \\( a \\)), на какво е равно \\( \\operatorname{tg} \\alpha \\)?", opts: [{t: "\\( \\frac{3}{4} \\)", c: true}, {t: "\\( \\frac{4}{3} \\)", c: false}, {t: "\\( \\frac{3}{5} \\)", c: false}, {t: "\\( \\frac{4}{5} \\)", c: false}], exp: "tg α = срещулежащ / прилежащ = a/b = 3/4." },
+
+            // 8. Допустими стойности
+            { q: "За остър ъгъл \\( \\alpha \\) кои са възможните стойности на \\( \\sin \\alpha \\)?", opts: [{t: "\\( \\sin \\alpha \\in (0;\\,1) \\)", c: true}, {t: "\\( \\sin \\alpha \\in (-1;\\,1) \\)", c: false}, {t: "\\( \\sin \\alpha \\in (0;\\,+\\infty) \\)", c: false}, {t: "\\( \\sin \\alpha \\in (1;\\,+\\infty) \\)", c: false}], exp: "За остър ъгъл винаги 0 < sin α < 1." },
+            { q: "За остър ъгъл \\( \\alpha \\) кои са възможните стойности на \\( \\operatorname{tg} \\alpha \\)?", opts: [{t: "\\( \\operatorname{tg} \\alpha \\in (0;\\,+\\infty) \\)", c: true}, {t: "\\( \\operatorname{tg} \\alpha \\in (0;\\,1) \\)", c: false}, {t: "\\( \\operatorname{tg} \\alpha \\in (-1;\\,1) \\)", c: false}, {t: "\\( \\operatorname{tg} \\alpha \\in (1;\\,+\\infty) \\)", c: false}], exp: "tg α може да е произволно голямо положително число, докато α се приближава до 90°." },
+            { q: "Може ли \\( \\cos \\alpha \\) да бъде равен на \\( 1{,}5 \\) за остър ъгъл \\( \\alpha \\)?", opts: [{t: "Не, защото винаги \\( \\cos \\alpha < 1 \\)", c: true}, {t: "Да, при много малки ъгли", c: false}, {t: "Да, при ъгли близо до 90°", c: false}, {t: "Само в равнобедрен триъгълник", c: false}], exp: "cos α е отношение на катет към хипотенуза, а катетът винаги е по-къс от хипотенузата." },
+
+            // 9. Как се променят sin/cos
+            { q: "Когато ъгълът \\( \\alpha \\) расте от \\( 0^\\circ \\) към \\( 90^\\circ \\), какво се случва със стойността на \\( \\sin \\alpha \\)?", opts: [{t: "Расте", c: true}, {t: "Намалява", c: false}, {t: "Остава същата", c: false}, {t: "Първо расте, после намалява", c: false}], exp: "sin α нараства монотонно от 0 до 1, докато α нараства от 0° до 90°." },
+            { q: "Когато ъгълът \\( \\alpha \\) расте от \\( 0^\\circ \\) към \\( 90^\\circ \\), какво се случва със стойността на \\( \\cos \\alpha \\)?", opts: [{t: "Намалява", c: true}, {t: "Расте", c: false}, {t: "Остава същата", c: false}, {t: "Става отрицателна", c: false}], exp: "cos α намалява монотонно от 1 до 0, докато α нараства от 0° до 90°." },
+
+            // 10. Извод от симулацията
+            { q: "В симулацията, когато влачиш точка B (променяш размера на триъгълника, но не ъгъла), какво се случва с отношенията \\( \\sin \\alpha \\), \\( \\cos \\alpha \\), \\( \\operatorname{tg} \\alpha \\)?", opts: [{t: "Не се променят", c: true}, {t: "Всички нарастват", c: false}, {t: "Всички намаляват", c: false}, {t: "Стават неопределени", c: false}], exp: "Отношенията зависят само от ъгъла, не от размера на триъгълника." },
+            { q: "Кой е верният извод от изследването със симулацията?", opts: [{t: "Отношенията между страните зависят само от големината на ъгъла.", c: true}, {t: "Отношенията зависят от дължината на страните.", c: false}, {t: "Отношенията са едни и същи за всички ъгли.", c: false}, {t: "Отношенията зависят от вида на триъгълника.", c: false}], exp: "Точно това показва симулацията: смяната на размера не променя отношенията, само смяната на ъгъла." },
+            { q: "Ако увеличим правоъгълния триъгълник 2 пъти, запазвайки ъгъла \\( \\alpha \\), какво ще стане със \\( \\sin \\alpha \\)?", opts: [{t: "Ще остане същото", c: true}, {t: "Ще се удвои", c: false}, {t: "Ще намалее наполовина", c: false}, {t: "Не може да се каже без да знаем страните", c: false}], exp: "И числителят, и знаменателят на отношението се удвояват, затова стойността на sin α не се променя." }
         ];
 
         let currentQuizCorrectAnswers = [];
@@ -1580,27 +1640,34 @@
             return array;
         }
 
+        let currentQuizExplanations = [];
+
         function initQuiz() {
             const container = document.getElementById('quiz-container');
             container.innerHTML = '';
             document.getElementById('quiz-result').classList.add('hidden');
             document.getElementById('btn-check-quiz').classList.remove('hidden');
+            document.getElementById('btn-check-quiz').disabled = false;
             currentQuizCorrectAnswers = [];
+            currentQuizExplanations = [];
 
-            const shuffledBank = shuffleArray([...testBank]);
-            shuffledBank.forEach((qObj, index) => {
+            // Случаен избор на 10 различни въпроса от банката (без повторения), разбъркан ред
+            const selected10 = shuffleArray([...testBank]).slice(0, 10);
+            selected10.forEach((qObj, index) => {
                 const qDiv = document.createElement('div');
-                qDiv.className = 'p-4 sm:p-5 bg-white/90 backdrop-blur-sm rounded-2xl shadow-sm border border-white/60 hover:shadow-md transition';
-                
+                qDiv.id = `quiz-q-${index}`;
+                qDiv.className = 'quiz-card p-4 sm:p-5 bg-white/90 backdrop-blur-sm rounded-2xl shadow-sm border border-white/60 hover:shadow-md transition';
+
                 let html = `<p class="font-bold text-base sm:text-lg mb-3 sm:mb-4 text-gray-800">${index + 1}. ${qObj.q}</p><div class="flex flex-col space-y-2 sm:space-y-3 pl-2">`;
-                
+
                 const shuffledOpts = shuffleArray([...qObj.opts]);
                 shuffledOpts.forEach((opt, optIdx) => {
-                    if(opt.c) currentQuizCorrectAnswers[index] = optIdx; 
-                    html += `<label class="flex items-center space-x-3 cursor-pointer p-1.5 hover:bg-gray-100 rounded-lg transition"><input type="radio" name="q${index}" value="${optIdx}" class="w-4 h-4 sm:w-5 sm:h-5 text-blue-600"><span class="text-sm sm:text-base text-gray-700 font-medium">${opt.t}</span></label>`;
+                    if(opt.c) currentQuizCorrectAnswers[index] = optIdx;
+                    html += `<label id="q${index}-opt${optIdx}" class="quiz-opt flex items-center space-x-3 cursor-pointer p-1.5 hover:bg-gray-100 rounded-lg transition border border-transparent"><input type="radio" name="q${index}" value="${optIdx}" class="w-4 h-4 sm:w-5 sm:h-5 text-blue-600"><span class="text-sm sm:text-base text-gray-700 font-medium">${opt.t}</span></label>`;
                 });
-                
-                html += `</div><p id="q-feedback-${index}" class="mt-2 sm:mt-3 hidden font-bold text-sm sm:text-base"></p>`;
+                currentQuizExplanations[index] = qObj.exp || '';
+
+                html += `</div><p id="q-feedback-${index}" class="mt-2 sm:mt-3 hidden font-bold text-sm sm:text-base"></p><div id="q-explain-${index}" class="hidden mt-2 text-xs sm:text-sm bg-blue-50 border border-blue-100 rounded-lg p-2.5 text-blue-900 items-start gap-1.5"></div>`;
                 qDiv.innerHTML = html;
                 container.appendChild(qDiv);
             });
@@ -1614,21 +1681,71 @@
             for(let i = 0; i < 10; i++) {
                 const selected = document.querySelector(`input[name="q${i}"]:checked`);
                 const feedback = document.getElementById(`q-feedback-${i}`);
-                if(!selected) {
-                    allAnswered = false; feedback.innerHTML = geoIcon + '⚠️ Посочете отговор!'; feedback.className = 'mt-2 sm:mt-3 font-bold text-sm sm:text-base text-orange-500 block'; continue;
-                }
-                if(parseInt(selected.value) === currentQuizCorrectAnswers[i]) {
+                if(!selected) { allAnswered = false; }
+            }
+            if(!allAnswered) return alert("Отговорете на всички въпроси!");
+
+            for(let i = 0; i < 10; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                const selectedIdx = parseInt(selected.value);
+                const correctIdx = currentQuizCorrectAnswers[i];
+                const isCorrect = selectedIdx === correctIdx;
+                const feedback = document.getElementById(`q-feedback-${i}`);
+                const qCard = document.getElementById(`quiz-q-${i}`);
+                qCard.dataset.correct = isCorrect ? '1' : '0';
+
+                // Заключваме въпроса — без повече промени
+                document.querySelectorAll(`input[name="q${i}"]`).forEach(r => r.disabled = true);
+
+                // Показваме кой отговор е бил избран и кой е верният
+                const selOptLabel = document.getElementById(`q${i}-opt${selectedIdx}`);
+                const correctOptLabel = document.getElementById(`q${i}-opt${correctIdx}`);
+                if (selOptLabel) { selOptLabel.classList.remove('border-transparent'); selOptLabel.classList.add(isCorrect ? 'bg-green-50' : 'bg-red-50', isCorrect ? 'border-green-400' : 'border-red-400'); }
+                if (!isCorrect && correctOptLabel) { correctOptLabel.classList.remove('border-transparent'); correctOptLabel.classList.add('bg-green-50', 'border-green-400'); }
+
+                if (isCorrect) {
                     score++; feedback.innerHTML = geoIcon + '✅ Вярно!'; feedback.className = 'mt-2 sm:mt-3 font-bold text-sm sm:text-base text-green-600 block';
                 } else {
                     feedback.innerHTML = geoIcon + '❌ Грешно.'; feedback.className = 'mt-2 sm:mt-3 font-bold text-sm sm:text-base text-red-600 block';
                 }
+
+                const explainDiv = document.getElementById(`q-explain-${i}`);
+                explainDiv.innerHTML = `<strong>Обяснение:</strong> ${currentQuizExplanations[i]}`;
+                explainDiv.classList.remove('hidden');
+                explainDiv.classList.add('flex');
             }
-            if(!allAnswered) return alert("Отговорете на всички въпроси!");
+            renderAllMath();
+
+            const total = 10;
+            const pct = Math.round(score / total * 100);
+            let tierMsg;
+            if (pct >= 90) tierMsg = 'Отлично разбиране!';
+            else if (pct >= 70) tierMsg = 'Много добро представяне!';
+            else if (pct >= 50) tierMsg = 'Добра основа — прегледай грешните отговори.';
+            else tierMsg = 'Върни се към определенията и опитай отново.';
+
             const resDiv = document.getElementById('quiz-result');
             resDiv.classList.remove('hidden');
             document.getElementById('btn-check-quiz').classList.add('hidden');
             resDiv.className = `mt-6 text-xl sm:text-2xl font-bold text-center p-4 sm:p-5 rounded-2xl w-full shadow-inner ${score > 7 ? 'bg-green-100/90 text-green-700' : 'bg-red-100/90 text-red-700'}`;
-            resDiv.innerHTML = geoIcon + `Резултат: ${score} от 10 точки`;
+            resDiv.innerHTML = `
+                ${geoIcon}Резултат: ${score} от ${total} точки (${pct}%)
+                <div class="text-sm sm:text-base font-semibold mt-2">${tierMsg}</div>
+                ${score < total ? `<button id="btn-review-mistakes" onclick="reviewMistakes()" class="mt-3 text-xs sm:text-sm bg-white/80 hover:bg-white text-gray-700 border-b-[3px] border-gray-300 active:border-b-0 active:mt-[4px] px-4 py-2 rounded-lg font-bold transition-all shadow-sm">🔍 Прегледай грешките</button>` : ''}
+            `;
+        }
+
+        // Показва само въпросите с грешен отговор (превключва изгледа)
+        function reviewMistakes() {
+            const btn = document.getElementById('btn-review-mistakes');
+            const isReviewing = btn.dataset.reviewing === '1';
+            document.querySelectorAll('.quiz-card').forEach(card => {
+                if (card.dataset.correct === '1') {
+                    card.classList.toggle('hidden', !isReviewing);
+                }
+            });
+            btn.dataset.reviewing = isReviewing ? '0' : '1';
+            btn.textContent = isReviewing ? '🔍 Прегледай грешките' : '📋 Покажи всички въпроси';
         }
 
         // --- ГЕНЕРАТОР НА ЗАДАЧИ ---
@@ -1969,7 +2086,7 @@
                 if(Math.abs(userVal - correctAns) <= tolerance) {
                     score++; icon.innerHTML = '✅'; feedback.innerHTML = geoIcon + 'Вярно!'; feedback.className = 'text-sm sm:text-base mt-1.5 sm:mt-2 text-green-600 font-bold block';
                 } else {
-                    const disp = task.exact || correctAns.toFixed(2).replace(/\.00$/, '');
+                    const disp = task.exact || formatBG(correctAns, 2).replace(/,00$/, '');
                     icon.innerHTML = '❌'; feedback.innerHTML = geoIcon + `Грешно. Точен отговор: <strong>${disp}</strong>`; feedback.className = 'text-sm sm:text-base mt-1.5 sm:mt-2 text-red-600 font-bold block';
                 }
             }
@@ -1979,6 +2096,16 @@
             resDiv.innerHTML = geoIcon + `Резултат от задачите: ${score} / ${total}`;
         }
 
+        // --- СГЪВАЕМИ ДОКАЗАТЕЛСТВА (Теория / Специални ъгли) ---
+        function toggleProof(id) {
+            const box = document.getElementById('proof-' + id);
+            const btn = document.getElementById('proof-btn-' + id);
+            if (!box || !btn) return;
+            const hidden = box.classList.toggle('hidden');
+            btn.textContent = hidden ? 'Покажи доказателството' : 'Скрий доказателството';
+            if (!hidden) renderAllMath();
+        }
+
         // --- РАЗШИРЕНИ ЗАДАЧИ (с готови решения) ---
         function toggleSolution(idx) {
             const sol = document.getElementById(`adv-sol-${idx}`);
@@ -1986,6 +2113,16 @@
             if (!sol) return;
             const hidden = sol.classList.toggle('hidden');
             btn.textContent = hidden ? 'Покажи решение' : 'Скрий решението';
+            if (!hidden) renderAllMath();
+        }
+
+        function toggleHint(idx) {
+            const hint = document.getElementById(`adv-hint-${idx}`);
+            const btn = document.getElementById(`adv-hint-btn-${idx}`);
+            if (!hint) return;
+            const hidden = hint.classList.toggle('hidden');
+            btn.textContent = hidden ? '💡 Подсказка' : 'Скрий подсказката';
+            if (!hidden) renderAllMath();
         }
 
         function rhombusSVG() {
@@ -2030,36 +2167,43 @@
                 {
                     fig: () => generateTaskSVG('α', '', '', '17'),
                     q: 'В правоъгълен триъгълник хипотенузата е \\( c = 17 \\) cm и \\( \\operatorname{tg}\\alpha = \\frac{15}{8} \\). Намерете катетите, лицето на триъгълника и радиуса на вписаната окръжност.',
+                    hint: 'Използвай \\( \\operatorname{tg}\\alpha = \\frac{a}{b} \\), за да запишеш \\( a = 15k \\), \\( b = 8k \\), а после приложи Питагоровата теорема, за да намериш \\( k \\).',
                     sol: 'От \\( \\operatorname{tg}\\alpha = \\frac{a}{b} = \\frac{15}{8} \\) следва \\( a = 15k,\\ b = 8k \\).<br>По Питагоровата теорема: \\( c = \\sqrt{a^2+b^2} = \\sqrt{(15k)^2+(8k)^2} = \\sqrt{289}\\,k = 17k \\).<br>\\( 17k = 17 \\Rightarrow k = 1 \\), значи \\( a = 15 \\) cm и \\( b = 8 \\) cm.<br>Лице: \\( S = \\frac{1}{2}ab = \\frac{1}{2}\\cdot 15\\cdot 8 = 60 \\) cm².<br>Радиус на вписаната окръжност (за правоъгълен триъгълник): \\( r = \\frac{a+b-c}{2} = \\frac{15+8-17}{2} = 3 \\) cm.'
                 },
                 {
                     fig: () => generateTaskSVG('α', '', '', '10'),
                     q: 'Намерете катетите на правоъгълен триъгълник с хипотенуза \\( c = 10 \\) cm и \\( \\operatorname{tg}\\alpha = \\frac{3}{4} \\).',
+                    hint: 'Запиши катетите като \\( a = 3k \\) и \\( b = 4k \\), после намери \\( k \\) чрез Питагоровата теорема.',
                     sol: '\\( \\operatorname{tg}\\alpha = \\frac{a}{b} = \\frac{3}{4} \\Rightarrow a = 3k,\\ b = 4k \\).<br>\\( c = \\sqrt{(3k)^2+(4k)^2} = 5k = 10 \\Rightarrow k = 2 \\).<br>Следователно \\( a = 6 \\) cm и \\( b = 8 \\) cm.'
                 },
                 {
                     fig: () => generateTaskSVG('60', '', '', '12'),
                     q: 'Даден е правоъгълен триъгълник \\( ABC \\) с хипотенуза \\( AB = 12 \\) cm и \\( \\angle BAC = 60^\\circ \\). Намерете катетите и радиуса на вписаната окръжност.',
+                    hint: 'Катетите се намират директно чрез \\( a = c\\cdot\\sin\\alpha \\) и \\( b = c\\cdot\\cos\\alpha \\), а радиусът на вписаната окръжност — чрез \\( r = \\frac{a+b-c}{2} \\).',
                     sol: 'Срещулежащ на \\( 60^\\circ \\) катет: \\( a = AB\\cdot\\sin 60^\\circ = 12\\cdot\\frac{\\sqrt{3}}{2} = 6\\sqrt{3} \\approx 10{,}39 \\) cm.<br>Прилежащ катет: \\( b = AB\\cdot\\cos 60^\\circ = 12\\cdot\\frac{1}{2} = 6 \\) cm.<br>Радиус: \\( r = \\frac{a+b-c}{2} = \\frac{6\\sqrt{3}+6-12}{2} = 3\\sqrt{3}-3 \\approx 2{,}20 \\) cm.'
                 },
                 {
                     fig: () => parallelogramSVG(),
                     q: 'Намерете лицето на успоредник със страни \\( 5 \\) и \\( 8 \\) и остър ъгъл \\( 45^\\circ \\).',
+                    hint: 'Формулата за лице на успоредник чрез две съседни страни и ъгъла между тях е \\( S = a\\cdot b\\cdot\\sin\\alpha \\).',
                     sol: 'Лицето на успоредник е \\( S = a\\cdot b\\cdot\\sin\\alpha \\).<br>\\( S = 5\\cdot 8\\cdot\\sin 45^\\circ = 40\\cdot\\frac{\\sqrt{2}}{2} = 20\\sqrt{2} \\approx 28{,}28 \\) кв. ед.'
                 },
                 {
                     fig: () => rhombusSVG(),
                     q: 'Диагоналите на ромб са \\( 4 \\) и \\( 4\\sqrt{3} \\). Намерете страната, лицето и острия ъгъл на ромба.',
+                    hint: 'Диагоналите на ромб се разполовяват взаимно и са перпендикулярни — построй правоъгълен триъгълник с катети половините на диагоналите.',
                     sol: 'Диагоналите на ромба се разполовяват взаимно и са перпендикулярни. Половините им са \\( 2 \\) и \\( 2\\sqrt{3} \\).<br>Страна: \\( a = \\sqrt{2^2+(2\\sqrt{3})^2} = \\sqrt{4+12} = \\sqrt{16} = 4 \\).<br>Лице: \\( S = \\frac{1}{2}d_1 d_2 = \\frac{1}{2}\\cdot 4\\cdot 4\\sqrt{3} = 8\\sqrt{3} \\approx 13{,}86 \\).<br>Остър ъгъл: \\( \\operatorname{tg}\\frac{\\theta}{2} = \\frac{2}{2\\sqrt{3}} = \\frac{1}{\\sqrt{3}} \\Rightarrow \\frac{\\theta}{2} = 30^\\circ \\Rightarrow \\theta = 60^\\circ \\).'
                 },
                 {
                     fig: () => circleChordSVG(),
                     q: 'В окръжност с радиус \\( 12 \\) cm е дадена хорда \\( AB \\), която отсича от окръжността дъга с мярка \\( 120^\\circ \\). Намерете дължината на хордата.',
+                    hint: 'Хордата е основа на равнобедрен триъгълник с бедра радиусите — раздели го на два правоъгълни триъгълника с половината на централния ъгъл.',
                     sol: 'Централният ъгъл, съответен на дъгата, е \\( 120^\\circ \\). Хордата \\( AB \\) е основа на равнобедрен триъгълник с бедра радиусите \\( R = 12 \\):<br>\\( AB = 2R\\sin\\frac{120^\\circ}{2} = 2\\cdot 12\\cdot\\sin 60^\\circ = 24\\cdot\\frac{\\sqrt{3}}{2} = 12\\sqrt{3} \\approx 20{,}78 \\) cm.'
                 },
                 {
                     fig: () => generateTaskSVG('α', '3', '4', '5'),
                     q: 'Докажете, че триъгълникът със страни \\( 3,\\ 4,\\ 5 \\) е правоъгълен, и намерете тригонометричните функции на острите му ъгли.',
+                    hint: 'Провери обратната Питагорова теорема (сборът от квадратите на по-малките страни срещу квадрата на най-голямата), за да докажеш, че триъгълникът е правоъгълен, после приложи директно дефинициите.',
                     sol: 'Проверяваме обратната Питагорова теорема: \\( 3^2 + 4^2 = 9 + 16 = 25 = 5^2 \\). Значи триъгълникът е правоъгълен (правият ъгъл е срещу най-голямата страна \\( 5 \\)).<br>За ъгъла \\( \\alpha \\) срещу катета \\( 3 \\): \\( \\sin\\alpha = \\frac{3}{5},\\ \\cos\\alpha = \\frac{4}{5},\\ \\operatorname{tg}\\alpha = \\frac{3}{4},\\ \\operatorname{cotg}\\alpha = \\frac{4}{3} \\).<br>За ъгъла \\( \\beta \\) срещу катета \\( 4 \\): \\( \\sin\\beta = \\frac{4}{5},\\ \\cos\\beta = \\frac{3}{5},\\ \\operatorname{tg}\\beta = \\frac{4}{3},\\ \\operatorname{cotg}\\beta = \\frac{3}{4} \\).'
                 }
             ];
@@ -2071,7 +2215,11 @@
                 div.innerHTML = `
                     <div class="mb-3">${p.fig()}</div>
                     <p class="font-medium text-gray-800 mb-3 text-justify text-sm sm:text-base">${idx + 1}. ${p.q}</p>
-                    <button id="adv-btn-${idx}" onclick="toggleSolution(${idx})" class="self-start text-xs sm:text-sm bg-rose-500 hover:bg-rose-400 text-white border-b-[3px] border-rose-700 active:border-b-0 active:mt-[3px] px-4 py-2 rounded-lg font-bold transition-all shadow-sm">Покажи решение</button>
+                    <div class="flex flex-wrap gap-2">
+                        <button id="adv-hint-btn-${idx}" onclick="toggleHint(${idx})" class="self-start text-xs sm:text-sm bg-amber-400 hover:bg-amber-300 text-amber-900 border-b-[3px] border-amber-600 active:border-b-0 active:mt-[3px] px-4 py-2 rounded-lg font-bold transition-all shadow-sm">💡 Подсказка</button>
+                        <button id="adv-btn-${idx}" onclick="toggleSolution(${idx})" class="self-start text-xs sm:text-sm bg-rose-500 hover:bg-rose-400 text-white border-b-[3px] border-rose-700 active:border-b-0 active:mt-[3px] px-4 py-2 rounded-lg font-bold transition-all shadow-sm">Покажи решение</button>
+                    </div>
+                    <div id="adv-hint-${idx}" class="hidden mt-3 bg-amber-50/80 border border-amber-200 rounded-xl p-3 sm:p-4 text-sm sm:text-base text-gray-800 leading-relaxed">${geoIcon}${p.hint}</div>
                     <div id="adv-sol-${idx}" class="hidden mt-3 bg-rose-50/80 border border-rose-200 rounded-xl p-3 sm:p-4 text-sm sm:text-base text-gray-800 leading-relaxed">${geoIcon}${p.sol}</div>
                 `;
                 container.appendChild(div);
