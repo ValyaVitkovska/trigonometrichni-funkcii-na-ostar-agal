@@ -1039,68 +1039,71 @@
         }
 
         // Малка пулсираща стрелка, сочеща към катет (за подчертаване кой е кой)
-        function drawPulseArrow(p1, p2, awayFrom, color) {
-            const mid = { x: (p1.x + p2.x) / 2, y: (p1.y + p2.y) / 2 };
-            let nx = -(p2.y - p1.y), ny = (p2.x - p1.x);
-            const nlen = Math.hypot(nx, ny) || 1;
-            nx /= nlen; ny /= nlen;
-            const toMid = { x: mid.x - awayFrom.x, y: mid.y - awayFrom.y };
-            if (nx * toMid.x + ny * toMid.y < 0) { nx = -nx; ny = -ny; }
-
-            const dist = 34, tailOffset = 34, tipOffset = 14;
-            const tailX = mid.x + nx * tailOffset, tailY = mid.y + ny * tailOffset;
-            const tipX = mid.x + nx * tipOffset, tipY = mid.y + ny * tipOffset;
+        // Пулсираща стрелка ОТ ъгъла КЪМ подчертавания катет (пунктирана, в цвета на катета)
+        function drawAngleArrow(from, to, color) {
+            const dx = to.x - from.x, dy = to.y - from.y;
+            const dist = Math.hypot(dx, dy) || 1;
+            const ux = dx / dist, uy = dy / dist;
+            const startOffset = 26; // не тръгва точно от върха/буквата
+            const endOffset = 18;   // спира малко преди страната
+            const sx = from.x + ux * startOffset, sy = from.y + uy * startOffset;
+            const ex = to.x - ux * endOffset, ey = to.y - uy * endOffset;
 
             ctx.save();
             ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = 3.5;
             ctx.lineCap = 'round';
-            ctx.beginPath(); ctx.moveTo(tailX, tailY); ctx.lineTo(tipX, tipY); ctx.stroke();
+            ctx.setLineDash([7, 5]);
+            ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(ex, ey); ctx.stroke();
+            ctx.setLineDash([]);
 
-            const angle = Math.atan2(tipY - tailY, tipX - tailX);
-            const headLen = 11;
+            const angle = Math.atan2(ey - sy, ex - sx);
+            const headLen = 12;
             ctx.beginPath();
-            ctx.moveTo(tipX, tipY);
-            ctx.lineTo(tipX - headLen * Math.cos(angle - Math.PI / 6), tipY - headLen * Math.sin(angle - Math.PI / 6));
-            ctx.lineTo(tipX - headLen * Math.cos(angle + Math.PI / 6), tipY - headLen * Math.sin(angle + Math.PI / 6));
+            ctx.moveTo(ex, ey);
+            ctx.lineTo(ex - headLen * Math.cos(angle - Math.PI / 6), ey - headLen * Math.sin(angle - Math.PI / 6));
+            ctx.lineTo(ex - headLen * Math.cos(angle + Math.PI / 6), ey - headLen * Math.sin(angle + Math.PI / 6));
             ctx.closePath(); ctx.fill();
             ctx.restore();
         }
 
-        // Последователно подчертаване: първо срещулежащия (a), после прилежащия (b) катет,
-        // всеки с трикратно премигване (ореол + стрелка). Стартира в началото и при всяко
-        // кликване на α/β бутоните (setFocusAngle).
+        // Последователно подчертаване: първо срещулежащия, после прилежащия катет (спрямо
+        // текущо избрания ъгъл α/β) - стрелка от върха на ъгъла към катета, с трикратно
+        // премигване. Стартира в началото и при всяко кликване на α/β (setFocusAngle).
         let simIntroPulsed = false;
-        let simHighlightSide = null;
+        let simHighlightSide = null; // 'opp' | 'adj' | null
         let simHighlightTimer = null;
 
         function runCathetiHighlightSequence() {
             if (simHighlightTimer) { clearInterval(simHighlightTimer); simHighlightTimer = null; }
-            const aCard = document.getElementById('side-a-card');
-            const bCard = document.getElementById('side-b-card');
-            if (aCard) aCard.classList.remove('pulse-highlight-red');
-            if (bCard) bCard.classList.remove('pulse-highlight-blue');
-            // прекъсваме анимацията за момент, за да може CSS анимацията да се рестартира чисто
-            void (aCard && aCard.offsetWidth);
-            void (bCard && bCard.offsetWidth);
 
-            const seq = ['a', null, 'a', null, 'a', null, 'b', null, 'b', null, 'b', null];
+            const oppIsSideA = currentFocus === 'alpha';
+            const oppCard = document.getElementById(oppIsSideA ? 'side-a-card' : 'side-b-card');
+            const adjCard = document.getElementById(oppIsSideA ? 'side-b-card' : 'side-a-card');
+            const oppClass = oppIsSideA ? 'pulse-highlight-red' : 'pulse-highlight-blue';
+            const adjClass = oppIsSideA ? 'pulse-highlight-blue' : 'pulse-highlight-red';
+
+            [oppCard, adjCard].forEach(el => { if (el) el.classList.remove('pulse-highlight-red', 'pulse-highlight-blue'); });
+            void (oppCard && oppCard.offsetWidth);
+            void (adjCard && adjCard.offsetWidth);
+
+            const seq = ['opp', null, 'opp', null, 'opp', null, 'adj', null, 'adj', null, 'adj', null];
             let i = 0;
 
             simHighlightSide = seq[0];
-            if (aCard) aCard.classList.add('pulse-highlight-red');
+            if (oppCard) oppCard.classList.add(oppClass);
             drawSimulation();
 
             simHighlightTimer = setInterval(() => {
                 i++;
                 if (i === 6) {
-                    if (aCard) aCard.classList.remove('pulse-highlight-red');
-                    if (bCard) bCard.classList.add('pulse-highlight-blue');
+                    if (oppCard) oppCard.classList.remove(oppClass);
+                    if (adjCard) adjCard.classList.add(adjClass);
                 }
                 if (i >= seq.length) {
                     clearInterval(simHighlightTimer);
                     simHighlightTimer = null;
                     simHighlightSide = null;
-                    if (bCard) bCard.classList.remove('pulse-highlight-blue');
+                    if (adjCard) adjCard.classList.remove(adjClass);
                     drawSimulation();
                     return;
                 }
@@ -1467,12 +1470,18 @@
 
             // 4. Страни
 
-            // Последователно подчертаване (ореол + стрелка) на срещулежащия, после прилежащия катет
-            if (simHighlightSide === 'a' || simHighlightSide === 'b') {
-                const isA = simHighlightSide === 'a';
-                const p1 = isA ? ptB : ptA, p2 = ptC;
-                const away = isA ? ptA : ptB;
-                const hColor = isA ? '#EF4444' : '#3B82F6';
+            // Последователно подчертаване: ореол на катета + пунктирана стрелка ОТ върха на
+            // текущия ъгъл (α или β) КЪМ катета - първо срещулежащия, после прилежащия.
+            if (simHighlightSide === 'opp' || simHighlightSide === 'adj') {
+                const angleVertex = currentFocus === 'alpha' ? ptA : ptB;
+                const oppIsBC = currentFocus === 'alpha'; // срещулежащ на α е a(BC); на β е b(AC)
+
+                let p1, p2, hColor;
+                if (simHighlightSide === 'opp') {
+                    p1 = oppIsBC ? ptB : ptA; p2 = ptC; hColor = oppIsBC ? '#EF4444' : '#3B82F6';
+                } else {
+                    p1 = oppIsBC ? ptA : ptB; p2 = ptC; hColor = oppIsBC ? '#3B82F6' : '#EF4444';
+                }
 
                 ctx.save();
                 ctx.globalAlpha = 0.4;
@@ -1481,7 +1490,8 @@
                 ctx.strokeStyle = hColor; ctx.stroke();
                 ctx.restore();
 
-                drawPulseArrow(p1, p2, away, hColor);
+                const targetMid = { x: (p1.x + p2.x) / 2, y: (p1.y + p2.y) / 2 };
+                drawAngleArrow(angleVertex, targetMid, hColor);
             }
 
             ctx.lineJoin = 'round'; ctx.lineCap = 'round'; ctx.lineWidth = 4;
